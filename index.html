@@ -913,8 +913,28 @@
       lastDailyClaimDate: ""
     };
 
-    let state = Object.assign({}, defaultState, JSON.parse(localStorage.getItem("aureum_save_v3") || "{}"));
-    state.claimedQuests = state.claimedQuests || {};
+    const rawSave =
+  localStorage.getItem("aureum_save") ||
+  localStorage.getItem("aureum_save_v3") ||
+  localStorage.getItem("aureum_save_v2") ||
+  localStorage.getItem("tg_clicker_save");
+
+let state = Object.assign({}, defaultState, JSON.parse(rawSave || "{}"));
+state.claimedQuests = state.claimedQuests || {};
+
+if (FIREBASE_URL) {
+  fetch(`${FIREBASE_URL}/players/${userId}.json`)
+    .then(r => r.json())
+    .then(cloudData => {
+      if (cloudData && typeof cloudData.score === "number" && cloudData.score > state.balance) {
+        state.balance = cloudData.score;
+        updateUI();
+        saveState();
+      }
+    })
+    .catch(() => {});
+}
+
 
     if (state.refillDate !== todayStr) {
       state.refillsLeft = 3;
@@ -935,7 +955,7 @@
 
     function saveState() {
       state.lastSeen = Date.now();
-      localStorage.setItem("aureum_save_v3", JSON.stringify(state));
+      localStorage.setItem("aureum_save", JSON.stringify(state));
     }
 
     function formatNum(n) {
