@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Tap Simulator</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --card: #1a1d27;
+      --card-border: #2a2f3f;
+      --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.35);
+      --text: #ffffff;
+      --muted: #8b949e;
+      --energy: #3b82f6;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+      touch-action: manipulation;
+    }
+
+    /* Шапка профиля */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+    }
+
+    .user-info {
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .passive-badge {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+
+    /* Баланс */
+    .balance-box {
+      text-align: center;
+      margin: 24px 0 16px;
+    }
+
+    .balance-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    .balance-value {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    /* Главная кнопка клика */
+    .tap-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 10px 0;
+    }
+
+    .coin-btn {
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fcd34d, #d97706);
+      border: 8px solid #b45309;
+      box-shadow: 0 0 40px var(--accent-glow), inset 0 4px 12px rgba(255, 255, 255, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+      cursor: pointer;
+      transition: transform 0.08s ease;
+      position: relative;
+    }
+
+    .coin-btn:active {
+      transform: scale(0.94);
+    }
+
+    /* Всплывающие цифры */
+    .floating-num {
+      position: fixed;
+      font-size: 26px;
+      font-weight: 800;
+      color: #fff;
+      pointer-events: none;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      animation: floatUp 0.75s ease-out forwards;
+      z-index: 100;
+    }
+
+    @keyframes floatUp {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-85px) scale(1.15); }
+    }
+
+    /* Шкала энергии */
+    .energy-box {
+      margin-bottom: 18px;
+    }
+
+    .energy-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .energy-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: var(--card);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+
+    .energy-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #60a5fa);
+      width: 100%;
+      transition: width 0.2s ease;
+    }
+
+    /* Магазин улучшений */
+    .shop-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .upgrades {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .upgrade-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+
+    .upgrade-card:active {
+      transform: scale(0.98);
+    }
+
+    .upgrade-card.disabled {
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .upg-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .upg-icon {
+      font-size: 26px;
+      width: 42px;
+      height: 42px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .upg-name {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .upg-desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .upg-cost {
+      background: var(--accent);
+      color: #000;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="user-info">
+      <span>👤</span>
+      <span id="username">Игрок</span>
+    </div>
+    <div class="passive-badge">+<span id="passive-rate">0</span> / сек</div>
+  </div>
+
+  <div class="balance-box">
+    <div class="balance-label">Ваш баланс</div>
+    <div class="balance-value">
+      <span>🪙</span>
+      <span id="balance">0</span>
+    </div>
+  </div>
+
+  <div class="tap-area">
+    <div class="coin-btn" id="coin">⚡</div>
+  </div>
+
+  <div class="energy-box">
+    <div class="energy-header">
+      <span>🔋 Энергия</span>
+      <span><span id="energy">500</span> / <span id="max-energy">500</span></span>
+    </div>
+    <div class="energy-bar-bg">
+      <div class="energy-bar-fill" id="energy-bar"></div>
+    </div>
+  </div>
+
+  <div class="shop-title">Улучшения</div>
+  <div class="upgrades">
+    <div class="upgrade-card" id="upg-tap" onclick="buyUpgrade('tap')">
+      <div class="upg-left">
+        <div class="upg-icon">👆</div>
+        <div>
+          <div class="upg-name">Сила клика <span id="lvl-tap" style="color:var(--accent)">Ур. 1</span></div>
+          <div class="upg-desc">+1 монета за каждый тап</div>
+        </div>
+      </div>
+      <div class="upg-cost" id="cost-tap">🪙 50</div>
+    </div>
+
+    <div class="upgrade-card" id="upg-energy" onclick="buyUpgrade('energy')">
+      <div class="upg-left">
+        <div class="upg-icon">🔋</div>
+        <div>
+          <div class="upg-name">Запас энергии <span id="lvl-energy" style="color:var(--accent)">Ур. 1</span></div>
+          <div class="upg-desc">+250 к максимуму энергии</div>
+        </div>
+      </div>
+      <div class="upg-cost" id="cost-energy">🪙 100</div>
+    </div>
+
+    <div class="upgrade-card" id="upg-bot" onclick="buyUpgrade('bot')">
+      <div class="upg-left">
+        <div class="upg-icon">🤖</div>
+        <div>
+          <div class="upg-name">Авто-майнер <span id="lvl-bot" style="color:var(--accent)">Ур. 0</span></div>
+          <div class="upg-desc">+2 монеты каждую секунду</div>
+        </div>
+      </div>
+      <div class="upg-cost" id="cost-bot">🪙 250</div>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.ready();
+      tg.expand();
+      tg.setHeaderColor('#0f1117');
+      tg.setBackgroundColor('#0f1117');
+      const user = tg.initDataUnsafe?.user;
+      if (user?.first_name) {
+        document.getElementById('username').textContent = user.first_name;
+      }
+    }
+
+    // Состояние игры по умолчанию
+    const defaultState = {
+      balance: 0,
+      energy: 500,
+      maxEnergy: 500,
+      tapPower: 1,
+      passiveIncome: 0,
+      levels: { tap: 1, energy: 1, bot: 0 },
+      costs: { tap: 50, energy: 100, bot: 250 }
+    };
+
+    // Загрузка сохранения
+    let state = JSON.parse(localStorage.getItem('tg_clicker_save')) || defaultState;
+
+    function saveState() {
+      localStorage.setItem('tg_clicker_save', JSON.stringify(state));
+    }
+
+    function formatNum(num) {
+      return Math.floor(num).toLocaleString('ru-RU');
+    }
+
+    function updateUI() {
+      document.getElementById('balance').textContent = formatNum(state.balance);
+      document.getElementById('energy').textContent = Math.floor(state.energy);
+      document.getElementById('max-energy').textContent = state.maxEnergy;
+      document.getElementById('passive-rate').textContent = formatNum(state.passiveIncome);
+
+      const energyPercent = (state.energy / state.maxEnergy) * 100;
+      document.getElementById('energy-bar').style.width = `${energyPercent}%`;
+
+      // Уровни и цены
+      document.getElementById('lvl-tap').textContent = `Ур. ${state.levels.tap}`;
+      document.getElementById('cost-tap').textContent = `🪙 ${formatNum(state.costs.tap)}`;
+
+      document.getElementById('lvl-energy').textContent = `Ур. ${state.levels.energy}`;
+      document.getElementById('cost-energy').textContent = `🪙 ${formatNum(state.costs.energy)}`;
+
+      document.getElementById('lvl-bot').textContent = `Ур. ${state.levels.bot}`;
+      document.getElementById('cost-bot').textContent = `🪙 ${formatNum(state.costs.bot)}`;
+
+      // Доступность карточек магазина
+      document.getElementById('upg-tap').classList.toggle('disabled', state.balance < state.costs.tap);
+      document.getElementById('upg-energy').classList.toggle('disabled', state.balance < state.costs.energy);
+      document.getElementById('upg-bot').classList.toggle('disabled', state.balance < state.costs.bot);
+    }
+
+    function spawnFloatingText(x, y, text) {
+      const el = document.createElement('div');
+      el.className = 'floating-num';
+      el.textContent = text;
+      el.style.left = `${x - 15}px`;
+      el.style.top = `${y - 25}px`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 750);
+    }
+
+    // Обработка клика (поддерживает мультитач на телефонах)
+    const coinBtn = document.getElementById('coin');
+    coinBtn.addEventListener('pointerdown', (e) => {
+      if (state.energy < state.tapPower) {
+        tg?.HapticFeedback?.notificationOccurred('error');
+        return;
+      }
+
+      state.balance += state.tapPower;
+      state.energy -= state.tapPower;
+
+      // Виброотклик в Telegram
+      tg?.HapticFeedback?.impactOccurred('light');
+
+      spawnFloatingText(e.clientX, e.clientY, `+${state.tapPower}`);
+      updateUI();
+      saveState();
+    });
+
+    // Покупка улучшений
+    function buyUpgrade(type) {
+      const cost = state.costs[type];
+      if (state.balance < cost) return;
+
+      state.balance -= cost;
+      state.levels[type] += 1;
+
+      if (type === 'tap') {
+        state.tapPower += 1;
+        state.costs.tap = Math.round(state.costs.tap * 1.6);
+      } else if (type === 'energy') {
+        state.maxEnergy += 250;
+        state.energy = state.maxEnergy;
+        state.costs.energy = Math.round(state.costs.energy * 1.7);
+      } else if (type === 'bot') {
+        state.passiveIncome += 2;
+        state.costs.bot = Math.round(state.costs.bot * 1.8);
+      }
+
+      tg?.HapticFeedback?.notificationOccurred('success');
+      updateUI();
+      saveState();
+    }
+
+    // Игровой цикл: восстановление энергии и пассивный доход (раз в секунду)
+    setInterval(() => {
+      let changed = false;
+
+      if (state.energy < state.maxEnergy) {
+        state.energy = Math.min(state.maxEnergy, state.energy + 2);
+        changed = true;
+      }
+
+      if (state.passiveIncome > 0) {
+        state.balance += state.passiveIncome;
+        changed = true;
+      }
+
+      if (changed) {
+        updateUI();
+        saveState();
+      }
+    }, 1000);
+
+    updateUI();
+  </script>
+</body>
+</html>
