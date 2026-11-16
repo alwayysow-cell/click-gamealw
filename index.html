@@ -7,14 +7,14 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
-      --bg: #090b10;
-      --surface: rgba(24, 28, 40, 0.78);
-      --surface-solid: #161a26;
-      --border: rgba(255, 255, 255, 0.08);
-      --gold: #fbbf24;
-      --gold-dark: #d97706;
-      --gold-glow: rgba(251, 191, 36, 0.35);
+      --bg: #07090e;
+      --surface: rgba(22, 27, 40, 0.82);
+      --surface-hover: rgba(32, 39, 58, 0.9);
+      --border: rgba(255, 255, 255, 0.09);
+      --accent: #fbbf24;
+      --accent-glow: rgba(251, 191, 36, 0.35);
       --blue: #38bdf8;
+      --green: #10b981;
       --text: #f8fafc;
       --muted: #94a3b8;
     }
@@ -29,7 +29,7 @@
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-      background: radial-gradient(circle at 50% 0%, #1e1b2e 0%, var(--bg) 65%);
+      background: radial-gradient(circle at 50% -10%, #1d2238 0%, var(--bg) 62%);
       color: var(--text);
       height: 100vh;
       display: flex;
@@ -43,18 +43,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 16px 8px;
-      gap: 10px;
+      padding: 12px 16px 6px;
+      gap: 8px;
+      z-index: 10;
     }
 
     .profile-pill {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       background: var(--surface);
       border: 1px solid var(--border);
-      backdrop-filter: blur(12px);
-      padding: 6px 12px 6px 6px;
+      backdrop-filter: blur(14px);
+      padding: 5px 12px 5px 5px;
       border-radius: 99px;
     }
 
@@ -62,8 +63,8 @@
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--gold), #f97316);
-      color: #000;
+      background: linear-gradient(135deg, #fbbf24, #ea580c);
+      color: #090b10;
       font-weight: 800;
       font-size: 14px;
       display: flex;
@@ -72,33 +73,67 @@
     }
 
     .username {
-      font-weight: 600;
-      font-size: 14px;
-      max-width: 130px;
+      font-weight: 700;
+      font-size: 13px;
+      max-width: 115px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .profit-pill {
       background: rgba(251, 191, 36, 0.12);
-      border: 1px solid rgba(251, 191, 36, 0.25);
-      color: var(--gold);
-      padding: 7px 12px;
+      border: 1px solid rgba(251, 191, 36, 0.28);
+      color: var(--accent);
+      padding: 6px 11px;
       border-radius: 99px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .daily-trigger {
+      position: relative;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.35));
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      color: #6ee7b7;
+      padding: 6px 11px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
       display: flex;
       align-items: center;
       gap: 5px;
     }
 
-    /* Контейнер экранов */
+    .daily-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 8px #ef4444;
+      display: none;
+    }
+
+    .daily-dot.show {
+      display: inline-block;
+    }
+
+    /* Экраны */
     .screen {
       flex: 1;
       display: none;
       flex-direction: column;
-      padding: 8px 16px 92px;
+      padding: 6px 16px 90px;
       overflow-y: auto;
     }
 
@@ -106,23 +141,31 @@
       display: flex;
     }
 
-    /* --- ЭКРАН 1: ИГРА --- */
-    .score-section {
+    /* --- ЭКРАН 1: МАЙНИНГ --- */
+    .score-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 12px 16px;
       text-align: center;
-      margin-top: 10px;
+      margin-top: 6px;
     }
 
-    .league-badge {
-      display: inline-flex;
+    .league-row {
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       color: var(--muted);
-      background: rgba(255, 255, 255, 0.04);
-      padding: 4px 12px;
-      border-radius: 99px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+    }
+
+    .league-name {
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
 
     .balance-row {
@@ -130,105 +173,145 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      font-size: 44px;
-      font-weight: 800;
-      letter-spacing: -1px;
-      text-shadow: 0 4px 24px rgba(251, 191, 36, 0.25);
-    }
-
-    .coin-mini {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #fde68a, var(--gold-dark));
-      box-shadow: 0 0 12px var(--gold-glow);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      color: #451a03;
+      font-size: 40px;
       font-weight: 900;
+      letter-spacing: -1px;
+      margin: 2px 0 8px;
     }
 
-    /* Зона монеты */
+    .league-progress-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .league-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--accent);
+      border-radius: 99px;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    /* Сцена монеты с динамическими темами */
     .coin-stage {
       flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      perspective: 800px;
+      perspective: 900px;
       position: relative;
+      min-height: 240px;
     }
 
     .coin-aura {
       position: absolute;
-      width: 240px;
-      height: 240px;
+      width: 255px;
+      height: 255px;
       border-radius: 50%;
-      background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%);
+      background: radial-gradient(circle, var(--aura-color, rgba(217, 119, 6, 0.35)) 0%, transparent 70%);
       pointer-events: none;
       animation: pulseAura 3s infinite ease-in-out;
+      transition: background 0.5s ease;
     }
 
     @keyframes pulseAura {
-      0%, 100% { transform: scale(0.95); opacity: 0.7; }
+      0%, 100% { transform: scale(0.94); opacity: 0.75; }
       50% { transform: scale(1.08); opacity: 1; }
     }
 
     .coin-btn {
-      width: 224px;
-      height: 224px;
+      width: 218px;
+      height: 218px;
       border-radius: 50%;
-      background: radial-gradient(circle at 32% 28%, #fef08a 0%, #f59e0b 55%, #92400e 100%);
-      border: 6px solid #fcd34d;
-      box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.65),
-        0 0 35px var(--gold-glow),
-        inset 0 4px 14px rgba(255, 255, 255, 0.75),
-        inset 0 -8px 18px rgba(120, 53, 15, 0.8);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.08s cubic-bezier(0.2, 0.8, 0.2, 1);
+      transition: transform 0.08s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
       position: relative;
     }
 
-    .coin-inner-ring {
-      width: 176px;
-      height: 176px;
+    .coin-ring-outer {
+      width: 184px;
+      height: 184px;
       border-radius: 50%;
-      border: 2px dashed rgba(120, 53, 15, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.25);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 76px;
-      filter: drop-shadow(0 4px 6px rgba(120, 53, 15, 0.5));
     }
 
-    /* Энергия и быстрый буст */
-    .bottom-controls {
+    .coin-ring-inner {
+      width: 158px;
+      height: 158px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 255, 255, 0.35);
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      font-size: 74px;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+    }
+
+    /* Темы монеты по уровням развития */
+    .coin-btn.theme-bronze {
+      background: radial-gradient(circle at 30% 25%, #fdba74 0%, #c2410c 58%, #7c2d12 100%);
+      border: 6px solid #fb923c;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 35px rgba(234, 88, 12, 0.4), inset 0 4px 14px rgba(255,255,255,0.65);
+    }
+
+    .coin-btn.theme-silver {
+      background: radial-gradient(circle at 30% 25%, #f8fafc 0%, #94a3b8 55%, #334155 100%);
+      border: 6px solid #e2e8f0;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 38px rgba(148, 163, 184, 0.45), inset 0 4px 16px rgba(255,255,255,0.9);
+    }
+
+    .coin-btn.theme-gold {
+      background: radial-gradient(circle at 30% 25%, #fef08a 0%, #eab308 55%, #854d0e 100%);
+      border: 6px solid #fde047;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 42px rgba(250, 204, 21, 0.5), inset 0 4px 16px rgba(255,255,255,0.85);
+    }
+
+    .coin-btn.theme-diamond {
+      background: radial-gradient(circle at 30% 25%, #cffafe 0%, #06b6d4 52%, #1e3a8a 100%);
+      border: 6px solid #67e8f9;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75), 0 0 48px rgba(34, 211, 238, 0.6), inset 0 4px 18px rgba(255,255,255,0.9);
+    }
+
+    .coin-btn.theme-legend {
+      background: radial-gradient(circle at 30% 25%, #f5d0fe 0%, #c026d3 48%, #4c1d95 100%);
+      border: 6px solid #e879f9;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.8), 0 0 55px rgba(217, 70, 239, 0.65), inset 0 4px 18px rgba(255,255,255,0.9);
+    }
+
+    /* Энергия */
+    .energy-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 10px 14px;
     }
 
     .energy-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
+      margin-bottom: 7px;
     }
 
     .free-refill-btn {
-      background: rgba(56, 189, 248, 0.15);
+      background: rgba(56, 189, 248, 0.16);
       border: 1px solid rgba(56, 189, 248, 0.35);
       color: var(--blue);
       font-size: 12px;
       font-weight: 700;
-      padding: 5px 10px;
-      border-radius: 10px;
+      padding: 4px 10px;
+      border-radius: 8px;
       cursor: pointer;
     }
 
@@ -239,11 +322,10 @@
 
     .progress-track {
       width: 100%;
-      height: 12px;
+      height: 10px;
       background: rgba(255, 255, 255, 0.07);
       border-radius: 99px;
       overflow: hidden;
-      padding: 2px;
     }
 
     .progress-fill {
@@ -254,11 +336,11 @@
       transition: width 0.2s ease;
     }
 
-    /* --- ЭКРАН 2: БУСТЫ --- */
+    /* --- ОБЩИЕ КАРТОЧКИ (БУСТЫ, ЗАДАНИЯ, ЛИДЕРЫ) --- */
     .section-heading {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
-      margin: 6px 0 14px;
+      margin: 8px 0 12px;
     }
 
     .card-list {
@@ -267,82 +349,126 @@
       gap: 10px;
     }
 
-    .boost-card {
+    .item-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 14px;
+      padding: 13px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      cursor: pointer;
+      gap: 10px;
       transition: transform 0.1s, border-color 0.2s;
     }
 
-    .boost-card:active {
+    .item-card.clickable {
+      cursor: pointer;
+    }
+
+    .item-card.clickable:active {
       transform: scale(0.98);
     }
 
-    .boost-card.disabled {
+    .item-card.disabled {
       opacity: 0.45;
       pointer-events: none;
     }
 
-    .boost-left {
+    .item-left {
       display: flex;
       align-items: center;
       gap: 12px;
+      min-width: 0;
     }
 
-    .boost-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.05);
+    .item-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 22px;
+      flex-shrink: 0;
     }
 
-    .boost-title {
+    .item-title {
       font-weight: 700;
-      font-size: 15px;
+      font-size: 14px;
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .lvl-tag {
       font-size: 11px;
       background: rgba(251, 191, 36, 0.16);
-      color: var(--gold);
+      color: var(--accent);
       padding: 2px 7px;
       border-radius: 6px;
     }
 
-    .boost-sub {
+    .item-sub {
       font-size: 12px;
       color: var(--muted);
       margin-top: 3px;
     }
 
-    .buy-btn {
-      background: linear-gradient(135deg, var(--gold), #f59e0b);
+    .action-btn {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
       color: #090b10;
       font-weight: 800;
-      font-size: 13px;
+      font-size: 12px;
       padding: 8px 13px;
-      border-radius: 12px;
+      border-radius: 11px;
+      border: none;
       white-space: nowrap;
+      cursor: pointer;
+      flex-shrink: 0;
     }
 
-    /* --- ЭКРАН 3: ЛИДЕРЫ --- */
+    .action-btn.claim {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      color: #052e16;
+      animation: pulseClaim 1.5s infinite;
+    }
+
+    .action-btn.done {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      cursor: default;
+      animation: none;
+    }
+
+    @keyframes pulseClaim {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Прогресс внутри задания */
+    .quest-bar {
+      width: 100%;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .quest-bar-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 99px;
+    }
+
+    /* Лидеры */
     .lb-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 6px 0 14px;
+      margin: 8px 0 12px;
     }
 
     .refresh-btn {
@@ -356,25 +482,9 @@
       cursor: pointer;
     }
 
-    .lb-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 11px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
     .lb-item.me {
-      border-color: var(--gold);
+      border-color: var(--accent);
       background: rgba(251, 191, 36, 0.1);
-    }
-
-    .lb-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
 
     .lb-rank {
@@ -383,42 +493,35 @@
       font-size: 15px;
       text-align: center;
       color: var(--muted);
-    }
-
-    .lb-name {
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .lb-league {
-      font-size: 11px;
-      color: var(--muted);
+      flex-shrink: 0;
     }
 
     .lb-score {
       font-weight: 800;
-      font-size: 14px;
-      color: var(--gold);
+      font-size: 13px;
+      color: var(--accent);
+      white-space: nowrap;
     }
 
-    /* Нижняя навигация */
+    /* Нижняя навигация (4 вкладки) */
     .navbar {
       position: fixed;
       bottom: 12px;
-      left: 16px;
-      right: 16px;
+      left: 14px;
+      right: 14px;
       height: 64px;
-      background: rgba(20, 24, 36, 0.92);
-      backdrop-filter: blur(16px);
+      background: rgba(16, 20, 32, 0.94);
+      backdrop-filter: blur(18px);
       border: 1px solid var(--border);
       border-radius: 20px;
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      padding: 6px;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 5px;
       z-index: 50;
     }
 
     .nav-item {
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -434,11 +537,142 @@
 
     .nav-item.active {
       background: rgba(251, 191, 36, 0.15);
-      color: var(--gold);
+      color: var(--accent);
     }
 
     .nav-icon {
-      font-size: 20px;
+      font-size: 19px;
+    }
+
+    .nav-badge {
+      position: absolute;
+      top: 6px;
+      right: 18px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      display: none;
+    }
+
+    .nav-badge.show {
+      display: block;
+    }
+
+    /* Модальное окно ежедневных наград */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 150;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: #121622;
+      border-top: 1px solid var(--border);
+      border-radius: 24px 24px 0 0;
+      padding: 20px 16px 28px;
+      animation: slideUp 0.25s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .close-modal {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      color: var(--text);
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .day-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+
+    .day-box.day-7 {
+      grid-column: span 2;
+    }
+
+    .day-box.claimed {
+      opacity: 0.45;
+      border-color: var(--green);
+    }
+
+    .day-box.today {
+      border-color: var(--accent);
+      background: rgba(251, 191, 36, 0.14);
+      box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+    }
+
+    .day-num {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .day-reward {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-top: 4px;
+    }
+
+    .claim-daily-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-size: 15px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #090b10;
+      cursor: pointer;
+    }
+
+    .claim-daily-btn:disabled {
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--muted);
+      cursor: default;
     }
 
     /* Всплывающий текст клика */
@@ -448,30 +682,29 @@
       font-weight: 900;
       color: #fff;
       pointer-events: none;
-      text-shadow: 0 2px 10px rgba(251, 191, 36, 0.8);
+      text-shadow: 0 2px 12px rgba(251, 191, 36, 0.85);
       animation: flyUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       z-index: 100;
     }
 
     @keyframes flyUp {
       0% { opacity: 1; transform: translateY(0) scale(0.9); }
-      100% { opacity: 0; transform: translateY(-95px) scale(1.2); }
+      100% { opacity: 0; transform: translateY(-95px) scale(1.22); }
     }
 
-    /* Уведомление об оффлайн-доходе */
     .toast {
       position: fixed;
-      top: 66px;
+      top: 62px;
       left: 50%;
       transform: translateX(-50%);
-      background: linear-gradient(135deg, #1e293b, #0f172a);
-      border: 1px solid var(--gold);
+      background: #141927;
+      border: 1px solid var(--accent);
       color: var(--text);
-      padding: 10px 16px;
-      border-radius: 14px;
+      padding: 9px 15px;
+      border-radius: 12px;
       font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.65);
       z-index: 200;
       display: none;
       white-space: nowrap;
@@ -480,7 +713,7 @@
 </head>
 <body>
 
-  <div class="toast" id="offline-toast"></div>
+  <div class="toast" id="toast"></div>
 
   <!-- Верхняя шапка -->
   <div class="topbar">
@@ -488,30 +721,40 @@
       <div class="avatar" id="avatar-letter">И</div>
       <div class="username" id="username">Игрок</div>
     </div>
-    <div class="profit-pill">
-      <span>⚡</span>
-      <span>+<span id="passive-rate">0</span>/сек</span>
+    <div class="top-actions">
+      <div class="profit-pill">⚡ +<span id="passive-rate">0</span>/с</div>
+      <button class="daily-trigger" onclick="openDailyModal()">
+        <span>🎁 Бонус</span>
+        <span class="daily-dot" id="daily-dot"></span>
+      </button>
     </div>
   </div>
 
-  <!-- ЭКРАН 1: ТАПАЛКА -->
+  <!-- ЭКРАН 1: МАЙНИНГ -->
   <div class="screen active" id="screen-game">
-    <div class="score-section">
-      <div class="league-badge" id="league-badge">🥉 Бронзовая лига</div>
+    <div class="score-card">
+      <div class="league-row">
+        <span class="league-name" id="league-label">🥉 Бронзовая лига</span>
+        <span id="next-league-text">До Серебра: 10 000</span>
+      </div>
       <div class="balance-row">
-        <div class="coin-mini">₿</div>
         <span id="balance">0</span>
+      </div>
+      <div class="league-progress-bg">
+        <div class="league-progress-fill" id="league-bar"></div>
       </div>
     </div>
 
     <div class="coin-stage">
-      <div class="coin-aura"></div>
-      <div class="coin-btn" id="coin">
-        <div class="coin-inner-ring">⚡</div>
+      <div class="coin-aura" id="coin-aura"></div>
+      <div class="coin-btn theme-bronze" id="coin">
+        <div class="coin-ring-outer">
+          <div class="coin-ring-inner" id="coin-symbol">⚡</div>
+        </div>
       </div>
     </div>
 
-    <div class="bottom-controls">
+    <div class="energy-card">
       <div class="energy-row">
         <span>🔋 <span id="energy">500</span> / <span id="max-energy">500</span></span>
         <button class="free-refill-btn" id="refill-btn" onclick="useFreeRefill()">
@@ -524,57 +767,63 @@
     </div>
   </div>
 
-  <!-- ЭКРАН 2: УЛУЧШЕНИЯ -->
+  <!-- ЭКРАН 2: БУСТЫ -->
   <div class="screen" id="screen-boosts">
     <div class="section-heading">Улучшения</div>
     <div class="card-list">
-      <div class="boost-card" id="upg-tap" onclick="buyUpgrade('tap')">
-        <div class="boost-left">
-          <div class="boost-icon">👆</div>
+      <div class="item-card clickable" id="upg-tap" onclick="buyUpgrade('tap')">
+        <div class="item-left">
+          <div class="item-icon">👆</div>
           <div>
-            <div class="boost-title">Мультитап <span class="lvl-tag" id="lvl-tap">Ур. 1</span></div>
-            <div class="boost-sub">+1 монета за каждый клик</div>
+            <div class="item-title">Мультитап <span class="lvl-tag" id="lvl-tap">Ур. 1</span></div>
+            <div class="item-sub">+1 монета за каждый клик</div>
           </div>
         </div>
-        <div class="buy-btn" id="cost-tap">50</div>
+        <button class="action-btn" id="cost-tap">50</button>
       </div>
 
-      <div class="boost-card" id="upg-energy" onclick="buyUpgrade('energy')">
-        <div class="boost-left">
-          <div class="boost-icon">🔋</div>
+      <div class="item-card clickable" id="upg-energy" onclick="buyUpgrade('energy')">
+        <div class="item-left">
+          <div class="item-icon">🔋</div>
           <div>
-            <div class="boost-title">Лимит энергии <span class="lvl-tag" id="lvl-energy">Ур. 1</span></div>
-            <div class="boost-sub">+300 к запасу энергии</div>
+            <div class="item-title">Лимит энергии <span class="lvl-tag" id="lvl-energy">Ур. 1</span></div>
+            <div class="item-sub">+300 к запасу энергии</div>
           </div>
         </div>
-        <div class="buy-btn" id="cost-energy">100</div>
+        <button class="action-btn" id="cost-energy">100</button>
       </div>
 
-      <div class="boost-card" id="upg-regen" onclick="buyUpgrade('regen')">
-        <div class="boost-left">
-          <div class="boost-icon">⚡</div>
+      <div class="item-card clickable" id="upg-regen" onclick="buyUpgrade('regen')">
+        <div class="item-left">
+          <div class="item-icon">⚡</div>
           <div>
-            <div class="boost-title">Скорость заряда <span class="lvl-tag" id="lvl-regen">Ур. 1</span></div>
-            <div class="boost-sub">+1 энергия в секунду</div>
+            <div class="item-title">Скорость заряда <span class="lvl-tag" id="lvl-regen">Ур. 1</span></div>
+            <div class="item-sub">+1 энергия в секунду</div>
           </div>
         </div>
-        <div class="buy-btn" id="cost-regen">150</div>
+        <button class="action-btn" id="cost-regen">150</button>
       </div>
 
-      <div class="boost-card" id="upg-bot" onclick="buyUpgrade('bot')">
-        <div class="boost-left">
-          <div class="boost-icon">🤖</div>
+      <div class="item-card clickable" id="upg-bot" onclick="buyUpgrade('bot')">
+        <div class="item-left">
+          <div class="item-icon">🤖</div>
           <div>
-            <div class="boost-title">Крипто-ферма <span class="lvl-tag" id="lvl-bot">Ур. 0</span></div>
-            <div class="boost-sub">+3 монеты каждую секунду</div>
+            <div class="item-title">Крипто-ферма <span class="lvl-tag" id="lvl-bot">Ур. 0</span></div>
+            <div class="item-sub">+3 монеты каждую секунду</div>
           </div>
         </div>
-        <div class="buy-btn" id="cost-bot">250</div>
+        <button class="action-btn" id="cost-bot">250</button>
       </div>
     </div>
   </div>
 
-  <!-- ЭКРАН 3: ТАБЛИЦА ЛИДЕРОВ -->
+  <!-- ЭКРАН 3: ЗАДАНИЯ -->
+  <div class="screen" id="screen-quests">
+    <div class="section-heading">Задания и награды</div>
+    <div class="card-list" id="quests-list"></div>
+  </div>
+
+  <!-- ЭКРАН 4: ЛИДЕРЫ -->
   <div class="screen" id="screen-leaders">
     <div class="lb-header">
       <div class="section-heading" style="margin:0;">Топ игроков</div>
@@ -583,7 +832,7 @@
     <div class="card-list" id="leaderboard-list"></div>
   </div>
 
-  <!-- НИЖНЕЕ МЕНЮ -->
+  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
   <div class="navbar">
     <div class="nav-item active" onclick="switchTab('game', this)">
       <div class="nav-icon">🪙</div>
@@ -593,19 +842,32 @@
       <div class="nav-icon">🚀</div>
       <div>Бусты</div>
     </div>
+    <div class="nav-item" onclick="switchTab('quests', this)">
+      <span class="nav-badge" id="quests-badge"></span>
+      <div class="nav-icon">🎯</div>
+      <div>Задания</div>
+    </div>
     <div class="nav-item" onclick="switchTab('leaders', this)">
       <div class="nav-icon">🏆</div>
       <div>Лидеры</div>
     </div>
   </div>
 
+  <!-- МОДАЛЬНОЕ ОКНО ЕЖЕДНЕВНЫХ НАГРАД -->
+  <div class="modal-backdrop" id="daily-modal" onclick="closeDailyModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-top">
+        <div class="modal-title">🎁 Ежедневные награды</div>
+        <button class="close-modal" onclick="closeDailyModal()">✕</button>
+      </div>
+      <div class="days-grid" id="days-grid"></div>
+      <button class="claim-daily-btn" id="claim-daily-btn" onclick="claimDailyReward()">Забрать награду</button>
+    </div>
+  </div>
+
   <script>
-    // =========================================================================
-    // НАСТРОЙКА ГЛОБАЛЬНОЙ ТАБЛИЦЫ ЛИДЕРОВ (Firebase Realtime Database URL)
-    // Пример: "https://my-clicker-default-rtdb.firebaseio.com" (без слэша в конце)
-    // Если оставить пустым "", таблица будет работать в локальном режиме.
+    // Встроенная ссылка на твою базу данных Firebase
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
-    // =========================================================================
 
     const tg = window.Telegram?.WebApp;
     let userId = "local_" + (localStorage.getItem("tg_uid") || Math.floor(Math.random() * 1000000));
@@ -615,8 +877,8 @@
     if (tg) {
       tg.ready();
       tg.expand();
-      tg.setHeaderColor("#090b10");
-      tg.setBackgroundColor("#090b10");
+      tg.setHeaderColor("#07090e");
+      tg.setBackgroundColor("#07090e");
       const user = tg.initDataUnsafe?.user;
       if (user) {
         userId = String(user.id);
@@ -628,6 +890,7 @@
     document.getElementById("avatar-letter").textContent = userName.charAt(0).toUpperCase();
 
     const todayStr = new Date().toDateString();
+    const DAILY_REWARDS = [500, 1000, 2500, 5000, 10000, 15000, 25000];
 
     const defaultState = {
       balance: 0,
@@ -640,18 +903,25 @@
       refillDate: todayStr,
       lastSeen: Date.now(),
       levels: { tap: 1, energy: 1, regen: 1, bot: 0 },
-      costs: { tap: 50, energy: 100, regen: 150, bot: 250 }
+      costs: { tap: 50, energy: 100, regen: 150, bot: 250 },
+      // Статистика для заданий и ежедневных наград
+      totalTaps: 0,
+      totalUpgrades: 0,
+      sharedGame: false,
+      claimedQuests: {},
+      dailyStreak: 0,
+      lastDailyClaimDate: ""
     };
 
-    let state = Object.assign({}, defaultState, JSON.parse(localStorage.getItem("aureum_save_v2") || "{}"));
+    let state = Object.assign({}, defaultState, JSON.parse(localStorage.getItem("aureum_save_v3") || "{}"));
+    state.claimedQuests = state.claimedQuests || {};
 
-    // Сброс дневных зарядов энергии
     if (state.refillDate !== todayStr) {
       state.refillsLeft = 3;
       state.refillDate = todayStr;
     }
 
-    // Расчет оффлайн-дохода (до 3 часов)
+    // Оффлайн-доход до 3 часов
     const now = Date.now();
     const secondsAway = Math.min(10800, Math.floor((now - (state.lastSeen || now)) / 1000));
     if (secondsAway > 10) {
@@ -659,32 +929,202 @@
       if (state.passiveIncome > 0) {
         const earned = secondsAway * state.passiveIncome;
         state.balance += earned;
-        showToast(`Пока вас не было: +${formatNum(earned)} 🪙`);
+        showToast(`Оффлайн-доход: +${formatNum(earned)} 🪙`);
       }
     }
 
     function saveState() {
       state.lastSeen = Date.now();
-      localStorage.setItem("aureum_save_v2", JSON.stringify(state));
+      localStorage.setItem("aureum_save_v3", JSON.stringify(state));
     }
 
     function formatNum(n) {
-      return Math.floor(n).toLocaleString("ru-RU");
-    }
-
-    function getLeague(score) {
-      if (score >= 1000000) return "👑 Легендарная лига";
-      if (score >= 250000) return "💎 Алмазная лига";
-      if (score >= 50000) return "🥇 Золотая лига";
-      if (score >= 10000) return "🥈 Серебряная лига";
-      return "🥉 Бронзовая лига";
+      return Math.floor(n || 0).toLocaleString("ru-RU");
     }
 
     function showToast(text) {
-      const t = document.getElementById("offline-toast");
+      const t = document.getElementById("toast");
       t.textContent = text;
       t.style.display = "block";
-      setTimeout(() => { t.style.display = "none"; }, 4000);
+      setTimeout(() => { t.style.display = "none"; }, 3500);
+    }
+
+    // Конфигурация лиг и внешнего вида монеты
+    const LEAGUES = [
+      { min: 0, max: 10000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", symbol: "⚡", color: "#fb923c", aura: "rgba(234, 88, 12, 0.38)" },
+      { min: 10000, max: 50000, name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver", symbol: "💠", color: "#e2e8f0", aura: "rgba(148, 163, 184, 0.42)" },
+      { min: 50000, max: 250000, name: "🥇 Золотая лига", next: "Алмаза", theme: "theme-gold", symbol: "👑", color: "#fde047", aura: "rgba(250, 204, 21, 0.45)" },
+      { min: 250000, max: 1000000, name: "💎 Алмазная лига", next: "Легенды", theme: "theme-diamond", symbol: "💎", color: "#22d3ee", aura: "rgba(34, 211, 238, 0.5)" },
+      { min: 1000000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", symbol: "🔥", color: "#e879f9", aura: "rgba(217, 70, 239, 0.55)" }
+    ];
+
+    function getCurrentLeague(score) {
+      for (let i = LEAGUES.length - 1; i >= 0; i--) {
+        if (score >= LEAGUES[i].min) return LEAGUES[i];
+      }
+      return LEAGUES[0];
+    }
+
+    let lastTheme = "";
+
+    function updateCoinAppearance() {
+      const lg = getCurrentLeague(state.balance);
+      document.getElementById("league-label").textContent = lg.name;
+
+      const bar = document.getElementById("league-bar");
+      bar.style.background = lg.color;
+
+      if (lg.next) {
+        const pct = Math.min(100, Math.max(0, ((state.balance - lg.min) / (lg.max - lg.min)) * 100));
+        bar.style.width = `${pct}%`;
+        document.getElementById("next-league-text").textContent = `До ${lg.next}: ${formatNum(lg.max)}`;
+      } else {
+        bar.style.width = "100%";
+        document.getElementById("next-league-text").textContent = "Макс. уровень";
+      }
+
+      if (lastTheme !== lg.theme) {
+        lastTheme = lg.theme;
+        const coin = document.getElementById("coin");
+        coin.className = `coin-btn ${lg.theme}`;
+        document.getElementById("coin-symbol").textContent = lg.symbol;
+        document.getElementById("coin-aura").style.setProperty("--aura-color", lg.aura);
+      }
+    }
+
+    // --- ЗАДАНИЯ ---
+    const QUESTS = [
+      { id: "taps_100", icon: "👆", title: "Разминка пальцев", desc: "Сделать 100 кликов", target: 100, reward: 500, getVal: () => state.totalTaps },
+      { id: "bal_5000", icon: "💰", title: "Первые накопления", desc: "Накопить 5 000 монет", target: 5000, reward: 1500, getVal: () => state.balance },
+      { id: "upg_3", icon: "🚀", title: "Инженер", desc: "Купить 3 любых улучшения", target: 3, reward: 2000, getVal: () => state.totalUpgrades },
+      { id: "share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой в Telegram", target: 1, reward: 3000, getVal: () => state.sharedGame ? 1 : 0, isShare: true },
+      { id: "taps_1000", icon: "⚡", title: "Мастер тапов", desc: "Сделать 1 000 кликов", target: 1000, reward: 5000, getVal: () => state.totalTaps },
+      { id: "silver", icon: "🥈", title: "Серебряный статус", desc: "Достичь Серебряной лиги (10 000)", target: 10000, reward: 7500, getVal: () => state.balance }
+    ];
+
+    function renderQuests() {
+      const container = document.getElementById("quests-list");
+      let hasReady = false;
+
+      container.innerHTML = QUESTS.map(q => {
+        const claimed = !!state.claimedQuests[q.id];
+        const current = Math.min(q.target, Math.floor(q.getVal()));
+        const completed = current >= q.target;
+        if (completed && !claimed) hasReady = true;
+
+        const pct = Math.min(100, (current / q.target) * 100);
+        let btnHtml = "";
+
+        if (claimed) {
+          btnHtml = `<button class="action-btn done">Получено</button>`;
+        } else if (completed) {
+          btnHtml = `<button class="action-btn claim" onclick="claimQuest('${q.id}')">+${formatNum(q.reward)}</button>`;
+        } else if (q.isShare) {
+          btnHtml = `<button class="action-btn" onclick="doShareQuest()">Поделиться</button>`;
+        } else {
+          btnHtml = `<button class="action-btn done">${formatNum(q.reward)} 🪙</button>`;
+        }
+
+        return `
+          <div class="item-card">
+            <div class="item-left" style="flex:1;">
+              <div class="item-icon">${q.icon}</div>
+              <div style="flex:1;">
+                <div class="item-title">${q.title}</div>
+                <div class="item-sub">${q.desc} (${formatNum(current)} / ${formatNum(q.target)})</div>
+                <div class="quest-bar"><div class="quest-bar-fill" style="width:${pct}%"></div></div>
+              </div>
+            </div>
+            ${btnHtml}
+          </div>
+        `;
+      }).join("");
+
+      document.getElementById("quests-badge").classList.toggle("show", hasReady);
+    }
+
+    function doShareQuest() {
+      const shareText = encodeURIComponent("Залетай в кликер-симулятор и попробуй обогнать меня в таблице лидеров!");
+      const shareUrl = `https://t.me/share/url?url=&text=${shareText}`;
+      if (tg?.openTelegramLink) {
+        tg.openTelegramLink(shareUrl);
+      } else {
+        window.open(shareUrl, "_blank");
+      }
+      state.sharedGame = true;
+      saveState();
+      renderQuests();
+    }
+
+    function claimQuest(id) {
+      const q = QUESTS.find(x => x.id === id);
+      if (!q || state.claimedQuests[id] || q.getVal() < q.target) return;
+
+      state.claimedQuests[id] = true;
+      state.balance += q.reward;
+      tg?.HapticFeedback?.notificationOccurred("success");
+      showToast(`Награда за задание: +${formatNum(q.reward)} 🪙`);
+      updateUI();
+      saveState();
+    }
+
+    // --- ЕЖЕДНЕВНЫЕ НАГРАДЫ ---
+    function canClaimDaily() {
+      return state.lastDailyClaimDate !== todayStr;
+    }
+
+    function openDailyModal() {
+      const grid = document.getElementById("days-grid");
+      const currentDayIdx = state.dailyStreak % 7;
+      const available = canClaimDaily();
+
+      grid.innerHTML = DAILY_REWARDS.map((rew, idx) => {
+        let cls = "day-box";
+        if (idx === 6) cls += " day-7";
+        if (idx < currentDayIdx) cls += " claimed";
+        else if (idx === currentDayIdx && available) cls += " today";
+
+        return `
+          <div class="${cls}">
+            <div class="day-num">День ${idx + 1}</div>
+            <div>${idx < currentDayIdx ? "✅" : "🪙"}</div>
+            <div class="day-reward">+${formatNum(rew)}</div>
+          </div>
+        `;
+      }).join("");
+
+      const btn = document.getElementById("claim-daily-btn");
+      if (available) {
+        btn.disabled = false;
+        btn.textContent = `Забрать +${formatNum(DAILY_REWARDS[currentDayIdx])} 🪙`;
+      } else {
+        btn.disabled = true;
+        btn.textContent = "Сегодня уже получено";
+      }
+
+      document.getElementById("daily-modal").classList.add("open");
+    }
+
+    function closeDailyModal(e) {
+      if (!e || e.target.id === "daily-modal") {
+        document.getElementById("daily-modal").classList.remove("open");
+      }
+    }
+
+    function claimDailyReward() {
+      if (!canClaimDaily()) return;
+      const idx = state.dailyStreak % 7;
+      const reward = DAILY_REWARDS[idx];
+
+      state.balance += reward;
+      state.dailyStreak += 1;
+      state.lastDailyClaimDate = todayStr;
+
+      tg?.HapticFeedback?.notificationOccurred("success");
+      showToast(`Ежедневный бонус: +${formatNum(reward)} 🪙`);
+      saveState();
+      updateUI();
+      openDailyModal();
     }
 
     function updateUI() {
@@ -692,7 +1132,8 @@
       document.getElementById("energy").textContent = Math.floor(state.energy);
       document.getElementById("max-energy").textContent = state.maxEnergy;
       document.getElementById("passive-rate").textContent = formatNum(state.passiveIncome);
-      document.getElementById("league-badge").textContent = getLeague(state.balance);
+
+      updateCoinAppearance();
 
       const pct = Math.min(100, (state.energy / state.maxEnergy) * 100);
       document.getElementById("energy-bar").style.width = `${pct}%`;
@@ -700,6 +1141,8 @@
       const refillBtn = document.getElementById("refill-btn");
       document.getElementById("refills-left").textContent = state.refillsLeft;
       refillBtn.disabled = state.refillsLeft <= 0 || state.energy >= state.maxEnergy;
+
+      document.getElementById("daily-dot").classList.toggle("show", canClaimDaily());
 
       // Бусты
       document.getElementById("lvl-tap").textContent = `Ур. ${state.levels.tap}`;
@@ -718,9 +1161,11 @@
       document.getElementById("upg-energy").classList.toggle("disabled", state.balance < state.costs.energy);
       document.getElementById("upg-regen").classList.toggle("disabled", state.balance < state.costs.regen);
       document.getElementById("upg-bot").classList.toggle("disabled", state.balance < state.costs.bot);
+
+      renderQuests();
     }
 
-    // 3D-наклон монеты и клик
+    // Клик по монете
     const coinBtn = document.getElementById("coin");
     coinBtn.addEventListener("pointerdown", (e) => {
       if (state.energy < state.tapPower) {
@@ -731,14 +1176,15 @@
       const rect = coinBtn.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
-      const rotateX = (-y / (rect.height / 2)) * 14;
-      const rotateY = (x / (rect.width / 2)) * 14;
+      const rotateX = (-y / (rect.height / 2)) * 15;
+      const rotateY = (x / (rect.width / 2)) * 15;
 
-      coinBtn.style.transform = `scale(0.94) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      coinBtn.style.transform = `scale(0.93) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       setTimeout(() => { coinBtn.style.transform = "scale(1) rotateX(0) rotateY(0)"; }, 100);
 
       state.balance += state.tapPower;
       state.energy -= state.tapPower;
+      state.totalTaps += 1;
 
       tg?.HapticFeedback?.impactOccurred("light");
       spawnPlus(e.clientX, e.clientY, `+${state.tapPower}`);
@@ -771,6 +1217,7 @@
 
       state.balance -= cost;
       state.levels[type] += 1;
+      state.totalUpgrades += 1;
 
       if (type === "tap") {
         state.tapPower += 1;
@@ -804,7 +1251,7 @@
       }
     }
 
-    // --- ЛОГИКА ТАБЛИЦЫ ЛИДЕРОВ ---
+    // --- ТАБЛИЦА ЛИДЕРОВ ---
     async function syncAndRenderLeaderboard(manual) {
       const listEl = document.getElementById("leaderboard-list");
       if (manual) listEl.innerHTML = `<div style="text-align:center;color:var(--muted);padding:20px;">Загрузка рейтинга...</div>`;
@@ -813,7 +1260,6 @@
 
       if (FIREBASE_URL) {
         try {
-          // Отправляем актуальный счет игрока в облако
           await fetch(`${FIREBASE_URL}/players/${userId}.json`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -825,50 +1271,42 @@
             })
           });
 
-          // Получаем всех игроков
           const res = await fetch(`${FIREBASE_URL}/players.json`);
           const data = await res.json();
-          if (data) {
-            players = Object.values(data);
+          if (data && !data.error) {
+            players = Object.values(data).filter(p => p && typeof p.score === "number" && p.name);
           }
         } catch (err) {
-          console.error("Ошибка синхронизации:", err);
+          console.error(err);
         }
       }
 
-      // Если база не подключена или пуста — показываем локальный рейтинг с соперниками
       if (!players.length) {
-        players = [
-          { id: "bot1", name: "CryptoKing", score: 125000 },
-          { id: "bot2", name: "Alex_TON", score: 48200 },
-          { id: "bot3", name: "Varya_V", score: 15400 },
-          { id: "bot4", name: "TapMaster", score: 3200 },
-          { id: "bot5", name: "Novice", score: 450 },
-          { id: userId, name: userName, score: Math.floor(state.balance) }
-        ];
+        players = [{ id: userId, name: userName, score: Math.floor(state.balance) }];
       }
 
-      // Сортировка по убыванию очков
       players.sort((a, b) => b.score - a.score);
-      const top20 = players.slice(0, 20);
+      const top25 = players.slice(0, 25);
 
-      listEl.innerHTML = top20.map((p, index) => {
+      listEl.innerHTML = top25.map((p, index) => {
         const isMe = String(p.id) === String(userId);
         let medal = `${index + 1}`;
         if (index === 0) medal = "🥇";
         else if (index === 1) medal = "🥈";
         else if (index === 2) medal = "🥉";
 
+        const lgName = getCurrentLeague(p.score).name;
+
         return `
-          <div class="lb-item ${isMe ? "me" : ""}">
-            <div class="lb-left">
+          <div class="item-card lb-item ${isMe ? "me" : ""}">
+            <div class="item-left">
               <div class="lb-rank">${medal}</div>
               <div>
-                <div class="lb-name">${escapeHtml(p.name)} ${isMe ? "(Вы)" : ""}</div>
-                <div class="lb-league">${getLeague(p.score)}</div>
+                <div class="item-title">${escapeHtml(p.name)} ${isMe ? "(Вы)" : ""}</div>
+                <div class="item-sub">${lgName}</div>
               </div>
             </div>
-            <div class="lb-score">₿ ${formatNum(p.score)}</div>
+            <div class="lb-score">🪙 ${formatNum(p.score)}</div>
           </div>
         `;
       }).join("");
@@ -880,7 +1318,7 @@
       }[m]));
     }
 
-    // Игровой тик (раз в секунду)
+    // Игровой цикл
     setInterval(() => {
       let dirty = false;
       if (state.energy < state.maxEnergy) {
@@ -897,7 +1335,7 @@
       }
     }, 1000);
 
-    // Фоновая синхронизация рекорда каждые 20 секунд (если подключен Firebase)
+    // Фоновая синхронизация с Firebase каждые 15 секунд
     setInterval(() => {
       if (FIREBASE_URL && state.balance > 0) {
         fetch(`${FIREBASE_URL}/players/${userId}.json`, {
@@ -911,7 +1349,7 @@
           })
         }).catch(() => {});
       }
-    }, 20000);
+    }, 15000);
 
     updateUI();
   </script>
