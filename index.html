@@ -1372,7 +1372,7 @@
       const list = cachedPlayers.map(p => String(p.id) === String(userId) ? Object.assign({}, p, { name: userName, score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds) }) : p);
 
       if (leaderboardMode === "time") list.sort((a, b) => (b.playTime || 0) - (a.playTime || 0));
-      else if (leaderboardMode === "coins") list.sort((a, b) => (b.score || 0) - (b.score || 0));
+      else if (leaderboardMode === "coins") list.sort((a, b) => (b.score || 0) - (a.score || 0)); /* ИСПРАВЛЕНО ЗДЕСЬ */
       else list.sort((a, b) => (b.totalTaps || 0) - (a.totalTaps || 0));
 
       listEl.innerHTML = list.slice(0, 25).map((p, index) => {
@@ -1415,7 +1415,7 @@
       cachedPlayers = players; renderLeaderboardList();
     }
 
-    // --- ИСПРАВЛЕННАЯ АДМИН-ПАНЕЛЬ ---
+    // --- АДМИН-ПАНЕЛЬ ---
     let secretTapCount = 0, secretTapTimer = null, adminUnlocked = sessionStorage.getItem("paw_admin_ok") === "1", adminPlayersCache = [];
     function handleSecretAdminTap() {
       secretTapCount++; clearTimeout(secretTapTimer);
@@ -1443,7 +1443,6 @@
       if (document.getElementById("admin-pass-input").value.trim() === ADMIN_PASSWORD) {
         adminUnlocked = true; sessionStorage.setItem("paw_admin_ok", "1");
         tg?.HapticFeedback?.notificationOccurred("success");
-        // Исправлено: мгновенно переключаем вид на саму панель
         document.getElementById("admin-login-view").style.display = "none";
         document.getElementById("admin-panel-view").style.display = "block";
         adminLoadPlayers();
