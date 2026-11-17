@@ -15,6 +15,7 @@
       --accent: #fbbf24;
       --blue: #38bdf8;
       --green: #10b981;
+      --red: #ef4444;
       --text: #f8fafc;
       --muted: #94a3b8;
     }
@@ -61,6 +62,7 @@
       backdrop-filter: blur(16px);
       padding: 5px 12px 5px 6px;
       border-radius: 18px;
+      cursor: pointer;
     }
 
     .avatar {
@@ -715,12 +717,12 @@
       display: block;
     }
 
-    /* Модальное окно ежедневных наград */
+    /* Модальные окна */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.72);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.78);
+      backdrop-filter: blur(8px);
       display: none;
       align-items: flex-end;
       justify-content: center;
@@ -734,6 +736,8 @@
     .modal-sheet {
       width: 100%;
       max-width: 480px;
+      max-height: 88vh;
+      overflow-y: auto;
       background: #121622;
       border-top: 1px solid var(--border);
       border-radius: 24px 24px 0 0;
@@ -831,6 +835,113 @@
       cursor: default;
     }
 
+    /* Секретная админ-панель */
+    .admin-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 13px;
+      margin-bottom: 12px;
+    }
+
+    .admin-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .admin-input {
+      width: 100%;
+      background: rgba(8, 11, 18, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 10px 12px;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+      user-select: text;
+      -webkit-user-select: text;
+    }
+
+    .admin-input:focus {
+      border-color: var(--accent);
+    }
+
+    .admin-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .admin-btn {
+      background: linear-gradient(135deg, #fde047, #f59e0b);
+      color: #090b10;
+      border: none;
+      border-radius: 11px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .admin-btn.secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+    }
+
+    .admin-btn.green {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      color: #052e16;
+    }
+
+    .admin-player-card {
+      background: rgba(12, 16, 26, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 11px 12px;
+      margin-bottom: 8px;
+    }
+
+    .admin-player-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .admin-player-name {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .admin-player-id {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .admin-quick-btns {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .admin-chip {
+      background: rgba(251, 191, 36, 0.14);
+      border: 1px solid rgba(251, 191, 36, 0.32);
+      color: var(--accent);
+      border-radius: 8px;
+      padding: 5px 9px;
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
     /* Всплывающий текст клика */
     .float-plus {
       position: fixed;
@@ -868,7 +979,7 @@
       font-size: 13px;
       font-weight: 700;
       box-shadow: 0 10px 25px rgba(0,0,0,0.65);
-      z-index: 200;
+      z-index: 250;
       display: none;
       white-space: nowrap;
       max-width: 92vw;
@@ -881,9 +992,9 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- Верхняя шапка с профилем и временем в игре -->
+  <!-- Верхняя шапка с профилем и временем в игре (5 быстрых тапов открывают админку) -->
   <div class="topbar">
-    <div class="profile-pill">
+    <div class="profile-pill" onclick="handleSecretAdminTap()">
       <div class="avatar">
         <span id="avatar-letter">И</span>
         <span class="avatar-paw">🐾</span>
@@ -1036,12 +1147,80 @@
     </div>
   </div>
 
+  <!-- МОДАЛЬНОЕ ОКНО СЕКРЕТНОЙ АДМИН-ПАНЕЛИ -->
+  <div class="modal-backdrop" id="admin-modal" onclick="closeAdminModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-top">
+        <div class="modal-title">🛡️ Админ-панель</div>
+        <button class="close-modal" onclick="closeAdminModal()">✕</button>
+      </div>
+
+      <!-- Экран входа по паролю -->
+      <div id="admin-login-view">
+        <div class="admin-box">
+          <label class="admin-label">Введите пароль администратора</label>
+          <input type="password" class="admin-input" id="admin-pass-input" placeholder="Пароль..." onkeydown="if(event.key==='Enter')submitAdminLogin()" />
+          <div class="admin-row">
+            <button class="admin-btn" style="width:100%;" onclick="submitAdminLogin()">Войти в панель</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Основной интерфейс админки -->
+      <div id="admin-panel-view" style="display:none;">
+        <!-- Рассылка -->
+        <div class="admin-box">
+          <label class="admin-label">📢 Рассылка объявления всем игрокам</label>
+          <input type="text" class="admin-input" id="admin-broadcast-input" placeholder="Текст сообщения для всех..." />
+          <div class="admin-row">
+            <button class="admin-btn green" style="flex:1;" onclick="adminSendBroadcast()">Отправить рассылку</button>
+          </div>
+        </div>
+
+        <!-- Управление балансом игроков -->
+        <div class="admin-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span class="admin-label" style="margin:0;">👥 Баланс игроков</span>
+            <button class="admin-btn secondary" style="padding:5px 10px;font-size:11px;" onclick="adminLoadPlayers()">↻ Обновить</button>
+          </div>
+          <input type="text" class="admin-input" id="admin-search-input" placeholder="Поиск по имени или ID..." oninput="renderAdminPlayers()" />
+          <div id="admin-players-list" style="margin-top:10px;max-height:38vh;overflow-y:auto;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
+    const ADMIN_PASSWORD = "paw2026";
     const MAX_OFFLINE_SEC = 8 * 3600; // До 8 часов офлайн-майнинга
     const QUEST_CYCLE_MS = 30 * 60 * 1000; // 30 минут
     const X2_BOOST_COST = 80000;
     const X2_BOOST_DURATION_MS = 15 * 60 * 1000; // 15 минут
+
+    // Базовые цены после понижения в 2.5 раза (12 / 2.5 = 5, 60 / 2.5 = 24)
+    const BASE_TAP_COST = 5;
+    const TAP_COST_MULT = 1.38;
+    const BASE_BOT_COST = 24;
+    const BOT_COST_MULT = 1.45;
+
+    function calcTapCost(level) {
+      let cost = BASE_TAP_COST;
+      const lvl = Math.max(1, Math.floor(level || 1));
+      for (let i = 1; i < lvl; i++) {
+        cost = Math.max(1, Math.round(cost * TAP_COST_MULT));
+      }
+      return cost;
+    }
+
+    function calcBotCost(level) {
+      let cost = BASE_BOT_COST;
+      const lvl = Math.max(0, Math.floor(level || 0));
+      for (let i = 0; i < lvl; i++) {
+        cost = Math.max(1, Math.round(cost * BOT_COST_MULT));
+      }
+      return cost;
+    }
 
     const tg = window.Telegram?.WebApp;
     let userId = "local_" + (localStorage.getItem("tg_uid") || Math.floor(Math.random() * 1000000));
@@ -1073,9 +1252,8 @@
       lastSeen: 0,
       playTimeSeconds: 0,
       levels: { tap: 1, bot: 0 },
-      costs: { tap: 5, bot: 24 },
+      costs: { tap: BASE_TAP_COST, bot: BASE_BOT_COST },
       x2EndsAt: 0,
-      discount25xApplied: true,
       questCycleStart: Date.now(),
       cycleTaps: 0,
       cycleEarned: 0,
@@ -1096,18 +1274,23 @@
     let parsedSave = JSON.parse(rawSave || "{}");
     let state = Object.assign({}, defaultState, parsedSave);
     state.levels = Object.assign({ tap: 1, bot: 0 }, parsedSave.levels || {});
-    state.costs = Object.assign({ tap: 5, bot: 24 }, parsedSave.costs || {});
     state.x2EndsAt = state.x2EndsAt || 0;
     state.claimedQuests = state.claimedQuests || {};
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
 
-    // Разовое уменьшение цен в 2.5 раза для существующего сохранения
-    if (!parsedSave.discount25xApplied) {
-      state.costs.tap = Math.max(1, Math.round(state.costs.tap / 2.5));
-      state.costs.bot = Math.max(1, Math.round(state.costs.bot / 2.5));
-      state.discount25xApplied = true;
+    function normalizeBoostPricing() {
+      state.levels.tap = Math.max(1, Math.floor(state.levels.tap || 1));
+      state.levels.bot = Math.max(0, Math.floor(state.levels.bot || 0));
+      state.tapPower = 1 + (state.levels.tap - 1) * 5;
+      state.passiveIncome = state.levels.bot * 6;
+      state.costs = {
+        tap: calcTapCost(state.levels.tap),
+        bot: calcBotCost(state.levels.bot)
+      };
     }
+
+    normalizeBoostPricing();
 
     function isX2Active() {
       return (state.x2EndsAt || 0) > Date.now();
@@ -1141,7 +1324,6 @@
           levels: { tap: state.levels.tap, bot: state.levels.bot },
           costs: { tap: state.costs.tap, bot: state.costs.bot },
           x2EndsAt: state.x2EndsAt || 0,
-          discount25xApplied: true,
           playTime: Math.floor(state.playTimeSeconds),
           lastSeen: nowTs,
           updatedAt: nowTs
@@ -1196,29 +1378,16 @@
           if (cloudData.levels) {
             if ((cloudData.levels.tap || 1) > state.levels.tap) {
               state.levels.tap = cloudData.levels.tap;
-              state.tapPower = cloudData.tapPower || (1 + (state.levels.tap - 1) * 5);
-              if (cloudData.costs?.tap) {
-                state.costs.tap = cloudData.discount25xApplied
-                  ? cloudData.costs.tap
-                  : Math.max(1, Math.round(cloudData.costs.tap / 2.5));
-              }
               changed = true;
             }
             if ((cloudData.levels.bot || 0) > state.levels.bot) {
               state.levels.bot = cloudData.levels.bot;
-              state.passiveIncome = cloudData.passiveIncome || (state.levels.bot * 6);
-              if (cloudData.costs?.bot) {
-                state.costs.bot = cloudData.discount25xApplied
-                  ? cloudData.costs.bot
-                  : Math.max(1, Math.round(cloudData.costs.bot / 2.5));
-              }
               changed = true;
             }
           }
 
-          if (typeof cloudData.passiveIncome === "number" && cloudData.passiveIncome > state.passiveIncome) {
-            state.passiveIncome = cloudData.passiveIncome;
-            changed = true;
+          if (changed) {
+            normalizeBoostPricing();
           }
 
           if (typeof cloudData.x2EndsAt === "number" && cloudData.x2EndsAt > (state.x2EndsAt || 0)) {
@@ -1261,6 +1430,11 @@
         })
         .catch(() => {});
 
+      checkBroadcastMessage();
+    }
+
+    function checkBroadcastMessage() {
+      if (!FIREBASE_URL) return;
       fetch(`${FIREBASE_URL}/broadcast.json`)
         .then(r => r.json())
         .then(msg => {
@@ -1503,15 +1677,20 @@
 
       document.getElementById("daily-dot").classList.toggle("show", canClaimDaily());
 
-      // Бусты
+      // Бусты (цены строго соответствуют текущим уровням)
+      const tapCost = calcTapCost(state.levels.tap);
+      const botCost = calcBotCost(state.levels.bot);
+      state.costs.tap = tapCost;
+      state.costs.bot = botCost;
+
       document.getElementById("lvl-tap").textContent = `Ур. ${state.levels.tap}`;
-      document.getElementById("cost-tap").textContent = `${formatNum(state.costs.tap)} 🐾`;
+      document.getElementById("cost-tap").textContent = `${formatNum(tapCost)} 🐾`;
 
       document.getElementById("lvl-bot").textContent = `Ур. ${state.levels.bot}`;
-      document.getElementById("cost-bot").textContent = `${formatNum(state.costs.bot)} 🐾`;
+      document.getElementById("cost-bot").textContent = `${formatNum(botCost)} 🐾`;
 
-      document.getElementById("upg-tap").classList.toggle("disabled", state.balance < state.costs.tap);
-      document.getElementById("upg-bot").classList.toggle("disabled", state.balance < state.costs.bot);
+      document.getElementById("upg-tap").classList.toggle("disabled", state.balance < tapCost);
+      document.getElementById("upg-bot").classList.toggle("disabled", state.balance < botCost);
 
       // Временный буст x2 на 15 минут
       const x2Active = isX2Active();
@@ -1582,20 +1761,13 @@
     }
 
     function buyUpgrade(type) {
-      const cost = state.costs[type];
+      const cost = type === "tap" ? calcTapCost(state.levels.tap) : calcBotCost(state.levels.bot);
       if (state.balance < cost) return;
 
       state.balance -= cost;
       state.levels[type] += 1;
       state.cycleUpgrades = (state.cycleUpgrades || 0) + 1;
-
-      if (type === "tap") {
-        state.tapPower += 5;
-        state.costs.tap = Math.max(1, Math.round(state.costs.tap * 1.38));
-      } else if (type === "bot") {
-        state.passiveIncome += 6;
-        state.costs.bot = Math.max(1, Math.round(state.costs.bot * 1.45));
-      }
+      normalizeBoostPricing();
 
       tg?.HapticFeedback?.notificationOccurred("success");
       updateUI();
@@ -1729,6 +1901,186 @@
       renderLeaderboardList();
     }
 
+    // --- СЕКРЕТНАЯ АДМИН-ПАНЕЛЬ (5 БЫСТРЫХ ТАПОВ ПО ПРОФИЛЮ) ---
+    let secretTapCount = 0;
+    let secretTapTimer = null;
+    let adminUnlocked = sessionStorage.getItem("paw_admin_ok") === "1";
+    let adminPlayersCache = [];
+
+    function handleSecretAdminTap() {
+      secretTapCount += 1;
+      clearTimeout(secretTapTimer);
+      secretTapTimer = setTimeout(() => {
+        secretTapCount = 0;
+      }, 1500);
+
+      if (secretTapCount >= 5) {
+        secretTapCount = 0;
+        openAdminModal();
+      }
+    }
+
+    function openAdminModal() {
+      document.getElementById("admin-modal").classList.add("open");
+      if (adminUnlocked) {
+        document.getElementById("admin-login-view").style.display = "none";
+        document.getElementById("admin-panel-view").style.display = "block";
+        adminLoadPlayers();
+      } else {
+        document.getElementById("admin-login-view").style.display = "block";
+        document.getElementById("admin-panel-view").style.display = "none";
+        document.getElementById("admin-pass-input").value = "";
+        setTimeout(() => document.getElementById("admin-pass-input").focus(), 100);
+      }
+    }
+
+    function closeAdminModal(e) {
+      if (!e || e.target.id === "admin-modal") {
+        document.getElementById("admin-modal").classList.remove("open");
+      }
+    }
+
+    function submitAdminLogin() {
+      const val = document.getElementById("admin-pass-input").value.trim();
+      if (val === ADMIN_PASSWORD) {
+        adminUnlocked = true;
+        sessionStorage.setItem("paw_admin_ok", "1");
+        tg?.HapticFeedback?.notificationOccurred("success");
+        openAdminModal();
+      } else {
+        tg?.HapticFeedback?.notificationOccurred("error");
+        showToast("❌ Неверный пароль администратора");
+      }
+    }
+
+    async function adminSendBroadcast() {
+      if (!adminUnlocked || !FIREBASE_URL) return;
+      const input = document.getElementById("admin-broadcast-input");
+      const text = input.value.trim();
+      if (!text) {
+        showToast("Введите текст объявления");
+        return;
+      }
+
+      const broadcastId = Date.now();
+      try {
+        await fetch(`${FIREBASE_URL}/broadcast.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: broadcastId, text: text, createdAt: broadcastId })
+        });
+        input.value = "";
+        localStorage.setItem("last_broadcast_id", String(broadcastId));
+        showToast(`📢 Рассылка отправлена: "${text}"`);
+      } catch (e) {
+        showToast("❌ Ошибка отправки рассылки");
+      }
+    }
+
+    async function adminLoadPlayers() {
+      if (!adminUnlocked || !FIREBASE_URL) return;
+      const listEl = document.getElementById("admin-players-list");
+      listEl.innerHTML = `<div style="text-align:center;color:var(--muted);padding:14px;font-size:12px;">Загрузка игроков...</div>`;
+
+      try {
+        const res = await fetch(`${FIREBASE_URL}/players.json`);
+        const data = await res.json();
+        adminPlayersCache = data && !data.error
+          ? Object.values(data).filter(p => p && p.id && p.name)
+          : [];
+        adminPlayersCache.sort((a, b) => (b.score || 0) - (a.score || 0));
+        renderAdminPlayers();
+      } catch (e) {
+        listEl.innerHTML = `<div style="text-align:center;color:#fca5a5;padding:14px;font-size:12px;">Ошибка загрузки из Firebase</div>`;
+      }
+    }
+
+    function renderAdminPlayers() {
+      const listEl = document.getElementById("admin-players-list");
+      const query = (document.getElementById("admin-search-input").value || "").trim().toLowerCase();
+
+      const filtered = adminPlayersCache.filter(p =>
+        String(p.name).toLowerCase().includes(query) ||
+        String(p.id).toLowerCase().includes(query)
+      );
+
+      if (!filtered.length) {
+        listEl.innerHTML = `<div style="text-align:center;color:var(--muted);padding:14px;font-size:12px;">Игроки не найдены</div>`;
+        return;
+      }
+
+      listEl.innerHTML = filtered.map(p => {
+        const safeId = escapeHtml(String(p.id));
+        const currentScore = Math.floor(p.score || 0);
+        return `
+          <div class="admin-player-card">
+            <div class="admin-player-head">
+              <div>
+                <div class="admin-player-name">${escapeHtml(p.name)} ${String(p.id) === String(userId) ? "(Вы)" : ""}</div>
+                <div class="admin-player-id">ID: ${safeId} • ${formatPlayTime(p.playTime || 0)}</div>
+              </div>
+              <div style="font-weight:800;font-size:13px;color:var(--accent);">🐾 ${formatNum(currentScore)}</div>
+            </div>
+            <div class="admin-row">
+              <input type="number" class="admin-input" id="adm-score-${safeId}" value="${currentScore}" style="padding:7px 10px;font-size:13px;" />
+              <button class="admin-btn" style="padding:7px 12px;font-size:12px;" onclick="adminSetPlayerBalance('${safeId}')">Задать</button>
+            </div>
+            <div class="admin-quick-btns">
+              <button class="admin-chip" onclick="adminDeltaBalance('${safeId}', 10000)">+10 000</button>
+              <button class="admin-chip" onclick="adminDeltaBalance('${safeId}', 100000)">+100 000</button>
+              <button class="admin-chip" onclick="adminDeltaBalance('${safeId}', -10000)">-10 000</button>
+              <button class="admin-chip" onclick="adminZeroBalance('${safeId}')">Обнулить</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    async function adminUpdateScoreInCloud(targetId, newScore) {
+      const cleanScore = Math.max(0, Math.floor(Number(newScore) || 0));
+      try {
+        await fetch(`${FIREBASE_URL}/players/${targetId}.json`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            score: cleanScore,
+            adminOverride: true,
+            updatedAt: Date.now()
+          })
+        });
+
+        const item = adminPlayersCache.find(p => String(p.id) === String(targetId));
+        if (item) item.score = cleanScore;
+
+        if (String(targetId) === String(userId)) {
+          state.balance = cleanScore;
+          updateUI();
+          saveState();
+        }
+
+        renderAdminPlayers();
+        showToast(`✅ Баланс игрока ${targetId}: ${formatNum(cleanScore)} 🐾`);
+      } catch (e) {
+        showToast("❌ Не удалось обновить баланс");
+      }
+    }
+
+    function adminSetPlayerBalance(targetId) {
+      const input = document.getElementById(`adm-score-${targetId}`);
+      if (!input) return;
+      adminUpdateScoreInCloud(targetId, input.value);
+    }
+
+    function adminDeltaBalance(targetId, delta) {
+      const item = adminPlayersCache.find(p => String(p.id) === String(targetId));
+      const base = item ? (item.score || 0) : 0;
+      adminUpdateScoreInCloud(targetId, base + delta);
+    }
+
+    function adminZeroBalance(targetId) {
+      adminUpdateScoreInCloud(targetId, 0);
+    }
+
     function escapeHtml(str) {
       return String(str).replace(/[&<>"']/g, m => ({
         "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
@@ -1753,11 +2105,12 @@
       saveState();
     }, 1000);
 
-    // Фоновая синхронизация с Firebase каждые 10 секунд
+    // Фоновая синхронизация с Firebase и проверка рассылок каждые 10 секунд
     setInterval(() => {
       if (state.balance > 0 || state.passiveIncome > 0 || state.playTimeSeconds > 0) {
         syncCloudState(false);
       }
+      checkBroadcastMessage();
     }, 10000);
 
     updateUI();
