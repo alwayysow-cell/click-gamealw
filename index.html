@@ -23,8 +23,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    
-            body {
+    body {
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
@@ -39,7 +38,6 @@
       overflow: hidden;
       touch-action: manipulation;
     }
-
 
     /* Верхняя панель */
     .topbar {
@@ -771,6 +769,9 @@
       z-index: 200;
       display: none;
       white-space: nowrap;
+      max-width: 92vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   </style>
 </head>
@@ -855,7 +856,7 @@
           <div class="item-icon">🐾</div>
           <div>
             <div class="item-title">Сила лапки <span class="lvl-tag" id="lvl-tap">Ур. 1</span></div>
-            <div class="item-sub">+1 монетка с лапкой за клик</div>
+            <div class="item-sub">+3 монетки с лапкой за клик</div>
           </div>
         </div>
         <button class="action-btn" id="cost-tap">50</button>
@@ -1007,26 +1008,32 @@
       localStorage.setItem("aureum_save", JSON.stringify(state));
     }
 
-    // Восстановление прогресса из Firebase, если кэш Telegram был очищен
-      if (FIREBASE_URL) {
-      // 1. Синхронизация баланса и команд из админ-панели
+    // Синхронизация с базой Firebase (восстановление прогресса, админ-команды, объявления)
+    if (FIREBASE_URL) {
       fetch(`${FIREBASE_URL}/players/${userId}.json`)
         .then(r => r.json())
         .then(cloudData => {
           if (cloudData && typeof cloudData.score === "number") {
+            let restored = false;
             if (cloudData.adminOverride || cloudData.score > state.balance) {
               state.balance = cloudData.score;
+              restored = true;
+              if (cloudData.adminOverride) {
+                fetch(`${FIREBASE_URL}/players/${userId}/adminOverride.json`, { method: "DELETE" }).catch(() => {});
+              }
+            }
+            if (typeof cloudData.playTime === "number" && cloudData.playTime > state.playTimeSeconds) {
+              state.playTimeSeconds = cloudData.playTime;
+              restored = true;
+            }
+            if (restored) {
               updateUI();
               saveState();
-              if (cloudData.adminOverride) {
-                fetch(`${FIREBASE_URL}/players/${userId}/adminOverride.json`, { method: "DELETE" });
-              }
             }
           }
         })
         .catch(() => {});
 
-      // 2. Проверка объявлений от администратора
       fetch(`${FIREBASE_URL}/broadcast.json`)
         .then(r => r.json())
         .then(msg => {
@@ -1038,6 +1045,10 @@
         .catch(() => {});
     }
 
+    if (state.refillDate !== todayStr) {
+      state.refillsLeft = 3;
+      state.refillDate = todayStr;
+    }
 
     // Оффлайн-доход до 3 часов
     const now = Date.now();
@@ -1070,7 +1081,7 @@
       const t = document.getElementById("toast");
       t.textContent = text;
       t.style.display = "block";
-      setTimeout(() => { t.style.display = "none"; }, 3500);
+      setTimeout(() => { t.style.display = "none"; }, 4000);
     }
 
     // Лиги и стили монеты с лапкой
@@ -1348,7 +1359,7 @@
       state.totalUpgrades += 1;
 
       if (type === "tap") {
-        state.tapPower += 1;
+        state.tapPower += 3;
         state.costs.tap = Math.round(state.costs.tap * 1.65);
       } else if (type === "energy") {
         state.maxEnergy += 300;
