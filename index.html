@@ -382,7 +382,14 @@
       transition: transform 0.2s ease, fill 0.4s ease;
     }
 
-    /* Темы монеты по уровням развития (лиги) */
+    /* Темы монеты для 10 лиг */
+    .coin-btn.theme-wood {
+      background: radial-gradient(circle at 30% 25%, #d6a574 0%, #854d27 58%, #451a03 100%);
+      border: 6px solid #b45309;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 32px rgba(180, 83, 9, 0.38), inset 0 4px 14px rgba(255,255,255,0.5);
+    }
+    .coin-btn.theme-wood .paw-svg { fill: #fef3c7; }
+
     .coin-btn.theme-bronze {
       background: radial-gradient(circle at 30% 25%, #fdba74 0%, #c2410c 58%, #7c2d12 100%);
       border: 6px solid #fb923c;
@@ -404,17 +411,45 @@
     }
     .coin-btn.theme-gold .paw-svg { fill: #fef9c3; }
 
+    .coin-btn.theme-platinum {
+      background: radial-gradient(circle at 30% 25%, #e0f2fe 0%, #38bdf8 52%, #1e293b 100%);
+      border: 6px solid #7dd3fc;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.72), 0 0 46px rgba(56, 189, 248, 0.55), inset 0 4px 16px rgba(255,255,255,0.9);
+    }
+    .coin-btn.theme-platinum .paw-svg { fill: #f0f9ff; }
+
+    .coin-btn.theme-emerald {
+      background: radial-gradient(circle at 30% 25%, #a7f3d0 0%, #10b981 52%, #064e3b 100%);
+      border: 6px solid #34d399;
+      box-shadow: 0 18px 44px rgba(0,0,0,0.74), 0 0 48px rgba(16, 185, 129, 0.58), inset 0 4px 16px rgba(255,255,255,0.85);
+    }
+    .coin-btn.theme-emerald .paw-svg { fill: #ecfdf5; }
+
+    .coin-btn.theme-ruby {
+      background: radial-gradient(circle at 30% 25%, #fecdd3 0%, #e11d48 52%, #881337 100%);
+      border: 6px solid #fb7185;
+      box-shadow: 0 18px 44px rgba(0,0,0,0.75), 0 0 50px rgba(244, 63, 94, 0.6), inset 0 4px 16px rgba(255,255,255,0.85);
+    }
+    .coin-btn.theme-ruby .paw-svg { fill: #fff1f2; }
+
     .coin-btn.theme-diamond {
       background: radial-gradient(circle at 30% 25%, #cffafe 0%, #06b6d4 52%, #1e3a8a 100%);
       border: 6px solid #67e8f9;
-      box-shadow: 0 18px 45px rgba(0,0,0,0.75), 0 0 50px rgba(34, 211, 238, 0.65), inset 0 4px 18px rgba(255,255,255,0.9);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75), 0 0 52px rgba(34, 211, 238, 0.65), inset 0 4px 18px rgba(255,255,255,0.9);
     }
     .coin-btn.theme-diamond .paw-svg { fill: #ecfeff; }
+
+    .coin-btn.theme-master {
+      background: radial-gradient(circle at 30% 25%, #fed7aa 0%, #ea580c 48%, #7f1d1d 100%);
+      border: 6px solid #fb923c;
+      box-shadow: 0 18px 48px rgba(0,0,0,0.78), 0 0 55px rgba(249, 115, 22, 0.68), inset 0 4px 18px rgba(255,255,255,0.9);
+    }
+    .coin-btn.theme-master .paw-svg { fill: #fff7ed; }
 
     .coin-btn.theme-legend {
       background: radial-gradient(circle at 30% 25%, #f5d0fe 0%, #c026d3 48%, #4c1d95 100%);
       border: 6px solid #e879f9;
-      box-shadow: 0 18px 50px rgba(0,0,0,0.8), 0 0 58px rgba(217, 70, 239, 0.7), inset 0 4px 18px rgba(255,255,255,0.9);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.8), 0 0 58px rgba(217, 70, 239, 0.72), inset 0 4px 18px rgba(255,255,255,0.9);
     }
     .coin-btn.theme-legend .paw-svg { fill: #fdf4ff; }
 
@@ -1017,8 +1052,8 @@
   <div class="screen active" id="screen-game">
     <div class="score-card">
       <div class="league-row">
-        <span class="league-name" id="league-label">🥉 Бронзовая лига</span>
-        <span id="next-league-text">До Серебра: 5 000</span>
+        <span class="league-name" id="league-label">🪵 Деревянная лига</span>
+        <span id="next-league-text">До Бронзы: 1 000</span>
       </div>
       <div class="balance-row">
         <span class="mini-paw-coin" id="mini-coin">🐾</span>
@@ -1035,7 +1070,7 @@
 
     <div class="coin-stage" id="coin-stage">
       <div class="coin-aura" id="coin-aura"></div>
-      <div class="coin-btn theme-bronze" id="coin">
+      <div class="coin-btn theme-wood" id="coin">
         <div class="coin-ring-outer">
           <div class="coin-ring-inner">
             <svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -1485,13 +1520,18 @@
       setTimeout(() => { t.style.display = "none"; }, 4500);
     }
 
-    // Лиги и стили монеты с лапкой
+    // 10 лиг и стили монеты с лапкой
     const LEAGUES = [
-      { min: 0, max: 5000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", aura: "rgba(234, 88, 12, 0.38)", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
+      { min: 0, max: 1000, name: "🪵 Деревянная лига", next: "Бронзы", theme: "theme-wood", color: "#d97706", aura: "rgba(180, 83, 9, 0.35)", miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)" },
+      { min: 1000, max: 5000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", aura: "rgba(234, 88, 12, 0.38)", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
       { min: 5000, max: 25000, name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver", color: "#e2e8f0", aura: "rgba(148, 163, 184, 0.42)", miniBg: "radial-gradient(circle at 30% 25%, #f8fafc, #475569)" },
-      { min: 25000, max: 100000, name: "🥇 Золотая лига", next: "Алмаза", theme: "theme-gold", color: "#fde047", aura: "rgba(250, 204, 21, 0.45)", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)" },
-      { min: 100000, max: 500000, name: "💎 Алмазная лига", next: "Легенды", theme: "theme-diamond", color: "#22d3ee", aura: "rgba(34, 211, 238, 0.5)", miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)" },
-      { min: 500000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", color: "#e879f9", aura: "rgba(217, 70, 239, 0.55)", miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)" }
+      { min: 25000, max: 100000, name: "🥇 Золотая лига", next: "Платины", theme: "theme-gold", color: "#fde047", aura: "rgba(250, 204, 21, 0.45)", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)" },
+      { min: 100000, max: 300000, name: "💠 Платиновая лига", next: "Изумруда", theme: "theme-platinum", color: "#7dd3fc", aura: "rgba(56, 189, 248, 0.48)", miniBg: "radial-gradient(circle at 30% 25%, #e0f2fe, #0369a1)" },
+      { min: 300000, max: 1000000, name: "💚 Изумрудная лига", next: "Рубина", theme: "theme-emerald", color: "#34d399", aura: "rgba(16, 185, 129, 0.5)", miniBg: "radial-gradient(circle at 30% 25%, #a7f3d0, #047857)" },
+      { min: 1000000, max: 3000000, name: "❤️ Рубиновая лига", next: "Алмаза", theme: "theme-ruby", color: "#fb7185", aura: "rgba(244, 63, 94, 0.52)", miniBg: "radial-gradient(circle at 30% 25%, #fecdd3, #be123c)" },
+      { min: 3000000, max: 10000000, name: "💎 Алмазная лига", next: "Мастера", theme: "theme-diamond", color: "#22d3ee", aura: "rgba(34, 211, 238, 0.55)", miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)" },
+      { min: 10000000, max: 50000000, name: "🔥 Мастерская лига", next: "Легенды", theme: "theme-master", color: "#fb923c", aura: "rgba(249, 115, 22, 0.6)", miniBg: "radial-gradient(circle at 30% 25%, #fed7aa, #9a3412)" },
+      { min: 50000000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", color: "#e879f9", aura: "rgba(217, 70, 239, 0.65)", miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)" }
     ];
 
     function getCurrentLeague(score) {
@@ -1502,9 +1542,18 @@
     }
 
     let lastTheme = "";
+    let currentLeagueIndex = -1;
 
     function updateCoinAppearance() {
       const lg = getCurrentLeague(state.balance);
+      const lgIdx = LEAGUES.indexOf(lg);
+
+      if (currentLeagueIndex !== -1 && lgIdx > currentLeagueIndex) {
+        showToast(`🎉 Новая лига: ${lg.name}!`);
+        tg?.HapticFeedback?.notificationOccurred("success");
+      }
+      currentLeagueIndex = lgIdx;
+
       document.getElementById("league-label").textContent = lg.name;
 
       const bar = document.getElementById("league-bar");
