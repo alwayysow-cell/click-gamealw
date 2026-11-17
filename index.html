@@ -850,7 +850,7 @@
             <div class="item-sub">+5 монеток с лапкой за клик</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-tap">12 🐾</button>
+        <button class="action-btn" id="cost-tap">5 🐾</button>
       </div>
 
       <div class="item-card clickable" id="upg-bot" onclick="buyUpgrade('bot')">
@@ -861,7 +861,7 @@
             <div class="item-sub">+6 монеток каждую секунду (и офлайн)</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-bot">60 🐾</button>
+        <button class="action-btn" id="cost-bot">24 🐾</button>
       </div>
     </div>
   </div>
@@ -952,7 +952,8 @@
       lastSeen: 0,
       playTimeSeconds: 0,
       levels: { tap: 1, bot: 0 },
-      costs: { tap: 12, bot: 60 },
+      costs: { tap: 5, bot: 24 },
+      discount25xApplied: true,
       questCycleStart: Date.now(),
       cycleTaps: 0,
       cycleEarned: 0,
@@ -973,10 +974,17 @@
     let parsedSave = JSON.parse(rawSave || "{}");
     let state = Object.assign({}, defaultState, parsedSave);
     state.levels = Object.assign({ tap: 1, bot: 0 }, parsedSave.levels || {});
-    state.costs = Object.assign({ tap: 12, bot: 60 }, parsedSave.costs || {});
+    state.costs = Object.assign({ tap: 5, bot: 24 }, parsedSave.costs || {});
     state.claimedQuests = state.claimedQuests || {};
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
+
+    // Разовое уменьшение цен в 2.5 раза для существующего сохранения
+    if (!parsedSave.discount25xApplied) {
+      state.costs.tap = Math.max(1, Math.round(state.costs.tap / 2.5));
+      state.costs.bot = Math.max(1, Math.round(state.costs.bot / 2.5));
+      state.discount25xApplied = true;
+    }
 
     function saveState() {
       state.lastSeen = Date.now();
@@ -1005,6 +1013,7 @@
           passiveIncome: state.passiveIncome,
           levels: { tap: state.levels.tap, bot: state.levels.bot },
           costs: { tap: state.costs.tap, bot: state.costs.bot },
+          discount25xApplied: true,
           playTime: Math.floor(state.playTimeSeconds),
           lastSeen: nowTs,
           updatedAt: nowTs
@@ -1048,7 +1057,7 @@
     state.lastSeen = bootNow;
     saveState();
 
-    // Синхронизация и резервное восстановление из Firebase (если Telegram очистил WebView кэш)
+    // Синхронизация и резервное восстановление из Firebase
     if (FIREBASE_URL) {
       fetch(`${FIREBASE_URL}/players/${userId}.json`)
         .then(r => r.json())
@@ -1060,13 +1069,21 @@
             if ((cloudData.levels.tap || 1) > state.levels.tap) {
               state.levels.tap = cloudData.levels.tap;
               state.tapPower = cloudData.tapPower || (1 + (state.levels.tap - 1) * 5);
-              if (cloudData.costs?.tap) state.costs.tap = cloudData.costs.tap;
+              if (cloudData.costs?.tap) {
+                state.costs.tap = cloudData.discount25xApplied
+                  ? cloudData.costs.tap
+                  : Math.max(1, Math.round(cloudData.costs.tap / 2.5));
+              }
               changed = true;
             }
             if ((cloudData.levels.bot || 0) > state.levels.bot) {
               state.levels.bot = cloudData.levels.bot;
               state.passiveIncome = cloudData.passiveIncome || (state.levels.bot * 6);
-              if (cloudData.costs?.bot) state.costs.bot = cloudData.costs.bot;
+              if (cloudData.costs?.bot) {
+                state.costs.bot = cloudData.discount25xApplied
+                  ? cloudData.costs.bot
+                  : Math.max(1, Math.round(cloudData.costs.bot / 2.5));
+              }
               changed = true;
             }
           }
@@ -1091,7 +1108,6 @@
             changed = true;
           }
 
-          // Если локальный кэш был очищен при закрытии, считаем офлайн-доход по метке времени из облака
           const cloudLastSeen = cloudData.lastSeen || cloudData.updatedAt || 0;
           if (!offlineCredited && cloudLastSeen > 0 && state.passiveIncome > 0) {
             const cloudSecAway = Math.min(MAX_OFFLINE_SEC, Math.floor((Date.now() - cloudLastSeen) / 1000));
@@ -1409,10 +1425,10 @@
 
       if (type === "tap") {
         state.tapPower += 5;
-        state.costs.tap = Math.round(state.costs.tap * 1.38);
+        state.costs.tap = Math.max(1, Math.round(state.costs.tap * 1.38));
       } else if (type === "bot") {
         state.passiveIncome += 6;
-        state.costs.bot = Math.round(state.costs.bot * 1.45);
+        state.costs.bot = Math.max(1, Math.round(state.costs.bot * 1.45));
       }
 
       tg?.HapticFeedback?.notificationOccurred("success");
