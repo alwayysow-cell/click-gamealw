@@ -7,12 +7,12 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
-      --bg: #04060a;
+      --bg: #030509;
       --bg-glow: #1a1008;
-      --surface: rgba(18, 22, 34, 0.82);
-      --surface-strong: rgba(24, 30, 46, 0.95);
-      --border: rgba(255, 255, 255, 0.08);
-      --highlight: rgba(255, 255, 255, 0.12);
+      --surface: rgba(16, 21, 34, 0.78);
+      --surface-strong: rgba(22, 29, 46, 0.94);
+      --border: rgba(255, 255, 255, 0.09);
+      --highlight: rgba(255, 255, 255, 0.14);
       --accent: #d97706;
       --accent-light: #f3c697;
       --accent-dark: #92400e;
@@ -35,10 +35,10 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
       background-image:
-        var(--paw-bg-svg, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='%23d97706' fill-opacity='0.1'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")),
-        radial-gradient(circle at 50% -20%, var(--bg-glow) 0%, #070a14 55%, var(--bg) 90%);
+        var(--paw-bg-svg, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='%23d97706' fill-opacity='0.09'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")),
+        radial-gradient(ellipse at 50% -15%, var(--bg-glow) 0%, #070b15 55%, var(--bg) 92%);
       background-size: 90px 90px, 100% 100%;
-      animation: moveBackground 25s linear infinite;
+      animation: moveBackground 28s linear infinite;
       color: var(--text);
       height: 100vh;
       display: flex;
@@ -50,6 +50,19 @@
     @keyframes moveBackground {
       0% { background-position: 0px 0px, 0 0; }
       100% { background-position: -90px -90px, 0 0; }
+    }
+
+    /* Тонкая верхняя подсветка */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(var(--accent-rgb), 0.7), transparent);
+      z-index: 60;
+      pointer-events: none;
     }
 
     /* Верхняя панель */
@@ -65,12 +78,12 @@
     .profile-pill {
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 8px;
       background: var(--surface);
-      border: 1px solid rgba(var(--accent-rgb), 0.3);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 1px 0 var(--highlight);
-      backdrop-filter: blur(18px);
-      padding: 5px 12px 5px 5px;
+      border: 1px solid rgba(var(--accent-rgb), 0.32);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 0 var(--highlight);
+      backdrop-filter: blur(20px);
+      padding: 4px 11px 4px 4px;
       border-radius: 20px;
       min-width: 0;
     }
@@ -88,7 +101,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 3px 12px rgba(var(--accent-rgb), 0.5);
+      box-shadow: 0 3px 12px rgba(var(--accent-rgb), 0.55);
     }
 
     .avatar-paw {
@@ -111,7 +124,7 @@
     .username {
       font-weight: 700;
       font-size: 12px;
-      max-width: 96px;
+      max-width: 82px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -127,20 +140,20 @@
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .claws-pill {
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.12));
       border: 1px solid rgba(251, 191, 36, 0.45);
       color: #fde68a;
-      padding: 6px 10px;
+      padding: 6px 9px;
       border-radius: 99px;
       font-size: 11px;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       white-space: nowrap;
       cursor: pointer;
     }
@@ -150,52 +163,67 @@
       border: 1px solid rgba(var(--accent-rgb), 0.4);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
       color: var(--accent-light);
-      padding: 6px 10px;
+      padding: 6px 9px;
       border-radius: 99px;
       font-size: 11px;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       white-space: nowrap;
     }
 
-    .daily-trigger {
+    .icon-pill-btn {
       position: relative;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.4));
-      border: 1px solid rgba(52, 211, 153, 0.5);
-      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      color: #a7f3d0;
-      padding: 6px 10px;
-      border-radius: 99px;
-      font-size: 11px;
-      font-weight: 700;
+      background: var(--surface);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      color: var(--text);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 4px;
-      white-space: nowrap;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.1s ease, border-color 0.2s ease;
+    }
+    .icon-pill-btn:active { transform: scale(0.92); }
+    .icon-pill-btn.wheel-btn {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(236, 72, 153, 0.25));
+      border-color: rgba(232, 121, 249, 0.55);
+    }
+    .icon-pill-btn.friends-btn {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(14, 165, 233, 0.15));
+      border-color: rgba(56, 189, 248, 0.48);
+    }
+    .icon-pill-btn.daily-btn {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.35));
+      border-color: rgba(52, 211, 153, 0.5);
     }
 
-    .daily-dot {
-      width: 7px;
-      height: 7px;
+    .notif-dot {
+      position: absolute;
+      top: -1px;
+      right: -1px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       background: #ef4444;
-      box-shadow: 0 0 10px #ef4444;
+      border: 1.5px solid #04060a;
+      box-shadow: 0 0 8px #ef4444;
       display: none;
     }
-
-    .daily-dot.show {
-      display: inline-block;
-    }
+    .notif-dot.show { display: block; }
 
     /* Экраны */
     .screen {
       flex: 1;
       display: none;
       flex-direction: column;
-      padding: 6px 16px 92px;
+      padding: 6px 16px 94px;
       overflow-y: auto;
     }
 
@@ -205,12 +233,12 @@
 
     /* --- ЭКРАН 1: МАЙНИНГ --- */
     .score-card {
-      background: linear-gradient(160deg, rgba(var(--accent-rgb), 0.16) 0%, rgba(14, 18, 28, 0.9) 100%);
-      border: 1px solid rgba(var(--accent-rgb), 0.32);
-      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.5), 0 0 28px rgba(var(--accent-rgb), 0.15), inset 0 1px 0 var(--highlight);
-      backdrop-filter: blur(18px);
-      border-radius: 24px;
-      padding: 13px 16px;
+      background: linear-gradient(165deg, rgba(var(--accent-rgb), 0.18) 0%, rgba(14, 19, 31, 0.88) 65%, rgba(10, 14, 24, 0.95) 100%);
+      border: 1px solid rgba(var(--accent-rgb), 0.35);
+      box-shadow: 0 16px 38px rgba(0, 0, 0, 0.55), 0 0 32px rgba(var(--accent-rgb), 0.16), inset 0 1px 0 var(--highlight);
+      backdrop-filter: blur(20px);
+      border-radius: 26px;
+      padding: 14px 16px;
       text-align: center;
       margin-top: 4px;
       position: relative;
@@ -245,7 +273,7 @@
       font-weight: 900;
       letter-spacing: -1px;
       margin: 2px 0 8px;
-      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      text-shadow: 0 4px 22px rgba(0, 0, 0, 0.65);
       transition: font-size 0.15s ease;
     }
 
@@ -255,7 +283,7 @@
       border-radius: 50%;
       background: radial-gradient(circle at 30% 25%, var(--accent-light), var(--accent-dark));
       border: 2px solid var(--accent);
-      box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.6);
+      box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.65);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -276,7 +304,7 @@
       width: 0%;
       background: linear-gradient(90deg, var(--accent), var(--accent-light));
       border-radius: 99px;
-      box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.8);
+      box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.85);
       transition: width 0.35s cubic-bezier(0.1, 1, 0.3, 1);
     }
 
@@ -292,8 +320,8 @@
 
     /* КОПИЛКА-ХРАНИТЕЛЬ */
     .piggy-bank-widget {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(16, 20, 32, 0.92));
-      border: 1px solid rgba(52, 211, 153, 0.4);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(14, 19, 32, 0.92));
+      border: 1px solid rgba(52, 211, 153, 0.38);
       border-radius: 16px;
       padding: 9px 14px;
       margin-top: 10px;
@@ -301,7 +329,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
     }
 
     .piggy-info {
@@ -334,7 +362,7 @@
       width: 0%;
       background: linear-gradient(90deg, #34d399, #6ee7b7);
       border-radius: 99px;
-      box-shadow: 0 0 10px rgba(52, 211, 153, 0.6);
+      box-shadow: 0 0 10px rgba(52, 211, 153, 0.65);
       transition: width 0.35s ease;
     }
 
@@ -364,7 +392,7 @@
     /* КОМБО-ШКАЛА */
     .combo-wrapper {
       margin: 10px auto 0;
-      width: 220px;
+      width: 224px;
       opacity: 0;
       transform: translateY(-4px) scale(0.96);
       transition: opacity 0.25s ease, transform 0.25s ease;
@@ -414,26 +442,39 @@
       transition: width 0.08s linear;
     }
 
+    .boost-banners-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
     .x2-active-banner {
       display: none;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      margin: 8px auto 0;
-      padding: 6px 15px;
+      gap: 5px;
+      padding: 5px 13px;
       border-radius: 99px;
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.28), rgba(234, 88, 12, 0.32));
       border: 1px solid rgba(251, 191, 36, 0.6);
       box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
       color: #fde047;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
       animation: bannerPulse 2s infinite ease-in-out;
     }
+    .x2-active-banner.x5-mode {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.32), rgba(168, 85, 247, 0.35));
+      border-color: rgba(244, 114, 182, 0.7);
+      color: #fbcfe8;
+      box-shadow: 0 0 22px rgba(236, 72, 153, 0.45);
+    }
 
     @keyframes bannerPulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(245, 158, 11, 0.35); }
-      50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(245, 158, 11, 0.55); }
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.03); }
     }
 
     .x2-active-banner.show {
@@ -453,43 +494,43 @@
 
     .coin-aura {
       position: absolute;
-      width: 290px;
-      height: 290px;
+      width: 300px;
+      height: 300px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(var(--accent-rgb), 0.5) 0%, rgba(var(--accent-rgb), 0.15) 45%, transparent 75%);
+      background: radial-gradient(circle, rgba(var(--accent-rgb), 0.55) 0%, rgba(var(--accent-rgb), 0.16) 45%, transparent 75%);
       pointer-events: none;
       animation: auraPulse 3s infinite alternate ease-in-out;
       transition: transform 0.2s ease, filter 0.2s ease;
     }
 
     .coin-stage.fever-mode .coin-aura {
-      filter: brightness(1.45) saturate(1.4);
-      transform: scale(1.18);
+      filter: brightness(1.5) saturate(1.45);
+      transform: scale(1.2);
     }
 
     @keyframes auraPulse {
-      0% { transform: scale(0.92); opacity: 0.7; }
-      100% { transform: scale(1.12); opacity: 1; }
+      0% { transform: scale(0.92); opacity: 0.72; }
+      100% { transform: scale(1.14); opacity: 1; }
     }
 
     .tap-ripple {
       position: absolute;
-      width: 235px;
-      height: 235px;
+      width: 238px;
+      height: 238px;
       border-radius: 50%;
-      border: 2px solid rgba(var(--accent-rgb), 0.8);
+      border: 2px solid rgba(var(--accent-rgb), 0.85);
       pointer-events: none;
       animation: rippleOut 0.6s cubic-bezier(0.1, 1, 0.3, 1) forwards;
     }
 
     @keyframes rippleOut {
-      0% { transform: scale(0.9); opacity: 0.9; }
-      100% { transform: scale(1.35); opacity: 0; }
+      0% { transform: scale(0.9); opacity: 0.95; }
+      100% { transform: scale(1.38); opacity: 0; }
     }
 
     .coin-btn {
-      width: 238px;
-      height: 238px;
+      width: 242px;
+      height: 242px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -498,28 +539,48 @@
       transition: transform 0.08s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
       position: relative;
       transform-style: preserve-3d;
+      overflow: hidden;
+    }
+
+    /* Переливающийся блик на монете */
+    .coin-btn::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 45%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.26), transparent);
+      transform: rotate(28deg);
+      animation: coinSheen 5.5s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes coinSheen {
+      0%, 65% { left: -65%; }
+      100% { left: 135%; }
     }
 
     .coin-ring-outer {
-      width: 202px;
-      height: 202px;
+      width: 204px;
+      height: 204px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.48);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.25), 0 4px 15px rgba(0,0,0,0.3);
+      box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.28), 0 4px 16px rgba(0,0,0,0.35);
     }
 
     .coin-ring-inner {
-      width: 172px;
-      height: 172px;
+      width: 174px;
+      height: 174px;
       border-radius: 50%;
       border: 2px dashed rgba(255, 255, 255, 0.55);
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: spinInner 45s linear infinite;
+      animation: spinInner 48s linear infinite;
     }
 
     @keyframes spinInner {
@@ -528,59 +589,51 @@
     }
 
     .paw-svg {
-      width: 106px;
-      height: 106px;
+      width: 108px;
+      height: 108px;
       fill: rgba(255, 255, 255, 0.96);
-      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.5));
+      filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.55));
       transition: transform 0.1s ease;
     }
 
     /* Темы монеты */
     .coin-btn.theme-wood { background: radial-gradient(circle at 30% 25%, #f6d198 0%, #d6a574 35%, #854d27 70%, #451a03 100%); border: 7px solid #b45309; box-shadow: 0 20px 45px rgba(0,0,0,0.75), 0 0 38px rgba(180, 83, 9, 0.45), inset 0 4px 12px rgba(255,255,255,0.4); }
     .coin-btn.theme-wood .paw-svg { fill: #fef3c7; }
-    
     .coin-btn.theme-bronze { background: radial-gradient(circle at 30% 25%, #fed7aa 0%, #fdba74 35%, #c2410c 70%, #7c2d12 100%); border: 7px solid #fb923c; box-shadow: 0 20px 45px rgba(0,0,0,0.75), 0 0 42px rgba(234, 88, 12, 0.5), inset 0 4px 12px rgba(255,255,255,0.45); }
     .coin-btn.theme-bronze .paw-svg { fill: #ffedd5; }
-    
     .coin-btn.theme-silver { background: radial-gradient(circle at 30% 25%, #ffffff 0%, #f8fafc 35%, #94a3b8 70%, #334155 100%); border: 7px solid #cbd5e1; box-shadow: 0 20px 45px rgba(0,0,0,0.75), 0 0 45px rgba(148, 163, 184, 0.55), inset 0 4px 12px rgba(255,255,255,0.6); }
     .coin-btn.theme-silver .paw-svg { fill: #ffffff; }
-    
     .coin-btn.theme-gold { background: radial-gradient(circle at 30% 25%, #fef9c3 0%, #fef08a 35%, #eab308 70%, #854d0e 100%); border: 7px solid #fde047; box-shadow: 0 20px 50px rgba(0,0,0,0.75), 0 0 52px rgba(250, 204, 21, 0.65), inset 0 4px 14px rgba(255,255,255,0.7); }
     .coin-btn.theme-gold .paw-svg { fill: #fefce8; }
-    
     .coin-btn.theme-platinum { background: radial-gradient(circle at 30% 25%, #f0f9ff 0%, #e0f2fe 35%, #38bdf8 70%, #1e293b 100%); border: 7px solid #7dd3fc; box-shadow: 0 20px 50px rgba(0,0,0,0.78), 0 0 55px rgba(56, 189, 248, 0.65), inset 0 4px 14px rgba(255,255,255,0.7); }
     .coin-btn.theme-platinum .paw-svg { fill: #ffffff; }
-    
     .coin-btn.theme-emerald { background: radial-gradient(circle at 30% 25%, #ecfdf5 0%, #a7f3d0 35%, #10b981 70%, #064e3b 100%); border: 7px solid #34d399; box-shadow: 0 20px 52px rgba(0,0,0,0.8), 0 0 58px rgba(16, 185, 129, 0.7), inset 0 4px 14px rgba(255,255,255,0.7); }
     .coin-btn.theme-emerald .paw-svg { fill: #f0fdf4; }
-    
     .coin-btn.theme-ruby { background: radial-gradient(circle at 30% 25%, #fff1f2 0%, #fecdd3 35%, #e11d48 70%, #881337 100%); border: 7px solid #fb7185; box-shadow: 0 20px 52px rgba(0,0,0,0.8), 0 0 60px rgba(244, 63, 94, 0.72), inset 0 4px 14px rgba(255,255,255,0.7); }
     .coin-btn.theme-ruby .paw-svg { fill: #fff5f5; }
-    
     .coin-btn.theme-diamond { background: radial-gradient(circle at 30% 25%, #ecfeff 0%, #cffafe 35%, #06b6d4 70%, #1e3a8a 100%); border: 7px solid #67e8f9; box-shadow: 0 20px 55px rgba(0,0,0,0.82), 0 0 65px rgba(34, 211, 238, 0.75), inset 0 4px 14px rgba(255,255,255,0.75); }
     .coin-btn.theme-diamond .paw-svg { fill: #f8ffff; }
-    
     .coin-btn.theme-master { background: radial-gradient(circle at 30% 25%, #fff7ed 0%, #fed7aa 35%, #ea580c 70%, #7f1d1d 100%); border: 7px solid #fb923c; box-shadow: 0 20px 58px rgba(0,0,0,0.84), 0 0 70px rgba(249, 115, 22, 0.78), inset 0 4px 14px rgba(255,255,255,0.75); }
     .coin-btn.theme-master .paw-svg { fill: #fffbf5; }
-    
     .coin-btn.theme-legend { background: radial-gradient(circle at 30% 25%, #fdf4ff 0%, #f5d0fe 35%, #c026d3 70%, #4c1d95 100%); border: 7px solid #e879f9; box-shadow: 0 20px 60px rgba(0,0,0,0.86), 0 0 75px rgba(217, 70, 239, 0.82), inset 0 4px 14px rgba(255,255,255,0.8); }
     .coin-btn.theme-legend .paw-svg { fill: #fff5ff; }
-
     .coin-btn.theme-abyss { background: radial-gradient(circle at 30% 25%, #c7d2fe 0%, #6366f1 35%, #1e1b4b 75%, #020617 100%); border: 7px solid #818cf8; box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 75px rgba(99, 102, 241, 0.85), inset 0 4px 14px rgba(255,255,255,0.75); }
     .coin-btn.theme-abyss .paw-svg { fill: #eef2ff; }
-
-    /* Новые элитные темы монет */
     .coin-btn.theme-solar { background: radial-gradient(circle at 30% 25%, #ffffff 0%, #fef08a 30%, #f97316 68%, #9a3412 100%); border: 7px solid #fde047; box-shadow: 0 20px 62px rgba(0,0,0,0.88), 0 0 80px rgba(251, 146, 60, 0.9), inset 0 4px 16px rgba(255,255,255,0.9); }
     .coin-btn.theme-solar .paw-svg { fill: #fffbeb; }
-
     .coin-btn.theme-nova { background: radial-gradient(circle at 30% 25%, #f0fdfa 0%, #5eead4 35%, #0d9488 68%, #134e4a 100%); border: 7px solid #2dd4bf; box-shadow: 0 20px 62px rgba(0,0,0,0.88), 0 0 80px rgba(45, 212, 191, 0.85), inset 0 4px 16px rgba(255,255,255,0.85); }
     .coin-btn.theme-nova .paw-svg { fill: #f0fdfa; }
-
     .coin-btn.theme-void { background: radial-gradient(circle at 30% 25%, #e2e8f0 0%, #475569 32%, #0f172a 72%, #000000 100%); border: 7px solid #94a3b8; box-shadow: 0 20px 65px rgba(0,0,0,0.95), 0 0 82px rgba(148, 163, 184, 0.8), inset 0 4px 16px rgba(255,255,255,0.75); }
     .coin-btn.theme-void .paw-svg { fill: #f8fafc; }
-
     .coin-btn.theme-creator { background: radial-gradient(circle at 30% 25%, #ffffff 0%, #fde68a 28%, #ec4899 64%, #3b0764 100%); border: 7px solid #f472b6; box-shadow: 0 20px 68px rgba(0,0,0,0.95), 0 0 90px rgba(244, 114, 182, 0.92), inset 0 4px 18px rgba(255,255,255,0.95); }
     .coin-btn.theme-creator .paw-svg { fill: #ffffff; }
+    /* Новые премиум-материалы для магазина */
+    .coin-btn.theme-cyberpunk { background: radial-gradient(circle at 30% 25%, #fef08a 0%, #ec4899 42%, #06b6d4 78%, #090d16 100%); border: 7px solid #22d3ee; box-shadow: 0 20px 65px rgba(0,0,0,0.9), 0 0 85px rgba(236, 72, 153, 0.88), inset 0 4px 16px rgba(255,255,255,0.85); }
+    .coin-btn.theme-cyberpunk .paw-svg { fill: #fef9c3; }
+    .coin-btn.theme-eclipse { background: radial-gradient(circle at 30% 25%, #fed7aa 0%, #1e1b4b 45%, #000000 78%, #f97316 100%); border: 7px solid #fb923c; box-shadow: 0 20px 65px rgba(0,0,0,0.95), 0 0 85px rgba(249, 115, 22, 0.85), inset 0 4px 16px rgba(255,255,255,0.75); }
+    .coin-btn.theme-eclipse .paw-svg { fill: #ffedd5; }
+    .coin-btn.theme-singularity { background: radial-gradient(circle at 30% 25%, #ffffff 0%, #38bdf8 30%, #6366f1 65%, #020617 100%); border: 7px solid #bae6fd; box-shadow: 0 20px 70px rgba(0,0,0,0.95), 0 0 95px rgba(56, 189, 248, 0.95), inset 0 4px 18px rgba(255,255,255,0.95); }
+    .coin-btn.theme-singularity .paw-svg { fill: #ffffff; }
 
     /* ЛЕТАЮЩАЯ ЗОЛОТАЯ ЛАПКА */
     .golden-paw-bonus {
@@ -662,8 +715,8 @@
     .item-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 var(--highlight);
-      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.38), inset 0 1px 0 var(--highlight);
+      backdrop-filter: blur(16px);
       border-radius: 18px;
       padding: 13px 15px;
       display: flex;
@@ -855,6 +908,7 @@
     .skin-card {
       background: var(--surface);
       border: 1px solid var(--border);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 var(--highlight);
       border-radius: 18px;
       padding: 12px;
       display: flex;
@@ -869,27 +923,31 @@
     .skin-card:active { transform: scale(0.97); }
     .skin-card.selected {
       border-color: var(--accent);
-      background: linear-gradient(160deg, rgba(var(--accent-rgb), 0.22), rgba(18, 22, 34, 0.92));
-      box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.25);
+      background: linear-gradient(160deg, rgba(var(--accent-rgb), 0.24), rgba(18, 22, 34, 0.94));
+      box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.3);
     }
     .skin-card.locked {
-      opacity: 0.55;
+      opacity: 0.72;
+    }
+    .skin-card.can-buy {
+      opacity: 1;
+      border-color: rgba(52, 211, 153, 0.45);
     }
 
     .skin-preview-circle {
-      width: 56px;
-      height: 56px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.45);
     }
     .skin-preview-circle svg {
-      width: 32px;
-      height: 32px;
+      width: 34px;
+      height: 34px;
       fill: #ffffff;
     }
 
@@ -901,14 +959,20 @@
     .skin-status {
       font-size: 11px;
       font-weight: 700;
-      padding: 3px 9px;
+      padding: 4px 10px;
       border-radius: 8px;
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.08);
       color: var(--muted);
     }
-    .skin-card.selected .skin-status {
+    .skin-card.selected .skin-status,
+    .theme-chip-card.selected .skin-status {
       background: var(--accent);
       color: var(--accent-contrast);
+    }
+    .skin-card.can-buy .skin-status,
+    .theme-chip-card.can-buy .skin-status {
+      background: linear-gradient(135deg, #34d399, #10b981);
+      color: #052e16;
     }
 
     .themes-grid {
@@ -920,6 +984,7 @@
     .theme-chip-card {
       background: var(--surface);
       border: 1px solid var(--border);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.32), inset 0 1px 0 var(--highlight);
       border-radius: 15px;
       padding: 10px 6px;
       display: flex;
@@ -931,18 +996,22 @@
     }
     .theme-chip-card.selected {
       border-color: var(--accent);
-      background: rgba(var(--accent-rgb), 0.2);
+      background: rgba(var(--accent-rgb), 0.22);
     }
     .theme-chip-card.locked {
-      opacity: 0.45;
+      opacity: 0.68;
+    }
+    .theme-chip-card.can-buy {
+      opacity: 1;
+      border-color: rgba(52, 211, 153, 0.45);
     }
 
     .theme-swatch {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       border: 2px solid rgba(255,255,255,0.45);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.45);
     }
 
     .theme-chip-name {
@@ -951,7 +1020,7 @@
     }
 
     .item-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
-    .item-icon { width: 46px; height: 46px; border-radius: 14px; background: linear-gradient(145deg, rgba(var(--accent-rgb), 0.16), rgba(255, 255, 255, 0.04)); border: 1px solid rgba(var(--accent-rgb), 0.25); display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; }
+    .item-icon { width: 46px; height: 46px; border-radius: 14px; background: linear-gradient(145deg, rgba(var(--accent-rgb), 0.18), rgba(255, 255, 255, 0.04)); border: 1px solid rgba(var(--accent-rgb), 0.28); display: flex; align-items: center; justify-content: center; font-size: 21px; flex-shrink: 0; }
     .item-title { font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .lvl-tag { font-size: 11px; background: rgba(var(--accent-rgb), 0.2); color: var(--accent-light); padding: 2px 8px; border-radius: 6px; font-weight: 700; }
     .lvl-tag.temp { background: rgba(239, 68, 68, 0.22); color: #fca5a5; }
@@ -982,7 +1051,7 @@
     .quest-bar { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.08); border-radius: 99px; margin-top: 6px; overflow: hidden; }
     .quest-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-light)); border-radius: 99px; transition: width 0.3s ease; }
 
-    .refresh-btn { background: var(--surface); border: 1px solid rgba(var(--accent-rgb), 0.3); color: var(--text); padding: 7px 14px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .refresh-btn { background: var(--surface); border: 1px solid rgba(var(--accent-rgb), 0.32); color: var(--text); padding: 7px 14px; border-radius: 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
 
     .lb-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; background: rgba(12, 16, 26, 0.85); border: 1px solid var(--border); padding: 5px; border-radius: 16px; margin-bottom: 12px; }
     .lb-tab-btn { background: transparent; border: none; color: var(--muted); font-size: 11px; font-weight: 700; padding: 9px 4px; border-radius: 12px; cursor: pointer; text-align: center; white-space: nowrap; transition: background 0.2s ease, color 0.2s ease; }
@@ -994,27 +1063,95 @@
     .lb-score.time-mode { color: #7dd3fc; }
     .lb-score.taps-mode { color: #34d399; }
 
-    /* Навигация (6 вкладок) */
+    /* Навигация (5 просторных вкладок) */
     .navbar {
-      position: fixed; bottom: 14px; left: 10px; right: 10px; height: 66px;
-      background: rgba(12, 16, 26, 0.94); backdrop-filter: blur(24px);
-      border: 1px solid rgba(var(--accent-rgb), 0.28); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
-      border-radius: 24px; display: grid; grid-template-columns: repeat(6, 1fr); padding: 4px; z-index: 50;
+      position: fixed; bottom: 14px; left: 14px; right: 14px; height: 66px;
+      background: rgba(11, 15, 25, 0.94); backdrop-filter: blur(24px);
+      border: 1px solid rgba(var(--accent-rgb), 0.3); box-shadow: 0 14px 38px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      border-radius: 24px; display: grid; grid-template-columns: repeat(5, 1fr); padding: 5px; z-index: 50;
     }
     .nav-item {
       position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 3px; border-radius: 16px; color: var(--muted); font-size: 9px; font-weight: 700; cursor: pointer; transition: background 0.2s ease, color 0.2s ease;
+      gap: 3px; border-radius: 18px; color: var(--muted); font-size: 10px; font-weight: 700; cursor: pointer; transition: background 0.2s ease, color 0.2s ease;
     }
-    .nav-item.active { background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.28), rgba(var(--accent-rgb), 0.1)); border: 1px solid rgba(var(--accent-rgb), 0.4); color: var(--accent-light); }
-    .nav-icon { font-size: 16px; }
-    .nav-badge { position: absolute; top: 6px; right: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: none; box-shadow: 0 0 8px var(--green); }
+    .nav-item.active { background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.28), rgba(var(--accent-rgb), 0.1)); border: 1px solid rgba(var(--accent-rgb), 0.42); color: var(--accent-light); }
+    .nav-icon { font-size: 18px; }
+    .nav-badge { position: absolute; top: 7px; right: 14px; width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: none; box-shadow: 0 0 8px var(--green); }
     .nav-badge.show { display: block; }
 
+    /* КОЛЕСО ФОРТУНЫ */
+    .wheel-container {
+      position: relative;
+      width: 274px;
+      height: 274px;
+      margin: 8px auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 24px solid #fde047;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
+      z-index: 15;
+    }
+
+    .wheel-disc {
+      width: 266px;
+      height: 266px;
+      border-radius: 50%;
+      border: 6px solid rgba(255, 255, 255, 0.22);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), 0 0 35px rgba(var(--accent-rgb), 0.35);
+      position: relative;
+      overflow: hidden;
+      transition: transform 4.2s cubic-bezier(0.12, 0.85, 0.2, 1);
+    }
+
+    .wheel-center-cap {
+      position: absolute;
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, #fef08a, #d97706);
+      border: 3px solid #ffffff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      z-index: 10;
+    }
+
+    .wheel-seg-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 112px;
+      transform-origin: 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+      pointer-events: none;
+    }
+
     /* Модалки */
-    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.82); backdrop-filter: blur(10px); display: none; align-items: flex-end; justify-content: center; z-index: 150; animation: fadeIn 0.2s ease; }
+    .modal-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.84); backdrop-filter: blur(12px); display: none; align-items: flex-end; justify-content: center; z-index: 150; animation: fadeIn 0.2s ease; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .modal-backdrop.open { display: flex; }
-    .modal-sheet { width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; background: #0e121d; border-top: 1px solid rgba(var(--accent-rgb), 0.35); border-radius: 26px 26px 0 0; padding: 22px 18px 30px; box-shadow: 0 -10px 40px rgba(0,0,0,0.7); }
+    .modal-sheet { width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; background: #0d121d; border-top: 1px solid rgba(var(--accent-rgb), 0.4); border-radius: 28px 28px 0 0; padding: 22px 18px 30px; box-shadow: 0 -10px 45px rgba(0,0,0,0.75); }
 
     .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .modal-title { font-size: 19px; font-weight: 800; }
@@ -1103,9 +1240,20 @@
       </div>
     </div>
     <div class="top-actions">
-      <div class="claws-pill" onclick="openPrestigeModal()" title="Бонус Престижа">🦅 <span id="claws-count">0</span></div>
+      <div class="claws-pill" onclick="openPrestigeModal()" title="Золотые когти">🦅 <span id="claws-count">0</span></div>
       <div class="profit-pill">+<span id="passive-rate">0</span>/с</div>
-      <button class="daily-trigger" onclick="openDailyModal()"><span>🎁</span><span class="daily-dot" id="daily-dot"></span></button>
+      <button class="icon-pill-btn wheel-btn" onclick="openWheelModal()" title="Колесо Фортуны">
+        <span>🎡</span>
+        <span class="notif-dot" id="wheel-dot"></span>
+      </button>
+      <button class="icon-pill-btn friends-btn" onclick="openFriendsScreen()" title="Друзья">
+        <span>👥</span>
+        <span class="notif-dot" id="friends-dot"></span>
+      </button>
+      <button class="icon-pill-btn daily-btn" onclick="openDailyModal()" title="Ежедневная награда">
+        <span>🎁</span>
+        <span class="notif-dot" id="daily-dot"></span>
+      </button>
     </div>
   </div>
 
@@ -1142,7 +1290,10 @@
       </div>
     </div>
 
-    <div class="x2-active-banner" id="x2-active-banner">🔥 x2 КЛИКИ АКТИВНЫ • <span id="x2-banner-timer">15:00</span></div>
+    <div class="boost-banners-row">
+      <div class="x2-active-banner" id="x2-active-banner">🔥 x2 КЛИКИ • <span id="x2-banner-timer">15:00</span></div>
+      <div class="x2-active-banner x5-mode" id="x5-active-banner">🎡 ФОРТУНА x5 • <span id="x5-banner-timer">05:00</span></div>
+    </div>
 
     <div class="coin-stage" id="coin-stage">
       <div class="coin-aura" id="coin-aura"></div>
@@ -1204,7 +1355,7 @@
   <div class="screen" id="screen-wardrobe">
     <div class="section-top-bar">
       <div class="section-heading">🎨 Гардероб</div>
-      <div class="timer-badge" id="wardrobe-unlocked-count">Открыто: 1/5</div>
+      <div class="timer-badge" id="wardrobe-unlocked-count">Лапки: 1/10</div>
     </div>
 
     <div class="wardrobe-subtitle">🐾 Форма лапки на монете</div>
@@ -1214,7 +1365,24 @@
     <div class="themes-grid" id="coin-themes-grid"></div>
   </div>
 
-  <!-- ЭКРАН 4: РЕФЕРАЛЬНАЯ СИСТЕМА (ДРУЗЬЯ) -->
+  <!-- ЭКРАН 4: ЗАДАНИЯ -->
+  <div class="screen" id="screen-quests">
+    <div class="section-top-bar"><div class="section-heading">🎯 Задания (по уровню)</div><div class="timer-badge" id="quests-timer">⏳ 30:00</div></div>
+    <div class="card-list" id="quests-list"></div>
+  </div>
+
+  <!-- ЭКРАН 5: ЛИДЕРЫ -->
+  <div class="screen" id="screen-leaders">
+    <div class="section-top-bar"><div class="section-heading">🏆 Топ игроков</div><button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button></div>
+    <div class="lb-tabs">
+      <button class="lb-tab-btn active" id="lb-tab-time" onclick="setLeaderboardMode('time')">⏱ Время</button>
+      <button class="lb-tab-btn" id="lb-tab-coins" onclick="setLeaderboardMode('coins')">🐾 Монеты</button>
+      <button class="lb-tab-btn" id="lb-tab-taps" onclick="setLeaderboardMode('taps')">👆 Тапы</button>
+    </div>
+    <div class="card-list" id="leaderboard-list"></div>
+  </div>
+
+  <!-- ЭКРАН 6: ДРУЗЬЯ И РЕФЕРАЛЫ (ОТКРЫВАЕТСЯ ИЗ ВЕРХНЕЙ ПАНЕЛИ) -->
   <div class="screen" id="screen-friends">
     <div class="section-top-bar">
       <div class="section-heading">👥 Друзья и бонусы</div>
@@ -1244,7 +1412,6 @@
       </div>
     </div>
 
-    <!-- Ввод кода пригласившего (если еще не привязан) -->
     <div class="ref-code-box" id="ref-redeem-box">
       <div style="font-size:12px;font-weight:700;color:var(--accent-light);margin-bottom:6px;">
         🔑 Вас пригласил друг? Введите его код (ID):
@@ -1259,31 +1426,34 @@
     <div class="card-list" id="referrals-list"></div>
   </div>
 
-  <!-- ЭКРАН 5: ЗАДАНИЯ -->
-  <div class="screen" id="screen-quests">
-    <div class="section-top-bar"><div class="section-heading">🎯 Задания (по уровню)</div><div class="timer-badge" id="quests-timer">⏳ 30:00</div></div>
-    <div class="card-list" id="quests-list"></div>
-  </div>
-
-  <!-- ЭКРАН 6: ЛИДЕРЫ -->
-  <div class="screen" id="screen-leaders">
-    <div class="section-top-bar"><div class="section-heading">🏆 Топ игроков</div><button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button></div>
-    <div class="lb-tabs">
-      <button class="lb-tab-btn active" id="lb-tab-time" onclick="setLeaderboardMode('time')">⏱ Время</button>
-      <button class="lb-tab-btn" id="lb-tab-coins" onclick="setLeaderboardMode('coins')">🐾 Монеты</button>
-      <button class="lb-tab-btn" id="lb-tab-taps" onclick="setLeaderboardMode('taps')">👆 Тапы</button>
-    </div>
-    <div class="card-list" id="leaderboard-list"></div>
-  </div>
-
-  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+  <!-- НИЖНЯЯ НАВИГАЦИЯ (5 ВКЛАДОК) -->
   <div class="navbar">
-    <div class="nav-item active" onclick="switchTab('game', this)"><div class="nav-icon">🐾</div><div>Майнинг</div></div>
-    <div class="nav-item" onclick="switchTab('boosts', this)"><div class="nav-icon">🚀</div><div>Бусты</div></div>
-    <div class="nav-item" onclick="switchTab('wardrobe', this)"><div class="nav-icon">🎨</div><div>Скины</div></div>
-    <div class="nav-item" onclick="switchTab('friends', this)"><span class="nav-badge" id="friends-badge"></span><div class="nav-icon">👥</div><div>Друзья</div></div>
-    <div class="nav-item" onclick="switchTab('quests', this)"><span class="nav-badge" id="quests-badge"></span><div class="nav-icon">🎯</div><div>Задания</div></div>
-    <div class="nav-item" onclick="switchTab('leaders', this)"><div class="nav-icon">🏆</div><div>Лидеры</div></div>
+    <div class="nav-item active" id="nav-game" onclick="switchTab('game', this)"><div class="nav-icon">🐾</div><div>Майнинг</div></div>
+    <div class="nav-item" id="nav-boosts" onclick="switchTab('boosts', this)"><div class="nav-icon">🚀</div><div>Бусты</div></div>
+    <div class="nav-item" id="nav-wardrobe" onclick="switchTab('wardrobe', this)"><div class="nav-icon">🎨</div><div>Скины</div></div>
+    <div class="nav-item" id="nav-quests" onclick="switchTab('quests', this)"><span class="nav-badge" id="quests-badge"></span><div class="nav-icon">🎯</div><div>Задания</div></div>
+    <div class="nav-item" id="nav-leaders" onclick="switchTab('leaders', this)"><div class="nav-icon">🏆</div><div>Лидеры</div></div>
+  </div>
+
+  <!-- МОДАЛКА КОЛЕСА ФОРТУНЫ -->
+  <div class="modal-backdrop" id="wheel-modal" onclick="closeWheelModal(event)">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-top">
+        <div class="modal-title">🎡 Колесо Фортуны</div>
+        <button class="close-modal" onclick="closeWheelModal()">✕</button>
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:6px;" id="wheel-subtitle">
+        Бесплатное вращение раз в 6 часов или за монеты!
+      </div>
+
+      <div class="wheel-container">
+        <div class="wheel-pointer"></div>
+        <div class="wheel-disc" id="wheel-disc"></div>
+        <div class="wheel-center-cap">🐾</div>
+      </div>
+
+      <button class="claim-daily-btn" id="wheel-spin-btn" onclick="spinFortuneWheel()">Крутить бесплатно!</button>
+    </div>
   </div>
 
   <!-- МОДАЛКА ПОДТВЕРЖДЕНИЯ ПРЕСТИЖА -->
@@ -1305,7 +1475,7 @@
         </div>
       </div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.45;">
-        ⚠️ Ваш баланс монет и уровни бустов (Сила лапки, Питомник, Удачливая лапка) обнулятся, но <b>Золотые когти, скины, друзья и время в игре</b> сохранятся навсегда!
+        ⚠️ Ваш баланс монет и уровни бустов (Сила лапки, Питомник, Удачливая лапка) обнулятся, но <b>Золотые когти, купленные скины, друзья и время в игре</b> сохранятся навсегда!
       </div>
       <button class="claim-daily-btn" id="confirm-prestige-btn" onclick="executePrestige()">Совершить перерождение</button>
     </div>
@@ -1351,12 +1521,14 @@
 
   <script>
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
-    const BOT_USERNAME = ""; // При желании укажите username вашего бота без @, например "PawTapBot"
+    const BOT_USERNAME = "";
     const ADMIN_PASSWORD = "qiqh91863hsh7651s";
     const MAX_OFFLINE_SEC = 8 * 3600;
     const QUEST_CYCLE_MS = 30 * 60 * 1000;
     const X2_BOOST_COST = 80000;
     const X2_BOOST_DURATION_MS = 15 * 60 * 1000;
+    const X5_BOOST_DURATION_MS = 5 * 60 * 1000;
+    const WHEEL_FREE_CD_MS = 6 * 3600 * 1000;
     const PRESTIGE_MIN_BALANCE = 50000;
     const REF_INVITEE_BONUS = 10000;
     const REF_INVITER_BONUS = 25000;
@@ -1398,8 +1570,8 @@
     if (tg) {
       tg.ready();
       tg.expand();
-      tg.setHeaderColor("#04060a");
-      tg.setBackgroundColor("#04060a");
+      tg.setHeaderColor("#030509");
+      tg.setBackgroundColor("#030509");
       const user = tg.initDataUnsafe?.user;
       if (user) {
         userId = String(user.id);
@@ -1424,6 +1596,9 @@
       levels: { tap: 1, bot: 0, crit: 0 },
       costs: { tap: BASE_TAP_COST, bot: BASE_BOT_COST, crit: BASE_CRIT_COST },
       x2EndsAt: 0,
+      x5EndsAt: 0,
+      lastFreeWheelAt: 0,
+      wheelPaidSpins: 0,
       questCycleStart: Date.now(),
       cycleTaps: 0,
       cycleEarned: 0,
@@ -1438,6 +1613,8 @@
       prestigeCount: 0,
       activePawSkin: "classic",
       activeCoinTheme: "auto",
+      unlockedSkins: ["classic"],
+      unlockedThemes: ["auto", "wood"],
       invitedBy: "",
       referralsCount: 0
     };
@@ -1452,6 +1629,9 @@
     let state = Object.assign({}, defaultState, parsedSave);
     state.levels = Object.assign({ tap: 1, bot: 0, crit: 0 }, parsedSave.levels || {});
     state.x2EndsAt = state.x2EndsAt || 0;
+    state.x5EndsAt = state.x5EndsAt || 0;
+    state.lastFreeWheelAt = state.lastFreeWheelAt || 0;
+    state.wheelPaidSpins = state.wheelPaidSpins || 0;
     state.claimedQuests = state.claimedQuests || {};
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.totalTaps = state.totalTaps || parsedSave.cycleTaps || 0;
@@ -1462,12 +1642,14 @@
     state.maxBalanceEver = Math.max(state.maxBalanceEver || 0, state.balance || 0);
     state.activePawSkin = state.activePawSkin || "classic";
     state.activeCoinTheme = state.activeCoinTheme || "auto";
+    state.unlockedSkins = Array.isArray(state.unlockedSkins) ? state.unlockedSkins : ["classic"];
+    state.unlockedThemes = Array.isArray(state.unlockedThemes) ? state.unlockedThemes : ["auto", "wood"];
     state.invitedBy = state.invitedBy || "";
     state.referralsCount = state.referralsCount || 0;
 
     function getReferralMultiplier() {
       const count = Math.min(20, Math.max(0, state.referralsCount || 0));
-      return 1 + count * 0.05; // +5% за каждого друга (до +100%)
+      return 1 + count * 0.05;
     }
 
     function getPrestigeMultiplier() {
@@ -1507,6 +1689,7 @@
     }
 
     function isX2Active() { return (state.x2EndsAt || 0) > Date.now(); }
+    function isX5Active() { return (state.x5EndsAt || 0) > Date.now(); }
 
     function saveState() {
       state.lastSeen = Date.now();
@@ -1543,8 +1726,189 @@
       }).catch(() => {});
     }
 
+    function formatCompactNum(n) {
+      if (n >= 1e9) return (n / 1e9).toFixed(n % 1e9 === 0 ? 0 : 1) + " млрд";
+      if (n >= 1e6) return (n / 1e6).toFixed(n % 1e6 === 0 ? 0 : 1) + " млн";
+      if (n >= 1e3) return (n / 1e3).toFixed(0) + " тыс";
+      return String(n);
+    }
+
+    /* --- КОЛЕСО ФОРТУНЫ --- */
+    const WHEEL_SEGMENTS = [
+      { id: "coins_small", label: "💰 Куш x100", color: "#0284c7" },
+      { id: "claws_2", label: "🦅 +2 Когтя", color: "#d97706" },
+      { id: "x5_boost", label: "⚡ x5 на 5м", color: "#9333ea" },
+      { id: "piggy_full", label: "🐷 Копилка", color: "#059669" },
+      { id: "coins_mega", label: "💎 Куш x500", color: "#e11d48" },
+      { id: "claws_5", label: "🦅 +5 Когтей", color: "#b45309" },
+      { id: "phoenix_skin", label: "🔥 Скин Феникс", color: "#c026d3" },
+      { id: "coins_mid", label: "🐾 Куш x250", color: "#2563eb" }
+    ];
+
+    let wheelRotationDeg = 0;
+    let isWheelSpinning = false;
+
+    function isFreeWheelReady() {
+      return Date.now() - (state.lastFreeWheelAt || 0) >= WHEEL_FREE_CD_MS;
+    }
+
+    function getWheelSpinCost() {
+      const base = Math.max(25000, getEffectiveTapPower() * 250 + getEffectivePassiveIncome() * 120);
+      return Math.round(base * Math.pow(1.35, Math.min(12, state.wheelPaidSpins || 0)));
+    }
+
+    function buildWheelVisual() {
+      const disc = document.getElementById("wheel-disc");
+      if (!disc || disc.dataset.built === "1") return;
+      disc.dataset.built = "1";
+
+      const segCount = WHEEL_SEGMENTS.length;
+      const degPerSeg = 360 / segCount;
+      const gradParts = WHEEL_SEGMENTS.map((s, i) => {
+        const start = i * degPerSeg;
+        const end = (i + 1) * degPerSeg;
+        return `${s.color} ${start}deg ${end}deg`;
+      });
+      disc.style.background = `conic-gradient(${gradParts.join(", ")})`;
+
+      disc.innerHTML = WHEEL_SEGMENTS.map((s, i) => {
+        const angle = i * degPerSeg + degPerSeg / 2 - 90;
+        return `<div class="wheel-seg-label" style="transform: rotate(${angle}deg);">${s.label}</div>`;
+      }).join("");
+    }
+
+    function updateWheelUI() {
+      const freeReady = isFreeWheelReady();
+      document.getElementById("wheel-dot").classList.toggle("show", freeReady);
+
+      const btn = document.getElementById("wheel-spin-btn");
+      const sub = document.getElementById("wheel-subtitle");
+      if (!btn || isWheelSpinning) return;
+
+      if (freeReady) {
+        btn.disabled = false;
+        btn.textContent = "🎡 Крутить БЕСПЛАТНО!";
+        sub.textContent = "Доступно бесплатное вращение!";
+      } else {
+        const remMs = WHEEL_FREE_CD_MS - (Date.now() - (state.lastFreeWheelAt || 0));
+        const hrs = Math.floor(remMs / 3600000);
+        const mins = Math.floor((remMs % 3600000) / 60000);
+        const cost = getWheelSpinCost();
+        sub.textContent = `Бесплатно через ${hrs}ч ${mins}м • Или крути за монеты`;
+        btn.disabled = state.balance < cost;
+        btn.textContent = `Крутить за ${formatNum(cost)} 🐾`;
+      }
+    }
+
+    function openWheelModal() {
+      buildWheelVisual();
+      updateWheelUI();
+      document.getElementById("wheel-modal").classList.add("open");
+    }
+
+    function closeWheelModal(e) {
+      if (isWheelSpinning) return;
+      if (!e || e.target.id === "wheel-modal") {
+        document.getElementById("wheel-modal").classList.remove("open");
+      }
+    }
+
+    function spinFortuneWheel() {
+      if (isWheelSpinning) return;
+      const freeReady = isFreeWheelReady();
+      const cost = getWheelSpinCost();
+
+      if (!freeReady) {
+        if (state.balance < cost) return showToast("❌ Недостаточно монет");
+        state.balance -= cost;
+        state.wheelPaidSpins = (state.wheelPaidSpins || 0) + 1;
+      } else {
+        state.lastFreeWheelAt = Date.now();
+      }
+
+      isWheelSpinning = true;
+      const btn = document.getElementById("wheel-spin-btn");
+      btn.disabled = true;
+      btn.textContent = "🎲 Колесо крутится...";
+      updateUI();
+
+      const segCount = WHEEL_SEGMENTS.length;
+      const segDeg = 360 / segCount;
+      const winIdx = Math.floor(Math.random() * segCount);
+      const targetAngleInWheel = (360 - (winIdx * segDeg + segDeg / 2)) % 360;
+      const currentMod = wheelRotationDeg % 360;
+      const delta = (targetAngleInWheel - currentMod + 360) % 360;
+      wheelRotationDeg += 360 * 6 + delta;
+
+      const disc = document.getElementById("wheel-disc");
+      disc.style.transform = `rotate(${wheelRotationDeg}deg)`;
+      tg?.HapticFeedback?.impactOccurred("medium");
+
+      setTimeout(() => {
+        isWheelSpinning = false;
+        const prize = WHEEL_SEGMENTS[winIdx];
+        applyWheelPrize(prize);
+        updateWheelUI();
+        updateUI();
+        saveState();
+        syncCloudState(false);
+      }, 4300);
+    }
+
+    function applyWheelPrize(prize) {
+      const baseScale = Math.max(100, getEffectiveTapPower() * 15 + getEffectivePassiveIncome() * 8);
+      tg?.HapticFeedback?.notificationOccurred("success");
+
+      if (prize.id === "coins_small") {
+        const amt = Math.round(baseScale * 10);
+        state.balance += amt;
+        state.cycleEarned += amt;
+        showToast(`🎉 Выигрыш: +${formatNum(amt)} 🐾!`);
+      } else if (prize.id === "coins_mid") {
+        const amt = Math.round(baseScale * 25);
+        state.balance += amt;
+        state.cycleEarned += amt;
+        showToast(`🎉 Выигрыш: +${formatNum(amt)} 🐾!`);
+      } else if (prize.id === "coins_mega") {
+        const amt = Math.round(baseScale * 55);
+        state.balance += amt;
+        state.cycleEarned += amt;
+        showToast(`💎 ДЖЕКПОТ! +${formatNum(amt)} 🐾!`);
+      } else if (prize.id === "claws_2") {
+        state.goldenClaws = (state.goldenClaws || 0) + 2;
+        showToast("🦅 Выигрыш: +2 Золотых когтя!");
+      } else if (prize.id === "claws_5") {
+        state.goldenClaws = (state.goldenClaws || 0) + 5;
+        showToast("🦅 СУПЕРПРИЗ: +5 Золотых когтей!");
+      } else if (prize.id === "x5_boost") {
+        state.x5EndsAt = Math.max(Date.now(), state.x5EndsAt || 0) + X5_BOOST_DURATION_MS;
+        showToast("⚡ Активирован мега-буст x5 к кликам на 5 мин!");
+      } else if (prize.id === "piggy_full") {
+        state.piggyProgress = 100;
+        showToast("🐷 Копилка-Хранитель мгновенно заполнена на 100%!");
+      } else if (prize.id === "phoenix_skin") {
+        if (!state.unlockedSkins.includes("phoenix")) {
+          state.unlockedSkins.push("phoenix");
+          state.activePawSkin = "phoenix";
+          showToast("🔥 ЭКСКЛЮЗИВ! Открыта Лапа Феникса!");
+        } else {
+          const comp = Math.round(baseScale * 40);
+          state.balance += comp;
+          showToast(`🔥 Дубликат Феникса! Компенсация +${formatNum(comp)} 🐾`);
+        }
+      }
+    }
+
     /* --- РЕФЕРАЛЬНАЯ СИСТЕМА --- */
     let referralsCache = [];
+
+    function openFriendsScreen() {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
+      document.getElementById("screen-friends").classList.add("active");
+      tg?.HapticFeedback?.selectionChanged();
+      syncReferrals(false);
+    }
 
     function getMyReferralLink() {
       const code = `ref_${userId}`;
@@ -1705,7 +2069,7 @@
       if (redeemBox) redeemBox.style.display = state.invitedBy ? "none" : "block";
 
       const hasUnclaimed = referralsCache.some(r => !r.claimed);
-      document.getElementById("friends-badge").classList.toggle("show", hasUnclaimed);
+      document.getElementById("friends-dot").classList.toggle("show", hasUnclaimed);
 
       const listEl = document.getElementById("referrals-list");
       if (!referralsCache.length) {
@@ -1811,13 +2175,13 @@
       setTimeout(() => { t.style.display = "none"; }, 4200);
     }
 
-    /* --- СКИНЫ ЛАПОК (SVG) --- */
+    /* --- РАСШИРЕННЫЙ ГАРДЕРОБ: 10 ЛАПОК (ВКЛЮЧАЯ ПЛАТНЫЕ ОТ 10 МЛН ДО 10 МЛРД) --- */
     const PAW_SKINS = [
       {
         id: "classic",
         name: "Классическая лапка",
+        price: 0,
         reqText: "Базовый скин",
-        isUnlocked: () => true,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <ellipse cx="22" cy="36" rx="8.5" ry="12" transform="rotate(-18 22 36)" />
           <ellipse cx="40" cy="24" rx="8.5" ry="12.5" transform="rotate(-6 40 24)" />
@@ -1829,8 +2193,9 @@
       {
         id: "bear",
         name: "Медвежьи когти",
+        price: 0,
         reqText: "250 тапов",
-        isUnlocked: () => (state.totalTaps || 0) >= 250,
+        cond: () => (state.totalTaps || 0) >= 250,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <path d="M18 25 L23 11 L27 25 Z M36 16 L40 3 L44 16 Z M56 16 L60 3 L64 16 Z M73 25 L77 11 L82 25 Z" />
           <ellipse cx="22" cy="37" rx="7.5" ry="10.5" transform="rotate(-15 22 37)" />
@@ -1841,10 +2206,37 @@
         </svg>`
       },
       {
+        id: "dragon",
+        name: "Лапа Дракона",
+        price: 0,
+        reqText: "1 Перерождение 🦅",
+        cond: () => (state.goldenClaws || 0) >= 1,
+        svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 42 Q12 22 25 14 Q24 28 31 38 Z" />
+          <path d="M36 32 Q37 12 50 8 Q52 22 48 32 Z" />
+          <path d="M54 32 Q58 14 72 12 Q66 26 62 35 Z" />
+          <path d="M70 44 Q82 28 88 32 Q80 44 73 50 Z" />
+          <path d="M26 62 L38 42 L62 42 L74 62 L60 84 L50 76 L40 84 Z" />
+        </svg>`
+      },
+      {
+        id: "phoenix",
+        name: "Лапа Феникса",
+        price: 0,
+        wheelOnly: true,
+        reqText: "🎡 Колесо Фортуны",
+        svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 40 C12 24, 22 12, 28 24 C30 28, 28 36, 25 41 Z" />
+          <path d="M38 30 C34 12, 46 6, 48 20 C49 25, 45 30, 42 33 Z" />
+          <path d="M58 33 C55 30, 51 25, 52 20 C54 6, 66 12, 62 30 Z" />
+          <path d="M75 41 C72 36, 70 28, 72 24 C78 12, 88 24, 80 40 Z" />
+          <path d="M28 64 C28 48, 42 42, 50 42 C58 42, 72 48, 72 64 C72 76, 58 84, 50 88 C42 84, 28 76, 28 64 Z" />
+        </svg>`
+      },
+      {
         id: "cyber",
-        name: "Кибер-лапка",
-        reqText: "25 000 🐾 рекорда",
-        isUnlocked: () => (state.maxBalanceEver || 0) >= 25000,
+        name: "Кибер-лапа",
+        price: 10000000, // 10 млн
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <polygon points="15,32 25,22 32,34 22,44" />
           <polygon points="34,20 44,12 48,26 38,32" />
@@ -1855,35 +2247,72 @@
         </svg>`
       },
       {
-        id: "dragon",
-        name: "Лапа Дракона",
-        reqText: "1 Перерождение 🦅",
-        isUnlocked: () => (state.goldenClaws || 0) >= 1,
+        id: "crystal",
+        name: "Кристальная лапа",
+        price: 50000000, // 50 млн
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16 42 Q12 22 25 14 Q24 28 31 38 Z" />
-          <path d="M36 32 Q37 12 50 8 Q52 22 48 32 Z" />
-          <path d="M54 32 Q58 14 72 12 Q66 26 62 35 Z" />
-          <path d="M70 44 Q82 28 88 32 Q80 44 73 50 Z" />
-          <path d="M26 62 L38 42 L62 42 L74 62 L60 84 L50 76 L40 84 Z" />
+          <polygon points="22,22 29,34 22,46 15,34" />
+          <polygon points="40,10 47,23 40,36 33,23" />
+          <polygon points="60,10 67,23 60,36 53,23" />
+          <polygon points="78,22 85,34 78,46 71,34" />
+          <polygon points="50,42 74,58 64,82 36,82 26,58" />
+        </svg>`
+      },
+      {
+        id: "lightning",
+        name: "Грозовая лапа",
+        price: 250000000, // 250 млн
+        svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="24,18 16,34 23,34 19,46 31,30 24,30" />
+          <polygon points="42,8 34,24 41,24 37,36 49,20 42,20" />
+          <polygon points="62,8 54,24 61,24 57,36 69,20 62,20" />
+          <polygon points="80,18 72,34 79,34 75,46 87,30 80,30" />
+          <path d="M27 64 C27 50, 39 43, 50 43 C61 43, 73 50, 73 64 C73 75, 62 82, 50 82 C38 82, 27 75, 27 64 Z" />
+          <polygon points="52,50 43,64 50,64 47,76 58,61 51,61" fill="rgba(0,0,0,0.45)" />
+        </svg>`
+      },
+      {
+        id: "starlight",
+        name: "Звёздная лапа",
+        price: 1000000000, // 1 млрд
+        svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="22,22 25,30 33,30 26,35 29,43 22,38 15,43 18,35 11,30 19,30" />
+          <polygon points="40,10 43,18 51,18 44,23 47,31 40,26 33,31 36,23 29,18 37,18" />
+          <polygon points="60,10 63,18 71,18 64,23 67,31 60,26 53,31 56,23 49,18 57,18" />
+          <polygon points="78,22 81,30 89,30 82,35 85,43 78,38 71,43 74,35 67,30 75,30" />
+          <path d="M26 66 C26 52, 38 45, 50 45 C62 45, 74 52, 74 66 C74 75, 65 81, 50 81 C35 81, 26 75, 26 66 Z" />
         </svg>`
       },
       {
         id: "royal",
-        name: "Королевская лапа",
-        reqText: "5 Золотых когтей 🦅",
-        isUnlocked: () => (state.goldenClaws || 0) >= 5,
+        name: "Императорская лапа",
+        price: 4000000000, // 4 млрд
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 16 L38 6 L50 14 L62 6 L68 16 Z" />
+          <path d="M30 16 L37 5 L50 14 L63 5 L70 16 Z" />
           <ellipse cx="22" cy="39" rx="8" ry="11" transform="rotate(-18 22 39)" />
           <ellipse cx="40" cy="28" rx="8" ry="11.5" transform="rotate(-6 40 28)" />
           <ellipse cx="60" cy="28" rx="8" ry="11.5" transform="rotate(6 60 28)" />
           <ellipse cx="78" cy="39" rx="8" ry="11" transform="rotate(18 78 39)" />
           <path d="M26 67 C26 53, 38 45, 50 45 C62 45, 74 53, 74 67 C74 76, 66 82, 58 82 C54 82, 52 79.5, 50 79.5 C48 79.5, 46 82, 42 82 C34 82, 26 76, 26 67 Z" />
         </svg>`
+      },
+      {
+        id: "omega",
+        name: "Лапа Создателя Ω",
+        price: 10000000000, // 10 млрд
+        svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="3" />
+          <ellipse cx="23" cy="37" rx="7.5" ry="11" transform="rotate(-18 23 37)" />
+          <ellipse cx="40" cy="25" rx="7.5" ry="11.5" transform="rotate(-6 40 25)" />
+          <ellipse cx="60" cy="25" rx="7.5" ry="11.5" transform="rotate(6 60 25)" />
+          <ellipse cx="77" cy="37" rx="7.5" ry="11" transform="rotate(18 77 37)" />
+          <path d="M28 65 C28 52, 39 45, 50 45 C61 45, 72 52, 72 65 C72 74, 64 79, 50 79 C36 79, 28 74, 28 65 Z" />
+          <circle cx="50" cy="62" r="6" fill="rgba(0,0,0,0.4)" />
+        </svg>`
       }
     ];
 
-    /* --- 22 ЛИГИ (ВКЛЮЧАЯ 7 НОВЫХ ЭЛИТНЫХ) --- */
+    /* --- 22 ЛИГИ --- */
     const LEAGUES = [
       { id: "wood", short: "Дерево", min: 0, max: 1000, name: "🪵 Деревянная лига", next: "Бронзы", theme: "theme-wood", color: "#d97706", light: "#f3c697", dark: "#92400e", rgb: "217, 119, 6", glow: "#2a1a0e", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)" },
       { id: "bronze", short: "Бронза", min: 1000, max: 5000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", light: "#fed7aa", dark: "#9a3412", rgb: "251, 146, 60", glow: "#2e190e", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
@@ -1900,7 +2329,6 @@
       { id: "titan", short: "Титан", min: 300000000, max: 600000000, name: "🦾 Лига Титанов", next: "Космоса", theme: "theme-master", color: "#f97316", light: "#fed7aa", dark: "#7c2d12", rgb: "249, 115, 22", glow: "#321206", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fed7aa, #7c2d12)" },
       { id: "cosmos", short: "Космос", min: 600000000, max: 1200000000, name: "🌌 Космическая лига", next: "Божества", theme: "theme-abyss", color: "#8b5cf6", light: "#ddd6fe", dark: "#4c1d95", rgb: "139, 92, 246", glow: "#2e1065", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #ddd6fe, #4c1d95)" },
       { id: "god", short: "Божество", min: 1200000000, max: 3500000000, name: "⚡👑 Лига Божеств", next: "Абсолюта", theme: "theme-legend", color: "#facc15", light: "#fef08a", dark: "#854d0e", rgb: "250, 204, 21", glow: "#422805", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #854d0e)" },
-      /* 7 НОВЫХ ЭЛИТНЫХ ЛИГ */
       { id: "absolute", short: "Абсолют", min: 3500000000, max: 10000000000, name: "☀️ Лига Абсолюта", next: "Сверхновой", theme: "theme-solar", color: "#fb923c", light: "#fef08a", dark: "#9a3412", rgb: "251, 146, 60", glow: "#3b1706", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #ea580c)" },
       { id: "supernova", short: "Сверхновая", min: 10000000000, max: 35000000000, name: "💥 Лига Сверхновой", next: "Хроноса", theme: "theme-nova", color: "#2dd4bf", light: "#99f6e4", dark: "#115e59", rgb: "45, 212, 191", glow: "#072e2b", contrast: "#042f2e", miniBg: "radial-gradient(circle at 30% 25%, #99f6e4, #0d9488)" },
       { id: "chronos", short: "Хронос", min: 35000000000, max: 120000000000, name: "⏳ Лига Хроноса", next: "Галактики", theme: "theme-gold", color: "#eab308", light: "#fef9c3", dark: "#713f12", rgb: "234, 179, 8", glow: "#2c1e05", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fef9c3, #a16207)" },
@@ -1910,24 +2338,41 @@
       { id: "creator", short: "Создатель", min: 15000000000000, max: Infinity, name: "👁️‍🗨️ Лига Создателя", next: null, theme: "theme-creator", color: "#f472b6", light: "#fce7f3", dark: "#831843", rgb: "244, 114, 182", glow: "#3b0724", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fde68a, #db2777)" }
     ];
 
+    /* --- 15 МАТЕРИАЛОВ МОНЕТЫ (ВКЛЮЧАЯ ПЛАТНЫЕ ОТ 10 МЛН ДО 10 МЛРД) --- */
     const SELECTABLE_THEMES = [
-      { id: "auto", name: "Авто (Лига)", swatch: "conic-gradient(from 0deg, #d97706, #fbbf24, #10b981, #38bdf8, #c026d3, #d97706)", reqScore: 0 },
-      { id: "wood", name: "Дерево", swatch: "radial-gradient(circle, #f6d198, #854d27)", reqScore: 0 },
-      { id: "bronze", name: "Бронза", swatch: "radial-gradient(circle, #fed7aa, #c2410c)", reqScore: 1000 },
-      { id: "silver", name: "Серебро", swatch: "radial-gradient(circle, #ffffff, #64748b)", reqScore: 5000 },
-      { id: "gold", name: "Золото", swatch: "radial-gradient(circle, #fef9c3, #eab308)", reqScore: 25000 },
-      { id: "platinum", name: "Платина", swatch: "radial-gradient(circle, #e0f2fe, #0284c7)", reqScore: 100000 },
-      { id: "emerald", name: "Изумруд", swatch: "radial-gradient(circle, #a7f3d0, #059669)", reqScore: 300000 },
-      { id: "ruby", name: "Рубин", swatch: "radial-gradient(circle, #fecdd3, #e11d48)", reqScore: 1000000 },
-      { id: "diamond", name: "Алмаз", swatch: "radial-gradient(circle, #cffafe, #06b6d4)", reqScore: 3000000 },
-      { id: "sapphire", name: "Бездна", swatch: "radial-gradient(circle, #c7d2fe, #312e81)", reqScore: 10000000 },
-      { id: "titan", name: "Магма", swatch: "radial-gradient(circle, #fed7aa, #ea580c)", reqScore: 300000000 },
-      { id: "amethyst", name: "Неон", swatch: "radial-gradient(circle, #f5d0fe, #c026d3)", reqScore: 30000000 },
-      { id: "absolute", name: "Солнце", swatch: "radial-gradient(circle, #fef08a, #f97316)", reqScore: 3500000000 },
-      { id: "supernova", name: "Сверхновая", swatch: "radial-gradient(circle, #99f6e4, #0d9488)", reqScore: 10000000000 },
-      { id: "eternity", name: "Пустота", swatch: "radial-gradient(circle, #f1f5f9, #0f172a)", reqScore: 2500000000000 },
-      { id: "creator", name: "Создатель", swatch: "radial-gradient(circle, #fde68a, #ec4899)", reqScore: 15000000000000 }
+      { id: "auto", name: "Авто (Лига)", swatch: "conic-gradient(from 0deg, #d97706, #fbbf24, #10b981, #38bdf8, #c026d3, #d97706)", price: 0, free: true },
+      { id: "wood", name: "Дерево", swatch: "radial-gradient(circle, #f6d198, #854d27)", price: 0, free: true, style: { theme: "theme-wood", color: "#d97706", light: "#f3c697", dark: "#92400e", rgb: "217, 119, 6", glow: "#2a1a0e", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)" } },
+      { id: "bronze", name: "Бронза", swatch: "radial-gradient(circle, #fed7aa, #c2410c)", price: 0, reqScore: 1000, style: LEAGUES[1] },
+      { id: "silver", name: "Серебро", swatch: "radial-gradient(circle, #ffffff, #64748b)", price: 0, reqScore: 5000, style: LEAGUES[2] },
+      { id: "gold", name: "Золото", swatch: "radial-gradient(circle, #fef9c3, #eab308)", price: 0, reqScore: 25000, style: LEAGUES[3] },
+      { id: "platinum", name: "Платина", swatch: "radial-gradient(circle, #e0f2fe, #0284c7)", price: 0, reqScore: 100000, style: LEAGUES[4] },
+      { id: "emerald", name: "Изумруд", swatch: "radial-gradient(circle, #a7f3d0, #059669)", price: 0, reqScore: 300000, style: LEAGUES[5] },
+      { id: "ruby", name: "Рубин", swatch: "radial-gradient(circle, #fecdd3, #e11d48)", price: 0, reqScore: 1000000, style: LEAGUES[6] },
+      { id: "diamond", name: "Алмаз", swatch: "radial-gradient(circle, #cffafe, #06b6d4)", price: 0, reqScore: 3000000, style: LEAGUES[7] },
+      { id: "cyberpunk", name: "Киберпанк", swatch: "radial-gradient(circle, #fef08a, #ec4899, #06b6d4)", price: 10000000, style: { theme: "theme-cyberpunk", color: "#22d3ee", light: "#fef08a", dark: "#be185d", rgb: "236, 72, 153", glow: "#2e0826", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #ec4899)" } },
+      { id: "solar", name: "Солнце", swatch: "radial-gradient(circle, #fef08a, #f97316)", price: 75000000, style: LEAGUES[15] },
+      { id: "nova", name: "Сверхновая", swatch: "radial-gradient(circle, #99f6e4, #0d9488)", price: 350000000, style: LEAGUES[16] },
+      { id: "eclipse", name: "Затмение", swatch: "radial-gradient(circle, #fed7aa, #1e1b4b, #f97316)", price: 1500000000, style: { theme: "theme-eclipse", color: "#fb923c", light: "#fed7aa", dark: "#1e1b4b", rgb: "251, 146, 60", glow: "#1e102e", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fed7aa, #312e81)" } },
+      { id: "void", name: "Пустота", swatch: "radial-gradient(circle, #f1f5f9, #0f172a)", price: 5000000000, style: LEAGUES[20] },
+      { id: "singularity", name: "Сингулярность", swatch: "radial-gradient(circle, #ffffff, #38bdf8, #4f46e5)", price: 10000000000, style: { theme: "theme-singularity", color: "#38bdf8", light: "#e0f2fe", dark: "#312e81", rgb: "56, 189, 248", glow: "#0a1936", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #ffffff, #4f46e5)" } }
     ];
+
+    function isPawSkinUnlocked(skin) {
+      if (skin.id === "classic") return true;
+      if (state.unlockedSkins.includes(skin.id)) return true;
+      if (skin.cond && skin.cond()) return true;
+      return false;
+    }
+
+    function isCoinThemeUnlocked(th) {
+      if (th.free || th.id === "auto") return true;
+      if (state.unlockedThemes.includes(th.id)) return true;
+      if (th.price === 0 && typeof th.reqScore === "number") {
+        const recordScore = Math.max(state.maxBalanceEver || 0, state.balance || 0);
+        if (recordScore >= th.reqScore || (state.goldenClaws || 0) > 0) return true;
+      }
+      return false;
+    }
 
     function getCurrentLeague(score) {
       for (let i = LEAGUES.length - 1; i >= 0; i--) if (score >= LEAGUES[i].min) return LEAGUES[i];
@@ -1935,7 +2380,7 @@
     }
 
     function buildPawPatternUrl(hexColor) {
-      return `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='${encodeURIComponent(hexColor)}' fill-opacity='0.1'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
+      return `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='${encodeURIComponent(hexColor)}' fill-opacity='0.09'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
     }
 
     let lastAppliedVisualKey = "", currentLeagueIndex = -1;
@@ -1959,64 +2404,85 @@
         document.getElementById("next-league-text").textContent = "Макс. лига";
       }
 
-      let visualLg = progressLg;
+      let visualStyle = progressLg;
+      let visualId = progressLg.id;
       if (state.activeCoinTheme && state.activeCoinTheme !== "auto") {
-        const customLg = LEAGUES.find(x => x.id === state.activeCoinTheme);
-        if (customLg) visualLg = customLg;
+        const customTh = SELECTABLE_THEMES.find(x => x.id === state.activeCoinTheme);
+        if (customTh && customTh.style) {
+          visualStyle = customTh.style;
+          visualId = customTh.id;
+        }
       }
 
       const skinObj = PAW_SKINS.find(s => s.id === state.activePawSkin) || PAW_SKINS[0];
-      const visualKey = `${visualLg.id}_${skinObj.id}`;
+      const visualKey = `${visualId}_${skinObj.id}`;
 
       if (lastAppliedVisualKey !== visualKey) {
         lastAppliedVisualKey = visualKey;
         const root = document.documentElement;
-        root.style.setProperty("--accent", visualLg.color);
-        root.style.setProperty("--accent-light", visualLg.light);
-        root.style.setProperty("--accent-dark", visualLg.dark);
-        root.style.setProperty("--accent-rgb", visualLg.rgb);
-        root.style.setProperty("--accent-contrast", visualLg.contrast);
-        root.style.setProperty("--bg-glow", visualLg.glow);
-        root.style.setProperty("--paw-bg-svg", buildPawPatternUrl(visualLg.color));
+        root.style.setProperty("--accent", visualStyle.color);
+        root.style.setProperty("--accent-light", visualStyle.light);
+        root.style.setProperty("--accent-dark", visualStyle.dark);
+        root.style.setProperty("--accent-rgb", visualStyle.rgb);
+        root.style.setProperty("--accent-contrast", visualStyle.contrast);
+        root.style.setProperty("--bg-glow", visualStyle.glow);
+        root.style.setProperty("--paw-bg-svg", buildPawPatternUrl(visualStyle.color));
 
-        document.getElementById("coin").className = `coin-btn ${visualLg.theme}`;
-        document.getElementById("mini-coin").style.background = visualLg.miniBg;
+        document.getElementById("coin").className = `coin-btn ${visualStyle.theme}`;
+        document.getElementById("mini-coin").style.background = visualStyle.miniBg;
         document.getElementById("coin-paw-container").innerHTML = skinObj.svg;
       }
     }
 
-    /* --- ГАРДЕРОБ (РЕНДЕР И ВЫБОР) --- */
+    /* --- ГАРДЕРОБ (РЕНДЕР И ПОКУПКА) --- */
     function renderWardrobe() {
       const pawGrid = document.getElementById("paw-skins-grid");
       const themeGrid = document.getElementById("coin-themes-grid");
       let unlockedCount = 0;
 
       pawGrid.innerHTML = PAW_SKINS.map(skin => {
-        const unlocked = skin.isUnlocked();
+        const unlocked = isPawSkinUnlocked(skin);
         if (unlocked) unlockedCount++;
         const selected = state.activePawSkin === skin.id;
+        const isPaid = !unlocked && skin.price > 0;
+        const canAfford = isPaid && state.balance >= skin.price;
+
+        let badgeText = "✓ Надет";
+        if (!selected) {
+          if (unlocked) badgeText = "Надеть";
+          else if (isPaid) badgeText = `${formatCompactNum(skin.price)} 🐾`;
+          else badgeText = `🔒 ${skin.reqText}`;
+        }
+
         return `
-          <div class="skin-card ${selected ? "selected" : ""} ${!unlocked ? "locked" : ""}" onclick="selectPawSkin('${skin.id}')">
+          <div class="skin-card ${selected ? "selected" : ""} ${!unlocked ? "locked" : ""} ${canAfford ? "can-buy" : ""}" onclick="selectPawSkin('${skin.id}')">
             <div class="skin-preview-circle">${skin.svg}</div>
             <div class="skin-name">${skin.name}</div>
-            <div class="skin-status">${selected ? "✓ Выбрано" : unlocked ? "Надеть" : `🔒 ${skin.reqText}`}</div>
+            <div class="skin-status">${badgeText}</div>
           </div>
         `;
       }).join("");
 
       document.getElementById("wardrobe-unlocked-count").textContent = `Лапки: ${unlockedCount}/${PAW_SKINS.length}`;
 
-      const recordScore = Math.max(state.maxBalanceEver || 0, state.balance || 0);
       themeGrid.innerHTML = SELECTABLE_THEMES.map(th => {
-        const unlocked = recordScore >= th.reqScore || (state.goldenClaws || 0) > 0;
+        const unlocked = isCoinThemeUnlocked(th);
         const selected = (state.activeCoinTheme || "auto") === th.id;
+        const isPaid = !unlocked && th.price > 0;
+        const canAfford = isPaid && state.balance >= th.price;
+
+        let badgeText = "✓ Активно";
+        if (!selected) {
+          if (unlocked) badgeText = "Выбрать";
+          else if (isPaid) badgeText = `${formatCompactNum(th.price)}`;
+          else badgeText = `🔒 ${formatCompactNum(th.reqScore)}`;
+        }
+
         return `
-          <div class="theme-chip-card ${selected ? "selected" : ""} ${!unlocked ? "locked" : ""}" onclick="selectCoinTheme('${th.id}')">
+          <div class="theme-chip-card ${selected ? "selected" : ""} ${!unlocked ? "locked" : ""} ${canAfford ? "can-buy" : ""}" onclick="selectCoinTheme('${th.id}')">
             <div class="theme-swatch" style="background:${th.swatch};"></div>
             <div class="theme-chip-name">${th.name}</div>
-            <div class="skin-status" style="font-size:10px;padding:2px 6px;">
-              ${selected ? "✓ Активно" : unlocked ? "Выбрать" : `🔒 ${formatNum(th.reqScore)}`}
-            </div>
+            <div class="skin-status" style="font-size:10px;padding:2px 7px;">${badgeText}</div>
           </div>
         `;
       }).join("");
@@ -2025,10 +2491,27 @@
     function selectPawSkin(skinId) {
       const skin = PAW_SKINS.find(s => s.id === skinId);
       if (!skin) return;
-      if (!skin.isUnlocked()) {
+
+      if (!isPawSkinUnlocked(skin)) {
+        if (skin.price > 0) {
+          if (state.balance < skin.price) {
+            tg?.HapticFeedback?.notificationOccurred("error");
+            return showToast(`❌ Нужно ${formatNum(skin.price)} 🐾`);
+          }
+          state.balance -= skin.price;
+          if (!state.unlockedSkins.includes(skin.id)) state.unlockedSkins.push(skin.id);
+          state.activePawSkin = skin.id;
+          tg?.HapticFeedback?.notificationOccurred("success");
+          showToast(`🎨 Куплен скин «${skin.name}»!`);
+          updateUI();
+          renderWardrobe();
+          syncCloudState(false);
+          return;
+        }
         tg?.HapticFeedback?.notificationOccurred("error");
         return showToast(`🔒 Условие: ${skin.reqText}`);
       }
+
       state.activePawSkin = skinId;
       tg?.HapticFeedback?.selectionChanged();
       updateCoinAppearance();
@@ -2039,12 +2522,27 @@
     function selectCoinTheme(themeId) {
       const th = SELECTABLE_THEMES.find(t => t.id === themeId);
       if (!th) return;
-      const recordScore = Math.max(state.maxBalanceEver || 0, state.balance || 0);
-      const unlocked = recordScore >= th.reqScore || (state.goldenClaws || 0) > 0;
-      if (!unlocked) {
+
+      if (!isCoinThemeUnlocked(th)) {
+        if (th.price > 0) {
+          if (state.balance < th.price) {
+            tg?.HapticFeedback?.notificationOccurred("error");
+            return showToast(`❌ Нужно ${formatNum(th.price)} 🐾`);
+          }
+          state.balance -= th.price;
+          if (!state.unlockedThemes.includes(th.id)) state.unlockedThemes.push(th.id);
+          state.activeCoinTheme = th.id;
+          tg?.HapticFeedback?.notificationOccurred("success");
+          showToast(`🪙 Куплен стиль «${th.name}»!`);
+          updateUI();
+          renderWardrobe();
+          syncCloudState(false);
+          return;
+        }
         tg?.HapticFeedback?.notificationOccurred("error");
         return showToast(`🔒 Достигните ${formatNum(th.reqScore)} 🐾`);
       }
+
       state.activeCoinTheme = themeId;
       tg?.HapticFeedback?.selectionChanged();
       updateCoinAppearance();
@@ -2344,7 +2842,7 @@
       document.getElementById("playtime-display").textContent = formatPlayTime(state.playTimeSeconds);
       document.getElementById("claws-count").textContent = formatNum(state.goldenClaws || 0);
 
-      // Престиж-карточка в Бустах
+      // Престиж-карточка
       document.getElementById("prestige-claws-total").textContent = formatNum(state.goldenClaws || 0);
       document.getElementById("prestige-mult-badge").textContent = `Доход x${totalMult.toFixed(2)}`;
       const pGain = calcPrestigeGain(state.balance);
@@ -2360,6 +2858,7 @@
       updateCoinAppearance();
       updatePiggyBank();
       document.getElementById("daily-dot").classList.toggle("show", canClaimDaily());
+      document.getElementById("wheel-dot").classList.toggle("show", isFreeWheelReady());
 
       const tapCost = calcTapCost(state.levels.tap);
       const botCost = calcBotCost(state.levels.bot);
@@ -2401,6 +2900,15 @@
         x2Card.classList.toggle("disabled", state.balance < X2_BOOST_COST);
         x2Banner.classList.remove("show");
       }
+
+      const x5Banner = document.getElementById("x5-active-banner");
+      if (isX5Active()) {
+        x5Banner.classList.add("show");
+        document.getElementById("x5-banner-timer").textContent = formatMMSS(state.x5EndsAt - Date.now());
+      } else {
+        x5Banner.classList.remove("show");
+      }
+
       renderQuests();
     }
 
@@ -2422,10 +2930,12 @@
 
       const comboMult = getComboMultiplier();
       const x2 = isX2Active();
+      const x5 = isX5Active();
+      const tempBoostMult = (x2 ? 2 : 1) * (x5 ? 5 : 1);
       const critChance = (state.levels.crit || 0) * 0.02;
       const isCrit = critChance > 0 && Math.random() < critChance;
 
-      let gain = Math.max(1, Math.round(getEffectiveTapPower() * (x2 ? 2 : 1) * comboMult * (isCrit ? 5 : 1)));
+      let gain = Math.max(1, Math.round(getEffectiveTapPower() * tempBoostMult * comboMult * (isCrit ? 5 : 1)));
       state.balance += gain;
       state.totalTaps++;
       state.cycleTaps++;
@@ -2435,7 +2945,7 @@
         tg?.HapticFeedback?.impactOccurred("heavy");
         spawnSparks(e.clientX, e.clientY, 9);
         spawnPlus(e.clientX, e.clientY, `+${formatNum(gain)} КРИТ! 💥`, "crit");
-      } else if (x2 || comboMult >= 2.0) {
+      } else if (x2 || x5 || comboMult >= 2.0) {
         tg?.HapticFeedback?.impactOccurred("medium");
         spawnSparks(e.clientX, e.clientY, 5);
         spawnPlus(e.clientX, e.clientY, `+${formatNum(gain)} 🔥`, "x2");
@@ -2499,10 +3009,9 @@
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
       document.getElementById(`screen-${tab}`).classList.add("active");
-      el.classList.add("active");
+      if (el) el.classList.add("active");
       tg?.HapticFeedback?.selectionChanged();
       if (tab === "wardrobe") renderWardrobe();
-      if (tab === "friends") syncReferrals(false);
       if (tab === "leaders") syncAndRenderLeaderboard(false);
     }
 
@@ -2650,7 +3159,7 @@
             </div>
             <div class="admin-quick-btns">
               <button class="admin-chip" onclick="adminDeltaBalance('${safeId}', 10000)">+10k</button>
-              <button class="admin-chip" onclick="adminDeltaBalance('${safeId}', 100000)">+100k</button>
+              <button class="admin-chip" onclick="adminDeltaBalance('${safeId}', 10000000)">+10M</button>
               <button class="admin-chip" onclick="adminDeltaBalance('${safeId}', -10000)">-10k</button>
               <button class="admin-chip" onclick="adminZeroBalance('${safeId}')">Сброс</button>
             </div>
@@ -2680,7 +3189,9 @@
       if (!document.hidden) { state.playTimeSeconds++; state.cyclePlayTime++; }
       const effPassive = getEffectivePassiveIncome();
       if (effPassive > 0) { state.balance += effPassive; state.cycleEarned += effPassive; }
-      updateUI(); saveState();
+      updateUI();
+      if (document.getElementById("wheel-modal").classList.contains("open")) updateWheelUI();
+      saveState();
     }, 1000);
 
     setInterval(() => {
