@@ -225,25 +225,28 @@
       font-weight: 700;
       color: var(--muted);
       margin-bottom: 4px;
+      gap: 6px;
     }
 
     .league-name {
       color: var(--accent-light);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
+      white-space: nowrap;
     }
 
     .balance-row {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      font-size: 38px;
+      gap: 10px;
+      font-size: 36px;
       font-weight: 900;
       letter-spacing: -1px;
       margin: 2px 0 8px;
       text-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+      transition: font-size 0.15s ease;
     }
 
     .mini-paw-coin {
@@ -566,6 +569,19 @@
     .coin-btn.theme-abyss { background: radial-gradient(circle at 30% 25%, #c7d2fe 0%, #6366f1 35%, #1e1b4b 75%, #020617 100%); border: 7px solid #818cf8; box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 75px rgba(99, 102, 241, 0.85), inset 0 4px 14px rgba(255,255,255,0.75); }
     .coin-btn.theme-abyss .paw-svg { fill: #eef2ff; }
 
+    /* Новые элитные темы монет */
+    .coin-btn.theme-solar { background: radial-gradient(circle at 30% 25%, #ffffff 0%, #fef08a 30%, #f97316 68%, #9a3412 100%); border: 7px solid #fde047; box-shadow: 0 20px 62px rgba(0,0,0,0.88), 0 0 80px rgba(251, 146, 60, 0.9), inset 0 4px 16px rgba(255,255,255,0.9); }
+    .coin-btn.theme-solar .paw-svg { fill: #fffbeb; }
+
+    .coin-btn.theme-nova { background: radial-gradient(circle at 30% 25%, #f0fdfa 0%, #5eead4 35%, #0d9488 68%, #134e4a 100%); border: 7px solid #2dd4bf; box-shadow: 0 20px 62px rgba(0,0,0,0.88), 0 0 80px rgba(45, 212, 191, 0.85), inset 0 4px 16px rgba(255,255,255,0.85); }
+    .coin-btn.theme-nova .paw-svg { fill: #f0fdfa; }
+
+    .coin-btn.theme-void { background: radial-gradient(circle at 30% 25%, #e2e8f0 0%, #475569 32%, #0f172a 72%, #000000 100%); border: 7px solid #94a3b8; box-shadow: 0 20px 65px rgba(0,0,0,0.95), 0 0 82px rgba(148, 163, 184, 0.8), inset 0 4px 16px rgba(255,255,255,0.75); }
+    .coin-btn.theme-void .paw-svg { fill: #f8fafc; }
+
+    .coin-btn.theme-creator { background: radial-gradient(circle at 30% 25%, #ffffff 0%, #fde68a 28%, #ec4899 64%, #3b0764 100%); border: 7px solid #f472b6; box-shadow: 0 20px 68px rgba(0,0,0,0.95), 0 0 90px rgba(244, 114, 182, 0.92), inset 0 4px 18px rgba(255,255,255,0.95); }
+    .coin-btn.theme-creator .paw-svg { fill: #ffffff; }
+
     /* ЛЕТАЮЩАЯ ЗОЛОТАЯ ЛАПКА */
     .golden-paw-bonus {
       position: fixed;
@@ -740,6 +756,84 @@
       cursor: default;
     }
 
+    /* РЕФЕРАЛЬНЫЙ БЛОК */
+    .ref-hero-card {
+      background: linear-gradient(145deg, rgba(16, 185, 129, 0.18), rgba(var(--accent-rgb), 0.14), rgba(14, 18, 28, 0.94));
+      border: 1px solid rgba(52, 211, 153, 0.42);
+      border-radius: 20px;
+      padding: 15px;
+      margin-bottom: 12px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.42);
+    }
+
+    .ref-stats-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .ref-stat-box {
+      background: rgba(6, 9, 16, 0.72);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .ref-stat-val {
+      font-size: 17px;
+      font-weight: 900;
+      color: #6ee7b7;
+    }
+
+    .ref-stat-lbl {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .ref-actions-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .ref-invite-btn {
+      flex: 1;
+      background: linear-gradient(135deg, #34d399, #059669);
+      color: #022c22;
+      border: none;
+      border-radius: 13px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35);
+      transition: transform 0.1s ease;
+    }
+    .ref-invite-btn:active { transform: scale(0.97); }
+
+    .ref-copy-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: var(--text);
+      border-radius: 13px;
+      padding: 12px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .ref-copy-btn:active { transform: scale(0.96); }
+
+    .ref-code-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+    }
+
     /* ГАРДЕРОБ И СКИНЫ */
     .wardrobe-subtitle {
       font-size: 13px;
@@ -900,20 +994,20 @@
     .lb-score.time-mode { color: #7dd3fc; }
     .lb-score.taps-mode { color: #34d399; }
 
-    /* Навигация (5 вкладок) */
+    /* Навигация (6 вкладок) */
     .navbar {
-      position: fixed; bottom: 14px; left: 12px; right: 12px; height: 66px;
+      position: fixed; bottom: 14px; left: 10px; right: 10px; height: 66px;
       background: rgba(12, 16, 26, 0.94); backdrop-filter: blur(24px);
       border: 1px solid rgba(var(--accent-rgb), 0.28); box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65);
-      border-radius: 24px; display: grid; grid-template-columns: repeat(5, 1fr); padding: 5px; z-index: 50;
+      border-radius: 24px; display: grid; grid-template-columns: repeat(6, 1fr); padding: 4px; z-index: 50;
     }
     .nav-item {
       position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 3px; border-radius: 18px; color: var(--muted); font-size: 9.5px; font-weight: 700; cursor: pointer; transition: background 0.2s ease, color 0.2s ease;
+      gap: 3px; border-radius: 16px; color: var(--muted); font-size: 9px; font-weight: 700; cursor: pointer; transition: background 0.2s ease, color 0.2s ease;
     }
     .nav-item.active { background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.28), rgba(var(--accent-rgb), 0.1)); border: 1px solid rgba(var(--accent-rgb), 0.4); color: var(--accent-light); }
-    .nav-icon { font-size: 17px; }
-    .nav-badge { position: absolute; top: 6px; right: 10px; width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: none; box-shadow: 0 0 8px var(--green); }
+    .nav-icon { font-size: 16px; }
+    .nav-badge { position: absolute; top: 6px; right: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--green); display: none; box-shadow: 0 0 8px var(--green); }
     .nav-badge.show { display: block; }
 
     /* Модалки */
@@ -1023,7 +1117,7 @@
         <span class="league-name" id="league-label">🪵 Деревянная лига</span>
         <span id="next-league-text">До Бронзы: 1 000</span>
       </div>
-      <div class="balance-row"><span class="mini-paw-coin" id="mini-coin">🐾</span><span id="balance">0</span></div>
+      <div class="balance-row" id="balance-row"><span class="mini-paw-coin" id="mini-coin">🐾</span><span id="balance">0</span></div>
       <div class="league-progress-bg"><div class="league-progress-fill" id="league-bar"></div></div>
 
       <!-- Копилка-Хранитель -->
@@ -1120,13 +1214,58 @@
     <div class="themes-grid" id="coin-themes-grid"></div>
   </div>
 
-  <!-- ЭКРАН 4: ЗАДАНИЯ -->
+  <!-- ЭКРАН 4: РЕФЕРАЛЬНАЯ СИСТЕМА (ДРУЗЬЯ) -->
+  <div class="screen" id="screen-friends">
+    <div class="section-top-bar">
+      <div class="section-heading">👥 Друзья и бонусы</div>
+      <button class="refresh-btn" onclick="syncReferrals(true)">↻ Проверить</button>
+    </div>
+
+    <div class="ref-hero-card">
+      <div style="font-size:15px;font-weight:800;color:#a7f3d0;">🎁 Приглашай друзей — усиливай доход!</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4;">
+        Друг получит <b>+10 000 🐾</b> на старт, а вы — <b>+25 000 🐾</b> за каждого друга и <b>+5%</b> к доходу навсегда!
+      </div>
+
+      <div class="ref-stats-row">
+        <div class="ref-stat-box">
+          <div class="ref-stat-val" id="ref-count-val">0</div>
+          <div class="ref-stat-lbl">Приглашено друзей</div>
+        </div>
+        <div class="ref-stat-box">
+          <div class="ref-stat-val" id="ref-bonus-val">+0%</div>
+          <div class="ref-stat-lbl">Постоянный бонус</div>
+        </div>
+      </div>
+
+      <div class="ref-actions-row">
+        <button class="ref-invite-btn" onclick="shareReferralInvite()">📲 Пригласить друга</button>
+        <button class="ref-copy-btn" onclick="copyReferralCode()">📋 Код</button>
+      </div>
+    </div>
+
+    <!-- Ввод кода пригласившего (если еще не привязан) -->
+    <div class="ref-code-box" id="ref-redeem-box">
+      <div style="font-size:12px;font-weight:700;color:var(--accent-light);margin-bottom:6px;">
+        🔑 Вас пригласил друг? Введите его код (ID):
+      </div>
+      <div style="display:flex;gap:8px;">
+        <input type="text" class="admin-input" id="ref-input-code" placeholder="Например: 123456789" style="padding:9px 12px;font-size:13px;" />
+        <button class="action-btn" onclick="applyManualReferralCode()">+10 000 🐾</button>
+      </div>
+    </div>
+
+    <div class="wardrobe-subtitle">📋 Ваши рефералы</div>
+    <div class="card-list" id="referrals-list"></div>
+  </div>
+
+  <!-- ЭКРАН 5: ЗАДАНИЯ -->
   <div class="screen" id="screen-quests">
     <div class="section-top-bar"><div class="section-heading">🎯 Задания (по уровню)</div><div class="timer-badge" id="quests-timer">⏳ 30:00</div></div>
     <div class="card-list" id="quests-list"></div>
   </div>
 
-  <!-- ЭКРАН 5: ЛИДЕРЫ -->
+  <!-- ЭКРАН 6: ЛИДЕРЫ -->
   <div class="screen" id="screen-leaders">
     <div class="section-top-bar"><div class="section-heading">🏆 Топ игроков</div><button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button></div>
     <div class="lb-tabs">
@@ -1141,7 +1280,8 @@
   <div class="navbar">
     <div class="nav-item active" onclick="switchTab('game', this)"><div class="nav-icon">🐾</div><div>Майнинг</div></div>
     <div class="nav-item" onclick="switchTab('boosts', this)"><div class="nav-icon">🚀</div><div>Бусты</div></div>
-    <div class="nav-item" onclick="switchTab('wardrobe', this)"><div class="nav-icon">🎨</div><div>Гардероб</div></div>
+    <div class="nav-item" onclick="switchTab('wardrobe', this)"><div class="nav-icon">🎨</div><div>Скины</div></div>
+    <div class="nav-item" onclick="switchTab('friends', this)"><span class="nav-badge" id="friends-badge"></span><div class="nav-icon">👥</div><div>Друзья</div></div>
     <div class="nav-item" onclick="switchTab('quests', this)"><span class="nav-badge" id="quests-badge"></span><div class="nav-icon">🎯</div><div>Задания</div></div>
     <div class="nav-item" onclick="switchTab('leaders', this)"><div class="nav-icon">🏆</div><div>Лидеры</div></div>
   </div>
@@ -1165,7 +1305,7 @@
         </div>
       </div>
       <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.45;">
-        ⚠️ Ваш баланс монет и уровни бустов (Сила лапки, Питомник, Удачливая лапка) обнулятся, но <b>Золотые когти, скины, достижения и время в игре</b> сохранятся навсегда!
+        ⚠️ Ваш баланс монет и уровни бустов (Сила лапки, Питомник, Удачливая лапка) обнулятся, но <b>Золотые когти, скины, друзья и время в игре</b> сохранятся навсегда!
       </div>
       <button class="claim-daily-btn" id="confirm-prestige-btn" onclick="executePrestige()">Совершить перерождение</button>
     </div>
@@ -1211,12 +1351,15 @@
 
   <script>
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
+    const BOT_USERNAME = ""; // При желании укажите username вашего бота без @, например "PawTapBot"
     const ADMIN_PASSWORD = "qiqh91863hsh7651s";
     const MAX_OFFLINE_SEC = 8 * 3600;
     const QUEST_CYCLE_MS = 30 * 60 * 1000;
     const X2_BOOST_COST = 80000;
     const X2_BOOST_DURATION_MS = 15 * 60 * 1000;
     const PRESTIGE_MIN_BALANCE = 50000;
+    const REF_INVITEE_BONUS = 10000;
+    const REF_INVITER_BONUS = 25000;
 
     const BASE_TAP_COST = 5;
     const TAP_COST_MULT = 1.22;
@@ -1294,7 +1437,9 @@
       goldenClaws: 0,
       prestigeCount: 0,
       activePawSkin: "classic",
-      activeCoinTheme: "auto"
+      activeCoinTheme: "auto",
+      invitedBy: "",
+      referralsCount: 0
     };
 
     const rawSave =
@@ -1317,9 +1462,20 @@
     state.maxBalanceEver = Math.max(state.maxBalanceEver || 0, state.balance || 0);
     state.activePawSkin = state.activePawSkin || "classic";
     state.activeCoinTheme = state.activeCoinTheme || "auto";
+    state.invitedBy = state.invitedBy || "";
+    state.referralsCount = state.referralsCount || 0;
+
+    function getReferralMultiplier() {
+      const count = Math.min(20, Math.max(0, state.referralsCount || 0));
+      return 1 + count * 0.05; // +5% за каждого друга (до +100%)
+    }
 
     function getPrestigeMultiplier() {
       return 1 + (state.goldenClaws || 0) * 0.25;
+    }
+
+    function getTotalIncomeMultiplier() {
+      return getPrestigeMultiplier() * getReferralMultiplier();
     }
 
     function calcPrestigeGain(bal) {
@@ -1343,11 +1499,11 @@
     normalizeBoostPricing();
 
     function getEffectiveTapPower() {
-      return Math.max(1, Math.round(state.tapPower * getPrestigeMultiplier()));
+      return Math.max(1, Math.round(state.tapPower * getTotalIncomeMultiplier()));
     }
 
     function getEffectivePassiveIncome() {
-      return Math.round(state.passiveIncome * getPrestigeMultiplier());
+      return Math.round(state.passiveIncome * getTotalIncomeMultiplier());
     }
 
     function isX2Active() { return (state.x2EndsAt || 0) > Date.now(); }
@@ -1376,6 +1532,7 @@
           tapPower: state.tapPower,
           passiveIncome: getEffectivePassiveIncome(),
           goldenClaws: state.goldenClaws || 0,
+          referralsCount: state.referralsCount || 0,
           levels: { tap: state.levels.tap, bot: state.levels.bot, crit: state.levels.crit },
           costs: { tap: state.costs.tap, bot: state.costs.bot, crit: state.costs.crit },
           x2EndsAt: state.x2EndsAt || 0,
@@ -1384,6 +1541,200 @@
           updatedAt: nowTs
         })
       }).catch(() => {});
+    }
+
+    /* --- РЕФЕРАЛЬНАЯ СИСТЕМА --- */
+    let referralsCache = [];
+
+    function getMyReferralLink() {
+      const code = `ref_${userId}`;
+      if (BOT_USERNAME) {
+        return `https://t.me/${BOT_USERNAME}?startapp=${encodeURIComponent(code)}`;
+      }
+      const cleanUrl = window.location.origin + window.location.pathname;
+      return `${cleanUrl}?ref=${encodeURIComponent(userId)}`;
+    }
+
+    async function bindReferrer(inviterId, silent = false) {
+      const cleanInviter = String(inviterId || "").replace(/^ref_/i, "").trim();
+      if (!cleanInviter || cleanInviter === String(userId)) {
+        if (!silent) showToast("❌ Нельзя использовать собственный код");
+        return false;
+      }
+      if (state.invitedBy) {
+        if (!silent) showToast("ℹ️ Вы уже активировали приглашение");
+        return false;
+      }
+
+      state.invitedBy = cleanInviter;
+      state.balance += REF_INVITEE_BONUS;
+      state.cycleEarned = (state.cycleEarned || 0) + REF_INVITEE_BONUS;
+      saveState();
+      updateUI();
+
+      if (FIREBASE_URL) {
+        try {
+          await fetch(`${FIREBASE_URL}/referrals/${cleanInviter}/${userId}.json`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              id: userId,
+              name: userName,
+              joinedAt: Date.now(),
+              claimed: false
+            })
+          });
+        } catch (e) {}
+      }
+
+      tg?.HapticFeedback?.notificationOccurred("success");
+      showToast(`🎁 Код друга активирован! +${formatNum(REF_INVITEE_BONUS)} 🐾`);
+      syncCloudState(false);
+      return true;
+    }
+
+    function checkIncomingReferral() {
+      if (state.invitedBy) return;
+      const startParam = tg?.initDataUnsafe?.start_param || "";
+      const urlRef = new URLSearchParams(window.location.search).get("ref") || "";
+      const rawRef = startParam.startsWith("ref_") ? startParam.slice(4) : urlRef;
+      if (rawRef && rawRef !== String(userId)) {
+        bindReferrer(rawRef, true);
+      }
+    }
+
+    function applyManualReferralCode() {
+      const input = document.getElementById("ref-input-code");
+      const val = (input?.value || "").trim();
+      if (!val) return showToast("Введите код пригласившего друга");
+      bindReferrer(val, false);
+    }
+
+    function shareReferralInvite() {
+      const link = getMyReferralLink();
+      const text = `Залетай в Paw Tap по моей ссылке и забирай +10 000 🐾 на старт! Мой код: ${userId}`;
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+      if (tg?.openTelegramLink) tg.openTelegramLink(shareUrl);
+      else window.open(shareUrl, "_blank");
+      state.cycleShared = true;
+      saveState();
+      renderQuests();
+    }
+
+    function copyReferralCode() {
+      const textToCopy = BOT_USERNAME ? getMyReferralLink() : String(userId);
+      if (navigator.clipboard?.writeText) {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          showToast(BOT_USERNAME ? "🔗 Реферальная ссылка скопирована!" : `📋 Ваш код приглашения (${userId}) скопирован!`);
+        }).catch(() => {
+          showToast(`Ваш код: ${userId}`);
+        });
+      } else {
+        showToast(`Ваш код: ${userId}`);
+      }
+      state.cycleShared = true;
+      saveState();
+      renderQuests();
+    }
+
+    async function syncReferrals(manual = false) {
+      if (!FIREBASE_URL) return renderReferralsUI();
+      try {
+        const [refRes, playersRes] = await Promise.all([
+          fetch(`${FIREBASE_URL}/referrals/${userId}.json`),
+          fetch(`${FIREBASE_URL}/players.json`)
+        ]);
+        const refData = await refRes.json();
+        const playersData = await playersRes.json();
+
+        const refs = refData && !refData.error ? Object.values(refData).filter(r => r && r.id) : [];
+        refs.sort((a, b) => (b.joinedAt || 0) - (a.joinedAt || 0));
+
+        referralsCache = refs.map(r => {
+          const pInfo = playersData && playersData[r.id] ? playersData[r.id] : null;
+          return {
+            id: r.id,
+            name: pInfo?.name || r.name || "Игрок",
+            score: pInfo?.score || 0,
+            joinedAt: r.joinedAt || Date.now(),
+            claimed: !!r.claimed
+          };
+        });
+
+        state.referralsCount = referralsCache.length;
+        saveState();
+        renderReferralsUI();
+        updateUI();
+        if (manual) showToast("👥 Список друзей обновлён");
+      } catch (e) {
+        renderReferralsUI();
+      }
+    }
+
+    async function claimReferralReward(friendId) {
+      const refItem = referralsCache.find(r => String(r.id) === String(friendId));
+      if (!refItem || refItem.claimed) return;
+
+      refItem.claimed = true;
+      state.balance += REF_INVITER_BONUS;
+      state.cycleEarned = (state.cycleEarned || 0) + REF_INVITER_BONUS;
+
+      if (FIREBASE_URL) {
+        fetch(`${FIREBASE_URL}/referrals/${userId}/${friendId}/claimed.json`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: "true"
+        }).catch(() => {});
+      }
+
+      tg?.HapticFeedback?.notificationOccurred("success");
+      showToast(`🎉 Награда за друга: +${formatNum(REF_INVITER_BONUS)} 🐾`);
+      renderReferralsUI();
+      updateUI();
+      syncCloudState(false);
+    }
+
+    function renderReferralsUI() {
+      const count = referralsCache.length || state.referralsCount || 0;
+      const bonusPct = Math.min(100, count * 5);
+
+      document.getElementById("ref-count-val").textContent = formatNum(count);
+      document.getElementById("ref-bonus-val").textContent = `+${bonusPct}%`;
+
+      const redeemBox = document.getElementById("ref-redeem-box");
+      if (redeemBox) redeemBox.style.display = state.invitedBy ? "none" : "block";
+
+      const hasUnclaimed = referralsCache.some(r => !r.claimed);
+      document.getElementById("friends-badge").classList.toggle("show", hasUnclaimed);
+
+      const listEl = document.getElementById("referrals-list");
+      if (!referralsCache.length) {
+        listEl.innerHTML = `
+          <div class="item-card" style="justify-content:center;text-align:center;color:var(--muted);font-size:12px;padding:18px;">
+            Пока нет приглашённых друзей.<br/>Поделитесь своим кодом <b>${escapeHtml(String(userId))}</b> или ссылкой!
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = referralsCache.map(r => {
+        const lgName = getCurrentLeague(r.score || 0).name;
+        const btnHtml = r.claimed
+          ? `<button class="action-btn done">✓ Получено</button>`
+          : `<button class="action-btn claim" onclick="claimReferralReward('${escapeHtml(String(r.id))}')">+${formatNum(REF_INVITER_BONUS)} 🐾</button>`;
+        return `
+          <div class="item-card">
+            <div class="item-left">
+              <div class="item-icon">🤝</div>
+              <div>
+                <div class="item-title">${escapeHtml(r.name)}</div>
+                <div class="item-sub">${lgName} • ${formatNum(r.score || 0)} 🐾</div>
+              </div>
+            </div>
+            ${btnHtml}
+          </div>
+        `;
+      }).join("");
     }
 
     function checkQuestCycle(silent = false) {
@@ -1427,6 +1778,9 @@
           if (changed) normalizeBoostPricing();
           if (typeof cloudData.goldenClaws === "number" && cloudData.goldenClaws > (state.goldenClaws || 0)) {
             state.goldenClaws = cloudData.goldenClaws; changed = true;
+          }
+          if (typeof cloudData.referralsCount === "number" && cloudData.referralsCount > (state.referralsCount || 0)) {
+            state.referralsCount = cloudData.referralsCount; changed = true;
           }
           if (typeof cloudData.x2EndsAt === "number" && cloudData.x2EndsAt > (state.x2EndsAt || 0)) { state.x2EndsAt = cloudData.x2EndsAt; changed = true; }
           if (typeof cloudData.score === "number") {
@@ -1529,6 +1883,7 @@
       }
     ];
 
+    /* --- 22 ЛИГИ (ВКЛЮЧАЯ 7 НОВЫХ ЭЛИТНЫХ) --- */
     const LEAGUES = [
       { id: "wood", short: "Дерево", min: 0, max: 1000, name: "🪵 Деревянная лига", next: "Бронзы", theme: "theme-wood", color: "#d97706", light: "#f3c697", dark: "#92400e", rgb: "217, 119, 6", glow: "#2a1a0e", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)" },
       { id: "bronze", short: "Бронза", min: 1000, max: 5000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", light: "#fed7aa", dark: "#9a3412", rgb: "251, 146, 60", glow: "#2e190e", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
@@ -1544,7 +1899,15 @@
       { id: "neon", short: "Неон", min: 150000000, max: 300000000, name: "🧪 Неоновая лига", next: "Титана", theme: "theme-ruby", color: "#ec4899", light: "#fbcfe8", dark: "#831843", rgb: "236, 72, 153", glow: "#3b0724", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fbcfe8, #831843)" },
       { id: "titan", short: "Титан", min: 300000000, max: 600000000, name: "🦾 Лига Титанов", next: "Космоса", theme: "theme-master", color: "#f97316", light: "#fed7aa", dark: "#7c2d12", rgb: "249, 115, 22", glow: "#321206", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fed7aa, #7c2d12)" },
       { id: "cosmos", short: "Космос", min: 600000000, max: 1200000000, name: "🌌 Космическая лига", next: "Божества", theme: "theme-abyss", color: "#8b5cf6", light: "#ddd6fe", dark: "#4c1d95", rgb: "139, 92, 246", glow: "#2e1065", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #ddd6fe, #4c1d95)" },
-      { id: "god", short: "Божество", min: 1200000000, max: Infinity, name: "⚡👑 Лига Божеств", next: null, theme: "theme-legend", color: "#facc15", light: "#fef08a", dark: "#854d0e", rgb: "250, 204, 21", glow: "#422805", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #854d0e)" }
+      { id: "god", short: "Божество", min: 1200000000, max: 3500000000, name: "⚡👑 Лига Божеств", next: "Абсолюта", theme: "theme-legend", color: "#facc15", light: "#fef08a", dark: "#854d0e", rgb: "250, 204, 21", glow: "#422805", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #854d0e)" },
+      /* 7 НОВЫХ ЭЛИТНЫХ ЛИГ */
+      { id: "absolute", short: "Абсолют", min: 3500000000, max: 10000000000, name: "☀️ Лига Абсолюта", next: "Сверхновой", theme: "theme-solar", color: "#fb923c", light: "#fef08a", dark: "#9a3412", rgb: "251, 146, 60", glow: "#3b1706", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #ea580c)" },
+      { id: "supernova", short: "Сверхновая", min: 10000000000, max: 35000000000, name: "💥 Лига Сверхновой", next: "Хроноса", theme: "theme-nova", color: "#2dd4bf", light: "#99f6e4", dark: "#115e59", rgb: "45, 212, 191", glow: "#072e2b", contrast: "#042f2e", miniBg: "radial-gradient(circle at 30% 25%, #99f6e4, #0d9488)" },
+      { id: "chronos", short: "Хронос", min: 35000000000, max: 120000000000, name: "⏳ Лига Хроноса", next: "Галактики", theme: "theme-gold", color: "#eab308", light: "#fef9c3", dark: "#713f12", rgb: "234, 179, 8", glow: "#2c1e05", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fef9c3, #a16207)" },
+      { id: "galaxy", short: "Галактика", min: 120000000000, max: 500000000000, name: "🌀 Галактическая лига", next: "Мультивселенной", theme: "theme-abyss", color: "#818cf8", light: "#e0e7ff", dark: "#1e1b4b", rgb: "129, 140, 248", glow: "#17143b", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #e0e7ff, #3730a3)" },
+      { id: "multiverse", short: "Мультивселенная", min: 500000000000, max: 2500000000000, name: "🌠 Лига Мультивселенной", next: "Вечности", theme: "theme-legend", color: "#e879f9", light: "#fae8ff", dark: "#701a75", rgb: "232, 121, 249", glow: "#360a38", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fae8ff, #a21caf)" },
+      { id: "eternity", short: "Вечность", min: 2500000000000, max: 15000000000000, name: "♾️ Лига Вечности", next: "Создателя", theme: "theme-void", color: "#94a3b8", light: "#f1f5f9", dark: "#1e293b", rgb: "148, 163, 184", glow: "#0f172a", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #f1f5f9, #334155)" },
+      { id: "creator", short: "Создатель", min: 15000000000000, max: Infinity, name: "👁️‍🗨️ Лига Создателя", next: null, theme: "theme-creator", color: "#f472b6", light: "#fce7f3", dark: "#831843", rgb: "244, 114, 182", glow: "#3b0724", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fde68a, #db2777)" }
     ];
 
     const SELECTABLE_THEMES = [
@@ -1559,7 +1922,11 @@
       { id: "diamond", name: "Алмаз", swatch: "radial-gradient(circle, #cffafe, #06b6d4)", reqScore: 3000000 },
       { id: "sapphire", name: "Бездна", swatch: "radial-gradient(circle, #c7d2fe, #312e81)", reqScore: 10000000 },
       { id: "titan", name: "Магма", swatch: "radial-gradient(circle, #fed7aa, #ea580c)", reqScore: 300000000 },
-      { id: "amethyst", name: "Неон", swatch: "radial-gradient(circle, #f5d0fe, #c026d3)", reqScore: 30000000 }
+      { id: "amethyst", name: "Неон", swatch: "radial-gradient(circle, #f5d0fe, #c026d3)", reqScore: 30000000 },
+      { id: "absolute", name: "Солнце", swatch: "radial-gradient(circle, #fef08a, #f97316)", reqScore: 3500000000 },
+      { id: "supernova", name: "Сверхновая", swatch: "radial-gradient(circle, #99f6e4, #0d9488)", reqScore: 10000000000 },
+      { id: "eternity", name: "Пустота", swatch: "radial-gradient(circle, #f1f5f9, #0f172a)", reqScore: 2500000000000 },
+      { id: "creator", name: "Создатель", swatch: "radial-gradient(circle, #fde68a, #ec4899)", reqScore: 15000000000000 }
     ];
 
     function getCurrentLeague(score) {
@@ -1592,7 +1959,6 @@
         document.getElementById("next-league-text").textContent = "Макс. лига";
       }
 
-      // Определяем активную визуальную тему (Авто или выбранная в гардеробе)
       let visualLg = progressLg;
       if (state.activeCoinTheme && state.activeCoinTheme !== "auto") {
         const customLg = LEAGUES.find(x => x.id === state.activeCoinTheme);
@@ -1691,7 +2057,7 @@
       const gain = calcPrestigeGain(state.balance);
       const curClaws = state.goldenClaws || 0;
       const newClaws = curClaws + gain;
-      const newMult = 1 + newClaws * 0.25;
+      const newMult = (1 + newClaws * 0.25) * getReferralMultiplier();
 
       document.getElementById("pm-current-claws").textContent = `${formatNum(curClaws)} 🦅`;
       document.getElementById("pm-gain-claws").textContent = `+${formatNum(gain)} 🦅`;
@@ -1752,7 +2118,7 @@
     function claimPiggyReward() {
       if ((state.piggyProgress || 0) < 100) return;
       const baseReward = Math.max(500, (state.tapPower * 50) + (state.passiveIncome * 30));
-      const reward = Math.round(baseReward * getPrestigeMultiplier());
+      const reward = Math.round(baseReward * getTotalIncomeMultiplier());
       state.balance += reward;
       state.cycleEarned = (state.cycleEarned || 0) + reward;
       state.piggyProgress = 0;
@@ -1847,7 +2213,7 @@
       paw.addEventListener("pointerdown", (e) => {
         e.stopPropagation();
         const baseBonus = Math.max(350, (state.tapPower * 35) + (state.passiveIncome * 20));
-        const bonus = Math.round(baseBonus * getPrestigeMultiplier());
+        const bonus = Math.round(baseBonus * getTotalIncomeMultiplier());
         state.balance += bonus;
         state.cycleEarned = (state.cycleEarned || 0) + bonus;
 
@@ -1878,7 +2244,7 @@
         { id: "q_taps_50", icon: "🐾", title: "Разминка лапок", desc: "Сделать 60 кликов", target: 60, reward: Math.round(800 * m), getVal: () => state.cycleTaps || 0 },
         { id: "q_earn_1500", icon: "💰", title: "Сбор урожая", desc: "Заработать монеты по уровню", target: Math.round(1000 * m), reward: Math.round(2500 * m), getVal: () => state.cycleEarned || 0 },
         { id: "q_upg_1", icon: "🚀", title: "Прокачка", desc: "Купить 1 любое улучшение", target: 1, reward: Math.round(1500 * m), getVal: () => state.cycleUpgrades || 0 },
-        { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой с другом", target: 1, reward: Math.round(4000 * m), getVal: () => state.cycleShared ? 1 : 0, isShare: true },
+        { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться реферальной ссылкой", target: 1, reward: Math.round(4000 * m), getVal: () => state.cycleShared ? 1 : 0, isShare: true },
         { id: "q_time_2m", icon: "⏱️", title: "Активный игрок", desc: "Провести 2 минуты в игре", target: 120, reward: Math.round(2000 * m), getVal: () => state.cyclePlayTime || 0 },
         { id: "q_taps_250", icon: "⚡", title: "Турбо-лапка", desc: "Сделать 300 кликов", target: 300, reward: Math.round(6000 * m), getVal: () => state.cycleTaps || 0 }
       ];
@@ -1921,9 +2287,7 @@
     }
 
     function doShareQuest() {
-      const shareUrl = `https://t.me/share/url?url=&text=` + encodeURIComponent("Залетай в кликер с лапками! 🐾");
-      if (tg?.openTelegramLink) tg.openTelegramLink(shareUrl); else window.open(shareUrl, "_blank");
-      state.cycleShared = true; saveState(); renderQuests();
+      shareReferralInvite();
     }
 
     function claimQuest(id) {
@@ -1967,17 +2331,22 @@
     }
 
     function updateUI() {
-      const pMult = getPrestigeMultiplier();
+      const totalMult = getTotalIncomeMultiplier();
       const effPassive = getEffectivePassiveIncome();
 
-      document.getElementById("balance").textContent = formatNum(state.balance);
+      const balStr = formatNum(state.balance);
+      const balEl = document.getElementById("balance");
+      const balRow = document.getElementById("balance-row");
+      balEl.textContent = balStr;
+      balRow.style.fontSize = balStr.length > 15 ? "24px" : balStr.length > 11 ? "30px" : "36px";
+
       document.getElementById("passive-rate").textContent = formatNum(effPassive);
       document.getElementById("playtime-display").textContent = formatPlayTime(state.playTimeSeconds);
       document.getElementById("claws-count").textContent = formatNum(state.goldenClaws || 0);
 
       // Престиж-карточка в Бустах
       document.getElementById("prestige-claws-total").textContent = formatNum(state.goldenClaws || 0);
-      document.getElementById("prestige-mult-badge").textContent = `Доход x${pMult.toFixed(2)}`;
+      document.getElementById("prestige-mult-badge").textContent = `Доход x${totalMult.toFixed(2)}`;
       const pGain = calcPrestigeGain(state.balance);
       const pBtn = document.getElementById("prestige-open-btn");
       if (pGain > 0) {
@@ -2003,11 +2372,11 @@
       state.costs.crit = critCost;
 
       document.getElementById("lvl-tap").textContent = `Ур. ${state.levels.tap}`;
-      document.getElementById("desc-tap").textContent = `+${formatNum(Math.round(5 * pMult))} за клик (с учётом когтей)`;
+      document.getElementById("desc-tap").textContent = `+${formatNum(Math.round(5 * totalMult))} за клик (с учётом бонусов)`;
       document.getElementById("cost-tap").textContent = `${formatNum(tapCost)} 🐾`;
 
       document.getElementById("lvl-bot").textContent = `Ур. ${state.levels.bot}`;
-      document.getElementById("desc-bot").textContent = `+${formatNum(Math.round(6 * pMult))} в секунду`;
+      document.getElementById("desc-bot").textContent = `+${formatNum(Math.round(6 * totalMult))} в секунду`;
       document.getElementById("cost-bot").textContent = `${formatNum(botCost)} 🐾`;
 
       document.getElementById("lvl-crit").textContent = critLvl >= MAX_CRIT_LEVEL ? "МАКС" : `Ур. ${critLvl}`;
@@ -2133,6 +2502,7 @@
       el.classList.add("active");
       tg?.HapticFeedback?.selectionChanged();
       if (tab === "wardrobe") renderWardrobe();
+      if (tab === "friends") syncReferrals(false);
       if (tab === "leaders") syncAndRenderLeaderboard(false);
     }
 
@@ -2317,6 +2687,8 @@
       if (state.balance > 0 || state.passiveIncome > 0 || state.playTimeSeconds > 0) syncCloudState(false);
     }, 10000);
 
+    checkIncomingReferral();
+    syncReferrals(false);
     updateUI();
   </script>
 </body>
