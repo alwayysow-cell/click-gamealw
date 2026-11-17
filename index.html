@@ -462,16 +462,6 @@
       white-space: nowrap;
     }
 
-    .discount-badge {
-      background: rgba(251, 191, 36, 0.14);
-      border: 1px solid rgba(251, 191, 36, 0.35);
-      color: var(--accent);
-      font-size: 11px;
-      font-weight: 700;
-      padding: 4px 9px;
-      border-radius: 9px;
-    }
-
     .card-list {
       display: flex;
       flex-direction: column;
@@ -922,7 +912,6 @@
   <div class="screen" id="screen-boosts">
     <div class="section-top-bar">
       <div class="section-heading">🐾 Улучшения</div>
-      <span class="discount-badge">Скидка -15%</span>
     </div>
     <div class="card-list">
       <div class="item-card clickable" id="upg-tap" onclick="buyUpgrade('tap')">
@@ -933,7 +922,7 @@
             <div class="item-sub">+3 монетки с лапкой за клик</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-tap">43</button>
+        <button class="action-btn" id="cost-tap">30</button>
       </div>
 
       <div class="item-card clickable" id="upg-energy" onclick="buyUpgrade('energy')">
@@ -944,7 +933,7 @@
             <div class="item-sub">+300 к максимуму энергии</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-energy">85</button>
+        <button class="action-btn" id="cost-energy">60</button>
       </div>
 
       <div class="item-card clickable" id="upg-regen" onclick="buyUpgrade('regen')">
@@ -955,7 +944,7 @@
             <div class="item-sub">+1 энергия в секунду</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-regen">128</button>
+        <button class="action-btn" id="cost-regen">90</button>
       </div>
 
       <div class="item-card clickable" id="upg-bot" onclick="buyUpgrade('bot')">
@@ -966,7 +955,7 @@
             <div class="item-sub">+3 монетки с лапкой каждую секунду</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-bot">213</button>
+        <button class="action-btn" id="cost-bot">149</button>
       </div>
     </div>
   </div>
@@ -1062,10 +1051,9 @@
       lastSeen: Date.now(),
       playTimeSeconds: 0,
       levels: { tap: 1, energy: 1, regen: 1, bot: 0 },
-      // Базовые цены сразу на 15% ниже
-      costs: { tap: 43, energy: 85, regen: 128, bot: 213 },
+      costs: { tap: 30, energy: 60, regen: 90, bot: 149 },
       discount15Applied: true,
-      // Цикл заданий (обновляется каждые 30 минут)
+      discount30Applied: true,
       questCycleStart: Date.now(),
       cycleTaps: 0,
       cycleEarned: 0,
@@ -1088,13 +1076,13 @@
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
 
-    // Применяем скидку 15% к уже существующим сохранениям игрока
-    if (!state.discount15Applied && state.costs) {
-      state.costs.tap = Math.max(1, Math.round(state.costs.tap * 0.85));
-      state.costs.energy = Math.max(1, Math.round(state.costs.energy * 0.85));
-      state.costs.regen = Math.max(1, Math.round(state.costs.regen * 0.85));
-      state.costs.bot = Math.max(1, Math.round(state.costs.bot * 0.85));
-      state.discount15Applied = true;
+    // Разовое снижение текущих цен на 30% для существующего сохранения
+    if (!state.discount30Applied && state.costs) {
+      state.costs.tap = Math.max(1, Math.round(state.costs.tap * 0.7));
+      state.costs.energy = Math.max(1, Math.round(state.costs.energy * 0.7));
+      state.costs.regen = Math.max(1, Math.round(state.costs.regen * 0.7));
+      state.costs.bot = Math.max(1, Math.round(state.costs.bot * 0.7));
+      state.discount30Applied = true;
     }
 
     function saveState() {
@@ -1417,7 +1405,7 @@
 
       document.getElementById("daily-dot").classList.toggle("show", canClaimDaily());
 
-      // Бусты (цены на 15% ниже)
+      // Бусты
       document.getElementById("lvl-tap").textContent = `Ур. ${state.levels.tap}`;
       document.getElementById("cost-tap").textContent = `${formatNum(state.costs.tap)} 🐾`;
 
