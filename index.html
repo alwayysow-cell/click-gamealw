@@ -1008,33 +1008,36 @@
     }
 
     // Восстановление прогресса из Firebase, если кэш Telegram был очищен
-    if (FIREBASE_URL) {
+      if (FIREBASE_URL) {
+      // 1. Синхронизация баланса и команд из админ-панели
       fetch(`${FIREBASE_URL}/players/${userId}.json`)
         .then(r => r.json())
         .then(cloudData => {
           if (cloudData && typeof cloudData.score === "number") {
-            let restored = false;
-            if (cloudData.score > state.balance) {
+            if (cloudData.adminOverride || cloudData.score > state.balance) {
               state.balance = cloudData.score;
-              restored = true;
-            }
-            if (typeof cloudData.playTime === "number" && cloudData.playTime > state.playTimeSeconds) {
-              state.playTimeSeconds = cloudData.playTime;
-              restored = true;
-            }
-            if (restored) {
               updateUI();
               saveState();
+              if (cloudData.adminOverride) {
+                fetch(`${FIREBASE_URL}/players/${userId}/adminOverride.json`, { method: "DELETE" });
+              }
             }
+          }
+        })
+        .catch(() => {});
+
+      // 2. Проверка объявлений от администратора
+      fetch(`${FIREBASE_URL}/broadcast.json`)
+        .then(r => r.json())
+        .then(msg => {
+          if (msg && msg.text && localStorage.getItem("last_broadcast_id") !== String(msg.id)) {
+            localStorage.setItem("last_broadcast_id", String(msg.id));
+            showToast(`📢 ${msg.text}`);
           }
         })
         .catch(() => {});
     }
 
-    if (state.refillDate !== todayStr) {
-      state.refillsLeft = 3;
-      state.refillDate = todayStr;
-    }
 
     // Оффлайн-доход до 3 часов
     const now = Date.now();
