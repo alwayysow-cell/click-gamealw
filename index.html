@@ -718,7 +718,87 @@
       color: #34d399;
     }
 
-    /* Нижняя навигация */
+    /* --- СТИЛИ КАЗИНО --- */
+    .casino-card {
+      background: linear-gradient(145deg, rgba(217, 119, 6, 0.12), rgba(16, 20, 32, 0.9));
+      border: 1px solid rgba(var(--accent-rgb), 0.4);
+      border-radius: 20px;
+      padding: 16px;
+      margin-bottom: 14px;
+      text-align: center;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+
+    .casino-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: var(--accent-light);
+    }
+
+    .casino-desc {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .wheel-box {
+      width: 90px;
+      height: 90px;
+      margin: 10px auto;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-light), var(--accent-dark));
+      border: 4px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      box-shadow: 0 0 20px rgba(var(--accent-rgb), 0.6);
+      transition: transform 1s cubic-bezier(0.15, 1, 0.3, 1);
+    }
+
+    .wheel-box.spin-anim {
+      transform: rotate(720deg) scale(1.08);
+    }
+
+    .cards-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 12px 0;
+    }
+
+    .guess-card-item {
+      flex: 1;
+      max-width: 90px;
+      height: 110px;
+      background: var(--surface-strong);
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 26px;
+      transition: all 0.2s;
+    }
+
+    .guess-card-item:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .guess-card-item.revealed {
+      background: rgba(var(--accent-rgb), 0.2);
+      border-color: var(--accent);
+    }
+
+    /* Нижняя навигация (5 элементов) */
     .navbar {
       position: fixed;
       bottom: 12px;
@@ -731,7 +811,7 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 var(--highlight);
       border-radius: 22px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       padding: 5px;
       z-index: 50;
       transition: border-color 0.4s ease;
@@ -746,7 +826,7 @@
       gap: 3px;
       border-radius: 16px;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       cursor: pointer;
       transition: all 0.25s;
@@ -759,13 +839,13 @@
     }
 
     .nav-icon {
-      font-size: 19px;
+      font-size: 17px;
     }
 
     .nav-badge {
       position: absolute;
       top: 6px;
-      right: 18px;
+      right: 14px;
       width: 8px;
       height: 8px;
       border-radius: 50%;
@@ -1152,7 +1232,35 @@
     </div>
   </div>
 
-  <!-- ЭКРАН 3: ЗАДАНИЯ -->
+  <!-- ЭКРАН 3: КАЗИНО -->
+  <div class="screen" id="screen-casino">
+    <div class="section-top-bar">
+      <div class="section-heading">🎲 Лапа Удачи</div>
+      <div class="timer-badge" id="casino-lvl-badge">Уровень: Базовый</div>
+    </div>
+
+    <!-- Колесо фортуны -->
+    <div class="casino-card">
+      <div class="casino-title">🎰 Колесо Фортуны</div>
+      <div class="casino-desc" id="wheel-desc">Испытай удачу! Ставка: 100 🐾</div>
+      <div class="wheel-box" id="wheel-box">🐾</div>
+      <button class="action-btn" id="spin-wheel-btn" onclick="spinWheel()" style="width:100%;padding:11px;font-size:14px;">Крутить колесо</button>
+    </div>
+
+    <!-- Угадай лапку -->
+    <div class="casino-card">
+      <div class="casino-title">🃏 Угадай призовую лапку</div>
+      <div class="casino-desc" id="guess-desc">Найди спрятанную супер-лапку под картами! Ставка: 150 🐾</div>
+      <div class="cards-row" id="guess-cards-container">
+        <div class="guess-card-item" onclick="chooseGuessCard(0)">❓</div>
+        <div class="guess-card-item" onclick="chooseGuessCard(1)">❓</div>
+        <div class="guess-card-item" onclick="chooseGuessCard(2)">❓</div>
+      </div>
+      <button class="action-btn" id="guess-reset-btn" onclick="resetGuessGame()" style="display:none;width:100%;padding:10px;font-size:13px;background:var(--surface-strong);color:var(--text);">Играть снова</button>
+    </div>
+  </div>
+
+  <!-- ЭКРАН 4: ЗАДАНИЯ -->
   <div class="screen" id="screen-quests">
     <div class="section-top-bar">
       <div class="section-heading">🎯 Задания</div>
@@ -1161,21 +1269,21 @@
     <div class="card-list" id="quests-list"></div>
   </div>
 
-  <!-- ЭКРАН 4: ЛИДЕРЫ -->
+  <!-- ЭКРАН 5: ЛИДЕРЫ -->
   <div class="screen" id="screen-leaders">
     <div class="section-top-bar">
       <div class="section-heading">🏆 Топ игроков</div>
       <button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button>
     </div>
     <div class="lb-tabs">
-      <button class="lb-tab-btn active" id="lb-tab-time" onclick="setLeaderboardMode('time')">⏱ По времени</button>
-      <button class="lb-tab-btn" id="lb-tab-coins" onclick="setLeaderboardMode('coins')">🐾 По монетам</button>
-      <button class="lb-tab-btn" id="lb-tab-taps" onclick="setLeaderboardMode('taps')">👆 По тапам</button>
+      <button class="lb-tab-btn active" id="lb-tab-time" onclick="setLeaderboardMode('time')">⏱ Время</button>
+      <button class="lb-tab-btn" id="lb-tab-coins" onclick="setLeaderboardMode('coins')">🐾 Монеты</button>
+      <button class="lb-tab-btn" id="lb-tab-taps" onclick="setLeaderboardMode('taps')">👆 Тапы</button>
     </div>
     <div class="card-list" id="leaderboard-list"></div>
   </div>
 
-  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+  <!-- НИЖНЯЯ НАВИГАЦИЯ (5 ВКЛАДОК) -->
   <div class="navbar">
     <div class="nav-item active" onclick="switchTab('game', this)">
       <div class="nav-icon">🐾</div>
@@ -1184,6 +1292,10 @@
     <div class="nav-item" onclick="switchTab('boosts', this)">
       <div class="nav-icon">🚀</div>
       <div>Бусты</div>
+    </div>
+    <div class="nav-item" onclick="switchTab('casino', this)">
+      <div class="nav-icon">🎲</div>
+      <div>Казино</div>
     </div>
     <div class="nav-item" onclick="switchTab('quests', this)">
       <span class="nav-badge" id="quests-badge"></span>
@@ -1216,7 +1328,6 @@
         <button class="close-modal" onclick="closeAdminModal()">✕</button>
       </div>
 
-      <!-- Экран входа по паролю -->
       <div id="admin-login-view">
         <div class="admin-box">
           <label class="admin-label">Введите пароль администратора</label>
@@ -1227,7 +1338,6 @@
         </div>
       </div>
 
-      <!-- Основной интерфейс админки -->
       <div id="admin-panel-view" style="display:none;">
         <div class="admin-box">
           <label class="admin-label">📢 Рассылка объявления всем игрокам</label>
@@ -1444,9 +1554,7 @@
             }
           }
 
-          if (changed) {
-            normalizeBoostPricing();
-          }
+          if (changed) normalizeBoostPricing();
 
           if (typeof cloudData.x2EndsAt === "number" && cloudData.x2EndsAt > (state.x2EndsAt || 0)) {
             state.x2EndsAt = cloudData.x2EndsAt;
@@ -1510,15 +1618,10 @@
     }
 
     document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        syncCloudState(true);
-      }
+      if (document.hidden) syncCloudState(true);
     });
     window.addEventListener("pagehide", () => syncCloudState(true));
     window.addEventListener("beforeunload", () => syncCloudState(true));
-    if (tg?.onEvent) {
-      tg.onEvent("viewportChanged", () => saveState());
-    }
 
     function formatNum(n) {
       return Math.floor(n || 0).toLocaleString("ru-RU");
@@ -1548,76 +1651,16 @@
     }
 
     const LEAGUES = [
-      {
-        min: 0, max: 1000,
-        name: "🪵 Деревянная лига", next: "Бронзы", theme: "theme-wood",
-        color: "#d97706", light: "#f3c697", dark: "#92400e", rgb: "217, 119, 6",
-        glow: "#2a1a0e", contrast: "#ffffff",
-        miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)"
-      },
-      {
-        min: 1000, max: 5000,
-        name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze",
-        color: "#fb923c", light: "#fed7aa", dark: "#9a3412", rgb: "251, 146, 60",
-        glow: "#2e190e", contrast: "#090b10",
-        miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)"
-      },
-      {
-        min: 5000, max: 25000,
-        name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver",
-        color: "#cbd5e1", light: "#f8fafc", dark: "#475569", rgb: "203, 213, 225",
-        glow: "#1e2736", contrast: "#090b10",
-        miniBg: "radial-gradient(circle at 30% 25%, #f8fafc, #475569)"
-      },
-      {
-        min: 25000, max: 100000,
-        name: "🥇 Золотая лига", next: "Платины", theme: "theme-gold",
-        color: "#fbbf24", light: "#fef08a", dark: "#b45309", rgb: "251, 191, 36",
-        glow: "#2b220d", contrast: "#090b10",
-        miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)"
-      },
-      {
-        min: 100000, max: 300000,
-        name: "💠 Платиновая лига", next: "Изумруда", theme: "theme-platinum",
-        color: "#38bdf8", light: "#bae6fd", dark: "#0369a1", rgb: "56, 189, 248",
-        glow: "#0d2538", contrast: "#090b10",
-        miniBg: "radial-gradient(circle at 30% 25%, #e0f2fe, #0369a1)"
-      },
-      {
-        min: 300000, max: 1000000,
-        name: "💚 Изумрудная лига", next: "Рубина", theme: "theme-emerald",
-        color: "#10b981", light: "#a7f3d0", dark: "#047857", rgb: "16, 185, 129",
-        glow: "#0b2920", contrast: "#052e16",
-        miniBg: "radial-gradient(circle at 30% 25%, #a7f3d0, #047857)"
-      },
-      {
-        min: 1000000, max: 3000000,
-        name: "❤️ Рубиновая лига", next: "Алмаза", theme: "theme-ruby",
-        color: "#f43f5e", light: "#fecdd3", dark: "#9f1239", rgb: "244, 63, 94",
-        glow: "#30101b", contrast: "#ffffff",
-        miniBg: "radial-gradient(circle at 30% 25%, #fecdd3, #be123c)"
-      },
-      {
-        min: 3000000, max: 10000000,
-        name: "💎 Алмазная лига", next: "Мастера", theme: "theme-diamond",
-        color: "#22d3ee", light: "#cffafe", dark: "#0e7490", rgb: "34, 211, 238",
-        glow: "#0c2836", contrast: "#090b10",
-        miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)"
-      },
-      {
-        min: 10000000, max: 50000000,
-        name: "🔥 Мастерская лига", next: "Легенды", theme: "theme-master",
-        color: "#f97316", light: "#fed7aa", dark: "#9a3412", rgb: "249, 115, 22",
-        glow: "#30170c", contrast: "#ffffff",
-        miniBg: "radial-gradient(circle at 30% 25%, #fed7aa, #9a3412)"
-      },
-      {
-        min: 50000000, max: Infinity,
-        name: "👑 Легендарная лига", next: null, theme: "theme-legend",
-        color: "#d946ef", light: "#f5d0fe", dark: "#86198f", rgb: "217, 70, 239",
-        glow: "#291036", contrast: "#ffffff",
-        miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)"
-      }
+      { min: 0, max: 1000, name: "🪵 Деревянная лига", next: "Бронзы", theme: "theme-wood", color: "#d97706", light: "#f3c697", dark: "#92400e", rgb: "217, 119, 6", glow: "#2a1a0e", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)" },
+      { min: 1000, max: 5000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", light: "#fed7aa", dark: "#9a3412", rgb: "251, 146, 60", glow: "#2e190e", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
+      { min: 5000, max: 25000, name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver", color: "#cbd5e1", light: "#f8fafc", dark: "#475569", rgb: "203, 213, 225", glow: "#1e2736", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #f8fafc, #475569)" },
+      { min: 25000, max: 100000, name: "🥇 Золотая лига", next: "Платины", theme: "theme-gold", color: "#fbbf24", light: "#fef08a", dark: "#b45309", rgb: "251, 191, 36", glow: "#2b220d", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)" },
+      { min: 100000, max: 300000, name: "💠 Платиновая лига", next: "Изумруда", theme: "theme-platinum", color: "#38bdf8", light: "#bae6fd", dark: "#0369a1", rgb: "56, 189, 248", glow: "#0d2538", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #e0f2fe, #0369a1)" },
+      { min: 300000, max: 1000000, name: "💚 Изумрудная лига", next: "Рубина", theme: "theme-emerald", color: "#10b981", light: "#a7f3d0", dark: "#047857", rgb: "16, 185, 129", glow: "#0b2920", contrast: "#052e16", miniBg: "radial-gradient(circle at 30% 25%, #a7f3d0, #047857)" },
+      { min: 1000000, max: 3000000, name: "❤️ Рубиновая лига", next: "Алмаза", theme: "theme-ruby", color: "#f43f5e", light: "#fecdd3", dark: "#9f1239", rgb: "244, 63, 94", glow: "#30101b", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fecdd3, #be123c)" },
+      { min: 3000000, max: 10000000, name: "💎 Алмазная лига", next: "Мастера", theme: "theme-diamond", color: "#22d3ee", light: "#cffafe", dark: "#0e7490", rgb: "34, 211, 238", glow: "#0c2836", contrast: "#090b10", miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)" },
+      { min: 10000000, max: 50000000, name: "🔥 Мастерская лига", next: "Легенды", theme: "theme-master", color: "#f97316", light: "#fed7aa", dark: "#9a3412", rgb: "249, 115, 22", glow: "#30170c", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fed7aa, #9a3412)" },
+      { min: 50000000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", color: "#d946ef", light: "#f5d0fe", dark: "#86198f", rgb: "217, 70, 239", glow: "#291036", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)" }
     ];
 
     function getCurrentLeague(score) {
@@ -1676,6 +1719,136 @@
       }
     }
 
+    // --- СИСТЕМА КАЗИНО (НАГРАДЫ ЗАВИСЯТ ОТ УРОВНЯ ПРОКАЧКИ) ---
+    function getCasinoMultiplier() {
+      // Множитель масштабирования на основе уровня силы тапа и питомника
+      const totalLvl = (state.levels.tap || 1) + (state.levels.bot || 0);
+      return Math.max(1, Math.floor(1 + totalLvl * 0.5));
+    }
+
+    function updateCasinoUI() {
+      const mult = getCasinoMultiplier();
+      const wheelCost = 50 * mult;
+      const guessCost = 80 * mult;
+
+      document.getElementById("casino-lvl-badge").textContent = `Множитель ставок: x${mult}`;
+      document.getElementById("wheel-desc").textContent = `Испытай удачу! Ставка: ${formatNum(wheelCost)} 🐾 (Награды до x20)`;
+      document.getElementById("guess-desc").textContent = `Найди супер-лапку под картами! Ставка: ${formatNum(guessCost)} 🐾`;
+    }
+
+    // 1. Колесо Фортуны
+    let wheelSpinning = false;
+    function spinWheel() {
+      if (wheelSpinning) return;
+      const mult = getCasinoMultiplier();
+      const cost = 50 * mult;
+
+      if (state.balance < cost) {
+        showToast("❌ Недостаточно монеток для ставки в колесе!");
+        return;
+      }
+
+      state.balance -= cost;
+      wheelSpinning = true;
+      const wheelBox = document.getElementById("wheel-box");
+      wheelBox.classList.add("spin-anim");
+      tg?.HapticFeedback?.impactOccurred("medium");
+
+      setTimeout(() => {
+        wheelBox.classList.remove("spin-anim");
+        wheelSpinning = false;
+
+        // Генерация случайного выигрыша с учетом прокачки
+        const roll = Math.random();
+        let prize = 0;
+        let msg = "";
+
+        if (roll < 0.40) {
+          // Проигрыш или возврат части
+          prize = 0;
+          msg = "😢 Не повезло, лапка ускользнула!";
+        } else if (roll < 0.70) {
+          // Малый выигрыш (x1.5 - x2 ставки)
+          prize = Math.floor(cost * (1.5 + Math.random() * 0.5));
+          msg = `🎉 Маленький куш: +${formatNum(prize)} 🐾`;
+        } else if (roll < 0.90) {
+          // Средний выигрыш (x3 - x5 ставки)
+          prize = Math.floor(cost * (3 + Math.random() * 2));
+          msg = `🔥 Отличный выигрыш: +${formatNum(prize)} 🐾`;
+        } else {
+          // ДЖЕКПОТ (x10 - x20 ставки)
+          prize = Math.floor(cost * (10 + Math.random() * 10));
+          msg = `👑 ДЖЕКПОТ КАЗИНО: +${formatNum(prize)} 🐾`;
+          tg?.HapticFeedback?.notificationOccurred("success");
+        }
+
+        if (prize > 0) {
+          state.balance += prize;
+          state.cycleEarned = (state.cycleEarned || 0) + prize;
+        }
+
+        showToast(msg);
+        updateUI();
+        saveState();
+      }, 1000);
+    }
+
+    // 2. Игра «Угадай лапку»
+    let guessActiveCard = -1;
+    let guessRevealed = false;
+
+    function resetGuessGame() {
+      guessActiveCard = Math.floor(Math.random() * 3);
+      guessRevealed = false;
+      document.getElementById("guess-reset-btn").style.display = "none";
+      const cards = document.querySelectorAll(".guess-card-item");
+      cards.forEach(c => {
+        c.textContent = "❓";
+        c.classList.remove("revealed");
+      });
+    }
+
+    function chooseGuessCard(idx) {
+      if (guessRevealed) return;
+      const mult = getCasinoMultiplier();
+      const cost = 80 * mult;
+
+      if (state.balance < cost) {
+        showToast("❌ Недостаточно монеток для этой игры!");
+        return;
+      }
+
+      state.balance -= cost;
+      guessRevealed = true;
+      const cards = document.querySelectorAll(".guess-card-item");
+
+      cards.forEach((c, i) => {
+        c.classList.add("revealed");
+        if (i === guessActiveCard) {
+          c.textContent = "👑";
+        } else {
+          c.textContent = "❌";
+        }
+      });
+
+      if (idx === guessActiveCard) {
+        const prize = cost * 3; // Выигрыш x3 от ставки
+        state.balance += prize;
+        state.cycleEarned = (state.cycleEarned || 0) + prize;
+        showToast(`🎉 Угадал! Выигрыш: +${formatNum(prize)} 🐾`);
+        tg?.HapticFeedback?.notificationOccurred("success");
+      } else {
+        showToast("😢 Мимо! Попробуй еще раз.");
+      }
+
+      document.getElementById("guess-reset-btn").style.display = "block";
+      updateUI();
+      saveState();
+    }
+
+    // Инициализация первой мини-игры при старте
+    guessActiveCard = Math.floor(Math.random() * 3);
+
     const QUESTS = [
       { id: "q_taps_50", icon: "🐾", title: "Разминка лапок", desc: "Сделать 50 кликов за полчаса", target: 50, reward: 1500, getVal: () => state.cycleTaps || 0 },
       { id: "q_earn_1500", icon: "💰", title: "Сбор урожая", desc: "Заработать 1 500 монет за полчаса", target: 1500, reward: 3500, getVal: () => state.cycleEarned || 0 },
@@ -1732,11 +1905,8 @@
     function doShareQuest() {
       const shareText = encodeURIComponent("Залетай в кликер с лапками и попробуй обогнать меня в топе! 🐾");
       const shareUrl = `https://t.me/share/url?url=&text=${shareText}`;
-      if (tg?.openTelegramLink) {
-        tg.openTelegramLink(shareUrl);
-      } else {
-        window.open(shareUrl, "_blank");
-      }
+      if (tg?.openTelegramLink) tg.openTelegramLink(shareUrl);
+      else window.open(shareUrl, "_blank");
       state.cycleShared = true;
       saveState();
       renderQuests();
@@ -1818,6 +1988,7 @@
       document.getElementById("playtime-display").textContent = formatPlayTime(state.playTimeSeconds);
 
       updateCoinAppearance();
+      updateCasinoUI();
 
       document.getElementById("daily-dot").classList.toggle("show", canClaimDaily());
 
@@ -1944,8 +2115,7 @@
       }
     }
 
-    // --- ТАБЛИЦА ЛИДЕРОВ (ПО ВРЕМЕНИ, МОНЕТАМ И ТАПАМ) ---
-    let leaderboardMode = "time"; // 'time', 'coins', 'taps'
+    let leaderboardMode = "time";
     let cachedPlayers = [];
 
     function setLeaderboardMode(mode) {
@@ -2026,7 +2196,6 @@
       if (manual) listEl.innerHTML = `<div style="text-align:center;color:var(--muted);padding:20px;">Загрузка рейтинга...</div>`;
 
       let players = [];
-
       if (FIREBASE_URL) {
         try {
           syncCloudState(false);
@@ -2035,19 +2204,11 @@
           if (data && !data.error) {
             players = Object.values(data).filter(p => p && typeof p.score === "number" && p.name);
           }
-        } catch (err) {
-          console.error(err);
-        }
+        } catch (err) {}
       }
 
       if (!players.length) {
-        players = [{
-          id: userId,
-          name: userName,
-          score: Math.floor(state.balance),
-          totalTaps: Math.floor(state.totalTaps || 0),
-          playTime: Math.floor(state.playTimeSeconds)
-        }];
+        players = [{ id: userId, name: userName, score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds) }];
       }
 
       cachedPlayers = players;
@@ -2062,9 +2223,7 @@
     function handleSecretAdminTap() {
       secretTapCount += 1;
       clearTimeout(secretTapTimer);
-      secretTapTimer = setTimeout(() => {
-        secretTapCount = 0;
-      }, 1500);
+      secretTapTimer = setTimeout(() => { secretTapCount = 0; }, 1500);
 
       if (secretTapCount >= 5) {
         secretTapCount = 0;
@@ -2137,9 +2296,7 @@
       try {
         const res = await fetch(`${FIREBASE_URL}/players.json`);
         const data = await res.json();
-        adminPlayersCache = data && !data.error
-          ? Object.values(data).filter(p => p && p.id && p.name)
-          : [];
+        adminPlayersCache = data && !data.error ? Object.values(data).filter(p => p && p.id && p.name) : [];
         adminPlayersCache.sort((a, b) => (b.score || 0) - (a.score || 0));
         renderAdminPlayers();
       } catch (e) {
@@ -2194,11 +2351,7 @@
         await fetch(`${FIREBASE_URL}/players/${targetId}.json`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            score: cleanScore,
-            adminOverride: true,
-            updatedAt: Date.now()
-          })
+          body: JSON.stringify({ score: cleanScore, adminOverride: true, updatedAt: Date.now() })
         });
 
         const item = adminPlayersCache.find(p => String(p.id) === String(targetId));
