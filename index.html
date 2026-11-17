@@ -268,6 +268,34 @@
       transition: width 0.3s ease, background 0.3s ease;
     }
 
+    /* Баннер активного x2 буста */
+    .x2-active-banner {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin: 10px auto 0;
+      padding: 6px 14px;
+      border-radius: 99px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(234, 88, 12, 0.28));
+      border: 1px solid rgba(251, 191, 36, 0.55);
+      box-shadow: 0 0 18px rgba(245, 158, 11, 0.3);
+      color: #fde047;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      animation: pulseX2 1.8s infinite ease-in-out;
+    }
+
+    .x2-active-banner.show {
+      display: inline-flex;
+    }
+
+    @keyframes pulseX2 {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 14px rgba(245, 158, 11, 0.28); }
+      50% { transform: scale(1.03); box-shadow: 0 0 24px rgba(251, 191, 36, 0.5); }
+    }
+
     /* Сцена монеты с лапкой */
     .coin-stage {
       flex: 1;
@@ -293,6 +321,21 @@
     @keyframes pulseAura {
       0%, 100% { transform: scale(0.94); opacity: 0.78; }
       50% { transform: scale(1.1); opacity: 1; }
+    }
+
+    .tap-ripple {
+      position: absolute;
+      width: 234px;
+      height: 234px;
+      border-radius: 50%;
+      border: 2px solid rgba(251, 191, 36, 0.55);
+      pointer-events: none;
+      animation: rippleOut 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes rippleOut {
+      0% { transform: scale(0.96); opacity: 0.85; }
+      100% { transform: scale(1.26); opacity: 0; }
     }
 
     .coin-btn {
@@ -432,8 +475,14 @@
     }
 
     .item-card.disabled {
-      opacity: 0.45;
+      opacity: 0.48;
       pointer-events: none;
+    }
+
+    .item-card.boost-active-card {
+      opacity: 1;
+      border-color: rgba(251, 191, 36, 0.55);
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(20, 25, 38, 0.88));
     }
 
     .item-left {
@@ -473,6 +522,11 @@
       border-radius: 6px;
     }
 
+    .lvl-tag.temp {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+
     .item-sub {
       font-size: 12px;
       color: var(--muted);
@@ -491,6 +545,13 @@
       white-space: nowrap;
       cursor: pointer;
       flex-shrink: 0;
+    }
+
+    .action-btn.active-timer {
+      background: rgba(251, 191, 36, 0.18);
+      border: 1px solid rgba(251, 191, 36, 0.45);
+      box-shadow: none;
+      color: #fde047;
     }
 
     .action-btn.claim {
@@ -541,6 +602,35 @@
       cursor: pointer;
     }
 
+    .lb-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background: rgba(14, 18, 29, 0.8);
+      border: 1px solid var(--border);
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 12px;
+    }
+
+    .lb-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lb-tab-btn.active {
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(251, 191, 36, 0.1));
+      color: var(--accent);
+      border: 1px solid rgba(251, 191, 36, 0.28);
+    }
+
     .lb-item.me {
       border-color: rgba(251, 191, 36, 0.55);
       background: linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(20, 25, 38, 0.85));
@@ -560,6 +650,10 @@
       font-size: 13px;
       color: var(--accent);
       white-space: nowrap;
+    }
+
+    .lb-score.time-mode {
+      color: #7dd3fc;
     }
 
     /* Нижняя навигация */
@@ -750,6 +844,12 @@
       white-space: nowrap;
     }
 
+    .float-plus.x2 {
+      color: #fde047;
+      font-size: 27px;
+      text-shadow: 0 2px 16px rgba(245, 158, 11, 0.95);
+    }
+
     @keyframes flyUp {
       0% { opacity: 1; transform: translateY(0) scale(0.9); }
       100% { opacity: 0; transform: translateY(-95px) scale(1.2); }
@@ -818,7 +918,11 @@
       </div>
     </div>
 
-    <div class="coin-stage">
+    <div class="x2-active-banner" id="x2-active-banner">
+      🔥 x2 КЛИКИ АКТИВНЫ • <span id="x2-banner-timer">15:00</span>
+    </div>
+
+    <div class="coin-stage" id="coin-stage">
       <div class="coin-aura" id="coin-aura"></div>
       <div class="coin-btn theme-bronze" id="coin">
         <div class="coin-ring-outer">
@@ -863,6 +967,17 @@
         </div>
         <button class="action-btn" id="cost-bot">24 🐾</button>
       </div>
+
+      <div class="item-card clickable" id="upg-x2" onclick="buyX2Boost()">
+        <div class="item-left">
+          <div class="item-icon">🔥</div>
+          <div>
+            <div class="item-title">Турбо-клик x2 <span class="lvl-tag temp">15 мин</span></div>
+            <div class="item-sub">Удваивает монеты за каждый клик</div>
+          </div>
+        </div>
+        <button class="action-btn" id="cost-x2">80 000 🐾</button>
+      </div>
     </div>
   </div>
 
@@ -880,6 +995,10 @@
     <div class="section-top-bar">
       <div class="section-heading">🏆 Топ игроков</div>
       <button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button>
+    </div>
+    <div class="lb-tabs">
+      <button class="lb-tab-btn active" id="lb-tab-time" onclick="setLeaderboardMode('time')">⏱ По времени</button>
+      <button class="lb-tab-btn" id="lb-tab-coins" onclick="setLeaderboardMode('coins')">🐾 По монетам</button>
     </div>
     <div class="card-list" id="leaderboard-list"></div>
   </div>
@@ -921,6 +1040,8 @@
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
     const MAX_OFFLINE_SEC = 8 * 3600; // До 8 часов офлайн-майнинга
     const QUEST_CYCLE_MS = 30 * 60 * 1000; // 30 минут
+    const X2_BOOST_COST = 80000;
+    const X2_BOOST_DURATION_MS = 15 * 60 * 1000; // 15 минут
 
     const tg = window.Telegram?.WebApp;
     let userId = "local_" + (localStorage.getItem("tg_uid") || Math.floor(Math.random() * 1000000));
@@ -953,6 +1074,7 @@
       playTimeSeconds: 0,
       levels: { tap: 1, bot: 0 },
       costs: { tap: 5, bot: 24 },
+      x2EndsAt: 0,
       discount25xApplied: true,
       questCycleStart: Date.now(),
       cycleTaps: 0,
@@ -975,6 +1097,7 @@
     let state = Object.assign({}, defaultState, parsedSave);
     state.levels = Object.assign({ tap: 1, bot: 0 }, parsedSave.levels || {});
     state.costs = Object.assign({ tap: 5, bot: 24 }, parsedSave.costs || {});
+    state.x2EndsAt = state.x2EndsAt || 0;
     state.claimedQuests = state.claimedQuests || {};
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
@@ -984,6 +1107,10 @@
       state.costs.tap = Math.max(1, Math.round(state.costs.tap / 2.5));
       state.costs.bot = Math.max(1, Math.round(state.costs.bot / 2.5));
       state.discount25xApplied = true;
+    }
+
+    function isX2Active() {
+      return (state.x2EndsAt || 0) > Date.now();
     }
 
     function saveState() {
@@ -1013,6 +1140,7 @@
           passiveIncome: state.passiveIncome,
           levels: { tap: state.levels.tap, bot: state.levels.bot },
           costs: { tap: state.costs.tap, bot: state.costs.bot },
+          x2EndsAt: state.x2EndsAt || 0,
           discount25xApplied: true,
           playTime: Math.floor(state.playTimeSeconds),
           lastSeen: nowTs,
@@ -1090,6 +1218,11 @@
 
           if (typeof cloudData.passiveIncome === "number" && cloudData.passiveIncome > state.passiveIncome) {
             state.passiveIncome = cloudData.passiveIncome;
+            changed = true;
+          }
+
+          if (typeof cloudData.x2EndsAt === "number" && cloudData.x2EndsAt > (state.x2EndsAt || 0)) {
+            state.x2EndsAt = cloudData.x2EndsAt;
             changed = true;
           }
 
@@ -1380,11 +1513,35 @@
       document.getElementById("upg-tap").classList.toggle("disabled", state.balance < state.costs.tap);
       document.getElementById("upg-bot").classList.toggle("disabled", state.balance < state.costs.bot);
 
+      // Временный буст x2 на 15 минут
+      const x2Active = isX2Active();
+      const x2Card = document.getElementById("upg-x2");
+      const x2Btn = document.getElementById("cost-x2");
+      const x2Banner = document.getElementById("x2-active-banner");
+
+      if (x2Active) {
+        const remStr = formatMMSS(state.x2EndsAt - Date.now());
+        x2Card.classList.remove("disabled");
+        x2Card.classList.add("boost-active-card");
+        x2Btn.classList.add("active-timer");
+        x2Btn.textContent = `⏱ ${remStr}`;
+        x2Banner.classList.add("show");
+        document.getElementById("x2-banner-timer").textContent = remStr;
+      } else {
+        x2Card.classList.remove("boost-active-card");
+        x2Btn.classList.remove("active-timer");
+        x2Btn.textContent = `${formatNum(X2_BOOST_COST)} 🐾`;
+        x2Card.classList.toggle("disabled", state.balance < X2_BOOST_COST);
+        x2Banner.classList.remove("show");
+      }
+
       renderQuests();
     }
 
-    // Клик по монете с лапкой (без ограничений по энергии)
+    // Клик по монете с лапкой
     const coinBtn = document.getElementById("coin");
+    const coinStage = document.getElementById("coin-stage");
+
     coinBtn.addEventListener("pointerdown", (e) => {
       const rect = coinBtn.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
@@ -1395,21 +1552,30 @@
       coinBtn.style.transform = `scale(0.93) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       setTimeout(() => { coinBtn.style.transform = "scale(1) rotateX(0) rotateY(0)"; }, 100);
 
-      state.balance += state.tapPower;
+      // Визуальная волна при клике
+      const ripple = document.createElement("div");
+      ripple.className = "tap-ripple";
+      coinStage.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 550);
+
+      const x2 = isX2Active();
+      const gain = state.tapPower * (x2 ? 2 : 1);
+
+      state.balance += gain;
       state.cycleTaps = (state.cycleTaps || 0) + 1;
-      state.cycleEarned = (state.cycleEarned || 0) + state.tapPower;
+      state.cycleEarned = (state.cycleEarned || 0) + gain;
 
       tg?.HapticFeedback?.impactOccurred("light");
-      spawnPlus(e.clientX, e.clientY, `+${state.tapPower} 🐾`);
+      spawnPlus(e.clientX, e.clientY, x2 ? `+${gain} 🔥` : `+${gain} 🐾`, x2);
       updateUI();
       saveState();
     });
 
-    function spawnPlus(x, y, text) {
+    function spawnPlus(x, y, text, isX2 = false) {
       const el = document.createElement("div");
-      el.className = "float-plus";
+      el.className = isX2 ? "float-plus x2" : "float-plus";
       el.textContent = text;
-      el.style.left = `${x - 24}px`;
+      el.style.left = `${x - 26}px`;
       el.style.top = `${y - 28}px`;
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 750);
@@ -1436,6 +1602,23 @@
       syncCloudState(false);
     }
 
+    function buyX2Boost() {
+      if (isX2Active()) {
+        showToast(`🔥 Буст x2 уже активен (${formatMMSS(state.x2EndsAt - Date.now())})`);
+        return;
+      }
+      if (state.balance < X2_BOOST_COST) return;
+
+      state.balance -= X2_BOOST_COST;
+      state.x2EndsAt = Date.now() + X2_BOOST_DURATION_MS;
+      state.cycleUpgrades = (state.cycleUpgrades || 0) + 1;
+
+      tg?.HapticFeedback?.notificationOccurred("success");
+      showToast("🔥 Турбо-клик x2 активирован на 15 минут!");
+      updateUI();
+      syncCloudState(false);
+    }
+
     function switchTab(tab, el) {
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.querySelectorAll(".nav-item").forEach(n => n.classList.remove("active"));
@@ -1448,7 +1631,72 @@
       }
     }
 
-    // --- ТАБЛИЦА ЛИДЕРОВ ---
+    // --- ТАБЛИЦА ЛИДЕРОВ (ПО ВРЕМЕНИ И ПО МОНЕТАМ) ---
+    let leaderboardMode = "time"; // 'time' или 'coins'
+    let cachedPlayers = [];
+
+    function setLeaderboardMode(mode) {
+      leaderboardMode = mode;
+      document.getElementById("lb-tab-time").classList.toggle("active", mode === "time");
+      document.getElementById("lb-tab-coins").classList.toggle("active", mode === "coins");
+      renderLeaderboardList();
+    }
+
+    function renderLeaderboardList() {
+      const listEl = document.getElementById("leaderboard-list");
+      const list = cachedPlayers.map(p => {
+        if (String(p.id) === String(userId)) {
+          return Object.assign({}, p, {
+            name: userName,
+            score: Math.floor(state.balance),
+            playTime: Math.floor(state.playTimeSeconds)
+          });
+        }
+        return p;
+      });
+
+      if (leaderboardMode === "time") {
+        list.sort((a, b) => (b.playTime || 0) - (a.playTime || 0));
+      } else {
+        list.sort((a, b) => (b.score || 0) - (a.score || 0));
+      }
+
+      const top25 = list.slice(0, 25);
+
+      listEl.innerHTML = top25.map((p, index) => {
+        const isMe = String(p.id) === String(userId);
+        let medal = `${index + 1}`;
+        if (index === 0) medal = "🥇";
+        else if (index === 1) medal = "🥈";
+        else if (index === 2) medal = "🥉";
+
+        const lgName = getCurrentLeague(p.score || 0).name;
+        const pTimeStr = formatPlayTime(p.playTime || 0);
+        const pCoinsStr = `${formatNum(p.score || 0)} 🐾`;
+
+        const mainBadge = leaderboardMode === "time"
+          ? `<div class="lb-score time-mode">${pTimeStr}</div>`
+          : `<div class="lb-score">🐾 ${formatNum(p.score || 0)}</div>`;
+
+        const subText = leaderboardMode === "time"
+          ? `${lgName} • ${pCoinsStr}`
+          : `${lgName} • ${pTimeStr}`;
+
+        return `
+          <div class="item-card lb-item ${isMe ? "me" : ""}">
+            <div class="item-left">
+              <div class="lb-rank">${medal}</div>
+              <div>
+                <div class="item-title">${escapeHtml(p.name)} ${isMe ? "(Вы)" : ""}</div>
+                <div class="item-sub">${subText}</div>
+              </div>
+            </div>
+            ${mainBadge}
+          </div>
+        `;
+      }).join("");
+    }
+
     async function syncAndRenderLeaderboard(manual) {
       const listEl = document.getElementById("leaderboard-list");
       if (manual) listEl.innerHTML = `<div style="text-align:center;color:var(--muted);padding:20px;">Загрузка рейтинга...</div>`;
@@ -1469,35 +1717,16 @@
       }
 
       if (!players.length) {
-        players = [{ id: userId, name: userName, score: Math.floor(state.balance), playTime: state.playTimeSeconds }];
+        players = [{
+          id: userId,
+          name: userName,
+          score: Math.floor(state.balance),
+          playTime: Math.floor(state.playTimeSeconds)
+        }];
       }
 
-      players.sort((a, b) => b.score - a.score);
-      const top25 = players.slice(0, 25);
-
-      listEl.innerHTML = top25.map((p, index) => {
-        const isMe = String(p.id) === String(userId);
-        let medal = `${index + 1}`;
-        if (index === 0) medal = "🥇";
-        else if (index === 1) medal = "🥈";
-        else if (index === 2) medal = "🥉";
-
-        const lgName = getCurrentLeague(p.score).name;
-        const pTime = p.playTime ? ` • ${formatPlayTime(p.playTime)}` : "";
-
-        return `
-          <div class="item-card lb-item ${isMe ? "me" : ""}">
-            <div class="item-left">
-              <div class="lb-rank">${medal}</div>
-              <div>
-                <div class="item-title">${escapeHtml(p.name)} ${isMe ? "(Вы)" : ""}</div>
-                <div class="item-sub">${lgName}${pTime}</div>
-              </div>
-            </div>
-            <div class="lb-score">🐾 ${formatNum(p.score)}</div>
-          </div>
-        `;
-      }).join("");
+      cachedPlayers = players;
+      renderLeaderboardList();
     }
 
     function escapeHtml(str) {
@@ -1526,7 +1755,7 @@
 
     // Фоновая синхронизация с Firebase каждые 10 секунд
     setInterval(() => {
-      if (state.balance > 0 || state.passiveIncome > 0) {
+      if (state.balance > 0 || state.passiveIncome > 0 || state.playTimeSeconds > 0) {
         syncCloudState(false);
       }
     }, 10000);
