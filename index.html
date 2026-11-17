@@ -539,7 +539,7 @@
       font-size: 28px; box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.6);
       transition: transform 1s cubic-bezier(0.15, 1, 0.3, 1);
     }
-    .wheel-box.spin-anim { transform: rotate(720deg) scale(1.08); }
+    .wheel-box.spin-anim { transform: rotate(1080deg) scale(1.1); }
 
     .cards-row { display: flex; gap: 8px; justify-content: center; margin: 10px 0; }
     .guess-card-item {
@@ -676,7 +676,7 @@
       </div>
       <div class="item-card clickable" id="upg-bot" onclick="buyUpgrade('bot')">
         <div class="item-left"><div class="item-icon">🐕</div><div><div class="item-title">Питомник <span class="lvl-tag" id="lvl-bot">Ур. 0</span></div><div class="item-sub">+6 монеток каждую секунду</div></div></div>
-        <button class="action-btn" id="cost-bot">24 🐾</button>
+        <button class="action-btn" id="cost-bot">20 🐾</button>
       </div>
       <div class="item-card clickable" id="upg-x2" onclick="buyX2Boost()">
         <div class="item-left"><div class="item-icon">🔥</div><div><div class="item-title">Турбо-клик x2 <span class="lvl-tag temp">15 мин</span></div><div class="item-sub">Удваивает монеты за клик</div></div></div>
@@ -705,7 +705,7 @@
     <div class="casino-panel">
       <div class="casino-game-box" style="border:none;padding-top:0;">
         <div class="casino-title">🎰 Колесо Фортуны</div>
-        <div class="casino-desc">Множители: x0, x1.5, x3, x10, Джекпот x20</div>
+        <div class="casino-desc">Множители: x0, x1.5, x3, x10, Джекпот x25</div>
         <div class="wheel-box" id="wheel-box">🐾</div>
         <button class="action-btn" onclick="spinWheel()" style="width:100%;padding:10px;font-size:13px;">Крутить колесо</button>
       </div>
@@ -715,7 +715,7 @@
     <div class="casino-panel">
       <div class="casino-game-box" style="border:none;padding-top:0;">
         <div class="casino-title">🃏 Угадай призовую лапку</div>
-        <div class="casino-desc">Найди спрятанную корону! Выигрыш: x3</div>
+        <div class="casino-desc">Найди спрятанную корону из 3 карт! Выигрыш: x3</div>
         <div class="cards-row" id="guess-cards-container">
           <div class="guess-card-item" onclick="chooseGuessCard(0)">❓</div>
           <div class="guess-card-item" onclick="chooseGuessCard(1)">❓</div>
@@ -729,7 +729,7 @@
     <div class="casino-panel">
       <div class="casino-game-box" style="border:none;padding-top:0;">
         <div class="casino-title">🎲 Кости Удачи</div>
-        <div class="casino-desc">Брось кости против дилера. Твой бросок выше — x2!</div>
+        <div class="casino-desc">Брось кости против дилера. Твой бросок выше — x2! Ничья — возврат!</div>
         <div class="dice-row">
           <div class="dice-box" id="player-dice">🎲</div>
           <div class="dice-box" id="dealer-dice">🎲</div>
@@ -741,7 +741,7 @@
 
   <!-- ЭКРАН 4: ЗАДАНИЯ -->
   <div class="screen" id="screen-quests">
-    <div class="section-top-bar"><div class="section-heading">🎯 Задания</div><div class="timer-badge" id="quests-timer">⏳ 30:00</div></div>
+    <div class="section-top-bar"><div class="section-heading">🎯 Задания (по уровню)</div><div class="timer-badge" id="quests-timer">⏳ 30:00</div></div>
     <div class="card-list" id="quests-list"></div>
   </div>
 
@@ -812,9 +812,9 @@
     const X2_BOOST_DURATION_MS = 15 * 60 * 1000;
 
     const BASE_TAP_COST = 5;
-    const TAP_COST_MULT = 1.38;
-    const BASE_BOT_COST = 24;
-    const BOT_COST_MULT = 1.45;
+    const TAP_COST_MULT = 1.22; // Плавный рост цен лапки
+    const BASE_BOT_COST = 20;
+    const BOT_COST_MULT = 1.26; // Плавный рост цен питомника
 
     function calcTapCost(level) {
       let cost = BASE_TAP_COST;
@@ -1103,11 +1103,11 @@
 
         const roll = Math.random();
         let prize = 0, msg = "";
-        if (roll < 0.45) { prize = 0; msg = "😢 Не повезло, ставка сгорела!"; }
-        else if (roll < 0.75) { prize = Math.floor(bet * 1.5); msg = `🎉 Выигрыш (x1.5): +${formatNum(prize)} 🐾`; }
-        else if (roll < 0.90) { prize = bet * 3; msg = `🔥 Куш (x3): +${formatNum(prize)} 🐾`; }
-        else if (roll < 0.98) { prize = bet * 10; msg = `💎 СУПЕР КУШ (x10): +${formatNum(prize)} 🐾`; tg?.HapticFeedback?.notificationOccurred("success"); }
-        else { prize = bet * 20; msg = `👑 ДЖЕКПОТ (x20): +${formatNum(prize)} 🐾`; tg?.HapticFeedback?.notificationOccurred("success"); }
+        if (roll < 0.42) { prize = 0; msg = "😢 Не повезло, ставка сгорела!"; }
+        else if (roll < 0.72) { prize = Math.floor(bet * 1.5); msg = `🎉 Выигрыш (x1.5): +${formatNum(prize)} 🐾`; }
+        else if (roll < 0.88) { prize = bet * 3; msg = `🔥 Куш (x3): +${formatNum(prize)} 🐾`; }
+        else if (roll < 0.97) { prize = bet * 10; msg = `💎 СУПЕР КУШ (x10): +${formatNum(prize)} 🐾`; tg?.HapticFeedback?.notificationOccurred("success"); }
+        else { prize = bet * 25; msg = `👑 МЕГА ДЖЕКПОТ (x25): +${formatNum(prize)} 🐾`; tg?.HapticFeedback?.notificationOccurred("success"); }
 
         if (prize > 0) { state.balance += prize; state.cycleEarned = (state.cycleEarned || 0) + prize; }
         showToast(msg); updateUI(); saveState();
@@ -1177,19 +1177,31 @@
       updateUI(); saveState();
     }
 
-    const QUESTS = [
-      { id: "q_taps_50", icon: "🐾", title: "Разминка лапок", desc: "Сделать 50 кликов", target: 50, reward: 1500, getVal: () => state.cycleTaps || 0 },
-      { id: "q_earn_1500", icon: "💰", title: "Сбор урожая", desc: "Заработать 1 500 монет", target: 1500, reward: 3500, getVal: () => state.cycleEarned || 0 },
-      { id: "q_upg_1", icon: "🚀", title: "Прокачка", desc: "Купить 1 улучшение", target: 1, reward: 3000, getVal: () => state.cycleUpgrades || 0 },
-      { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой", target: 1, reward: 6000, getVal: () => state.cycleShared ? 1 : 0, isShare: true },
-      { id: "q_time_2m", icon: "⏱️", title: "Активный игрок", desc: "Провести 2 минуты в игре", target: 120, reward: 5000, getVal: () => state.cyclePlayTime || 0 },
-      { id: "q_taps_250", icon: "⚡", title: "Турбо-лапка", desc: "Сделать 250 кликов", target: 250, reward: 8500, getVal: () => state.cycleTaps || 0 }
-    ];
+    // --- ДИНАМИЧЕСКИЕ ЗАДАНИЯ ПО УРОВНЮ ---
+    function getQuestMultipliers() {
+      const power = state.tapPower || 1;
+      const passive = state.passiveIncome || 0;
+      const baseMult = Math.max(1, power + passive * 2);
+      return baseMult;
+    }
+
+    function getDynamicQuests() {
+      const m = getQuestMultipliers();
+      return [
+        { id: "q_taps_50", icon: "🐾", title: "Разминка лапок", desc: "Сделать 60 кликов", target: 60, reward: Math.round(800 * m), getVal: () => state.cycleTaps || 0 },
+        { id: "q_earn_1500", icon: "💰", title: "Сбор урожая", desc: "Заработать монеты по уровню", target: Math.round(1000 * m), reward: Math.round(2500 * m), getVal: () => state.cycleEarned || 0 },
+        { id: "q_upg_1", icon: "🚀", title: "Прокачка", desc: "Купить 1 любое улучшение", target: 1, reward: Math.round(1500 * m), getVal: () => state.cycleUpgrades || 0 },
+        { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой с другом", target: 1, reward: Math.round(4000 * m), getVal: () => state.cycleShared ? 1 : 0, isShare: true },
+        { id: "q_time_2m", icon: "⏱️", title: "Активный игрок", desc: "Провести 2 минуты в игре", target: 120, reward: Math.round(2000 * m), getVal: () => state.cyclePlayTime || 0 },
+        { id: "q_taps_250", icon: "⚡", title: "Турбо-лапка", desc: "Сделать 300 кликов", target: 300, reward: Math.round(6000 * m), getVal: () => state.cycleTaps || 0 }
+      ];
+    }
 
     function renderQuests() {
       const remMs = Math.max(0, QUEST_CYCLE_MS - (Date.now() - state.questCycleStart));
       document.getElementById("quests-timer").textContent = `⏳ ${formatMMSS(remMs)}`;
       const container = document.getElementById("quests-list");
+      const QUESTS = getDynamicQuests();
       let hasReady = false;
 
       container.innerHTML = QUESTS.map(q => {
@@ -1228,6 +1240,7 @@
     }
 
     function claimQuest(id) {
+      const QUESTS = getDynamicQuests();
       const q = QUESTS.find(x => x.id === id);
       if (!q || state.claimedQuests[id] || q.getVal() < q.target) return;
       state.claimedQuests[id] = true; state.balance += q.reward;
@@ -1372,7 +1385,7 @@
       const list = cachedPlayers.map(p => String(p.id) === String(userId) ? Object.assign({}, p, { name: userName, score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds) }) : p);
 
       if (leaderboardMode === "time") list.sort((a, b) => (b.playTime || 0) - (a.playTime || 0));
-      else if (leaderboardMode === "coins") list.sort((a, b) => (b.score || 0) - (a.score || 0)); /* ИСПРАВЛЕНО ЗДЕСЬ */
+      else if (leaderboardMode === "coins") list.sort((a, b) => (b.score || 0) - (a.score || 0));
       else list.sort((a, b) => (b.totalTaps || 0) - (a.totalTaps || 0));
 
       listEl.innerHTML = list.slice(0, 25).map((p, index) => {
