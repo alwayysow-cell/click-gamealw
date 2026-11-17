@@ -867,7 +867,7 @@
     <div class="score-card">
       <div class="league-row">
         <span class="league-name" id="league-label">🥉 Бронзовая лига</span>
-        <span id="next-league-text">До Серебра: 10 000</span>
+        <span id="next-league-text">До Серебра: 5 000</span>
       </div>
       <div class="balance-row">
         <span class="mini-paw-coin" id="mini-coin">🐾</span>
@@ -897,9 +897,9 @@
 
     <div class="energy-card">
       <div class="energy-row">
-        <span>🦴 Энергия: <span id="energy">500</span> / <span id="max-energy">500</span></span>
+        <span>🦴 Энергия: <span id="energy">1000</span> / <span id="max-energy">1000</span></span>
         <button class="free-refill-btn" id="refill-btn" onclick="useFreeRefill()">
-          ⚡ Заряд (3/3)
+          ⚡ Заряд (5/5)
         </button>
       </div>
       <div class="progress-track">
@@ -919,7 +919,7 @@
           <div class="item-icon">🐾</div>
           <div>
             <div class="item-title">Сила лапки <span class="lvl-tag" id="lvl-tap">Ур. 1</span></div>
-            <div class="item-sub">+3 монетки с лапкой за клик</div>
+            <div class="item-sub">+5 монеток с лапкой за клик</div>
           </div>
         </div>
         <button class="action-btn" id="cost-tap">12</button>
@@ -930,7 +930,7 @@
           <div class="item-icon">🦴</div>
           <div>
             <div class="item-title">Запас косточек <span class="lvl-tag" id="lvl-energy">Ур. 1</span></div>
-            <div class="item-sub">+300 к максимуму энергии</div>
+            <div class="item-sub">+500 к максимуму энергии</div>
           </div>
         </div>
         <button class="action-btn" id="cost-energy">24</button>
@@ -941,7 +941,7 @@
           <div class="item-icon">⚡</div>
           <div>
             <div class="item-title">Скорость отдыха <span class="lvl-tag" id="lvl-regen">Ур. 1</span></div>
-            <div class="item-sub">+1 энергия в секунду</div>
+            <div class="item-sub">+3 энергии в секунду</div>
           </div>
         </div>
         <button class="action-btn" id="cost-regen">36</button>
@@ -952,7 +952,7 @@
           <div class="item-icon">🐕</div>
           <div>
             <div class="item-title">Питомник <span class="lvl-tag" id="lvl-bot">Ур. 0</span></div>
-            <div class="item-sub">+3 монетки с лапкой каждую секунду</div>
+            <div class="item-sub">+6 монеток с лапкой каждую секунду</div>
           </div>
         </div>
         <button class="action-btn" id="cost-bot">60</button>
@@ -1013,7 +1013,8 @@
 
   <script>
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
-    const REFILL_CYCLE_MS = 7 * 60 * 1000;  // 7 минут
+    const MAX_REFILLS = 5;
+    const REFILL_CYCLE_MS = 4 * 60 * 1000;  // 4 минуты
     const QUEST_CYCLE_MS = 30 * 60 * 1000;  // 30 минут
 
     const tg = window.Telegram?.WebApp;
@@ -1037,24 +1038,22 @@
     document.getElementById("avatar-letter").textContent = userName.charAt(0).toUpperCase();
 
     const todayStr = new Date().toDateString();
-    const DAILY_REWARDS = [500, 1000, 2500, 5000, 10000, 15000, 25000];
+    const DAILY_REWARDS = [1500, 3500, 7500, 15000, 30000, 50000, 100000];
 
     const defaultState = {
       balance: 0,
-      energy: 500,
-      maxEnergy: 500,
-      energyRegen: 2,
+      energy: 1000,
+      maxEnergy: 1000,
+      energyRegen: 5,
       tapPower: 1,
       passiveIncome: 0,
-      refillsLeft: 3,
+      refillsLeft: MAX_REFILLS,
       refillResetAt: 0,
       lastSeen: Date.now(),
       playTimeSeconds: 0,
       levels: { tap: 1, energy: 1, regen: 1, bot: 0 },
       costs: { tap: 12, energy: 24, regen: 36, bot: 60 },
-      discount15Applied: true,
-      discount30Applied: true,
-      discount60Applied: true,
+      rebalanceEasyApplied: true,
       questCycleStart: Date.now(),
       cycleTaps: 0,
       cycleEarned: 0,
@@ -1077,13 +1076,24 @@
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
 
-    // Разовое снижение текущих цен на 60% для существующего сохранения
-    if (!state.discount60Applied && state.costs) {
-      state.costs.tap = Math.max(1, Math.round(state.costs.tap * 0.4));
-      state.costs.energy = Math.max(1, Math.round(state.costs.energy * 0.4));
-      state.costs.regen = Math.max(1, Math.round(state.costs.regen * 0.4));
-      state.costs.bot = Math.max(1, Math.round(state.costs.bot * 0.4));
-      state.discount60Applied = true;
+    // Плавный пересчет существующего сохранения под облегченный баланс
+    if (!state.rebalanceEasyApplied) {
+      if (state.costs) {
+        state.costs.tap = Math.max(12, Math.round(state.costs.tap * 0.45));
+        state.costs.energy = Math.max(24, Math.round(state.costs.energy * 0.45));
+        state.costs.regen = Math.max(36, Math.round(state.costs.regen * 0.45));
+        state.costs.bot = Math.max(60, Math.round(state.costs.bot * 0.45));
+      }
+      if (state.maxEnergy < 1000) {
+        state.maxEnergy = 1000;
+        state.energy = Math.max(state.energy, 1000);
+      }
+      if (state.energyRegen < 5) {
+        state.energyRegen = 5;
+      }
+      state.refillsLeft = MAX_REFILLS;
+      state.refillResetAt = 0;
+      state.rebalanceEasyApplied = true;
     }
 
     function saveState() {
@@ -1091,15 +1101,15 @@
       localStorage.setItem("aureum_save", JSON.stringify(state));
     }
 
-    // Проверка и сброс 7-минутного таймера зарядов
+    // Проверка и сброс 4-минутного таймера зарядов
     function checkRefillTimer(silent = false) {
-      if (state.refillsLeft < 3) {
+      if (state.refillsLeft < MAX_REFILLS) {
         if (!state.refillResetAt) {
           state.refillResetAt = Date.now() + REFILL_CYCLE_MS;
         } else if (Date.now() >= state.refillResetAt) {
-          state.refillsLeft = 3;
+          state.refillsLeft = MAX_REFILLS;
           state.refillResetAt = 0;
-          if (!silent) showToast("⚡ Все 3 заряда восстановлены!");
+          if (!silent) showToast(`⚡ Все ${MAX_REFILLS} зарядов восстановлены!`);
           saveState();
         }
       }
@@ -1199,13 +1209,13 @@
       setTimeout(() => { t.style.display = "none"; }, 4000);
     }
 
-    // Лиги и стили монеты с лапкой
+    // Лиги и стили монеты с лапкой (облегченные пороги)
     const LEAGUES = [
-      { min: 0, max: 10000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", aura: "rgba(234, 88, 12, 0.38)", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
-      { min: 10000, max: 50000, name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver", color: "#e2e8f0", aura: "rgba(148, 163, 184, 0.42)", miniBg: "radial-gradient(circle at 30% 25%, #f8fafc, #475569)" },
-      { min: 50000, max: 250000, name: "🥇 Золотая лига", next: "Алмаза", theme: "theme-gold", color: "#fde047", aura: "rgba(250, 204, 21, 0.45)", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)" },
-      { min: 250000, max: 1000000, name: "💎 Алмазная лига", next: "Легенды", theme: "theme-diamond", color: "#22d3ee", aura: "rgba(34, 211, 238, 0.5)", miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)" },
-      { min: 1000000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", color: "#e879f9", aura: "rgba(217, 70, 239, 0.55)", miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)" }
+      { min: 0, max: 5000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", aura: "rgba(234, 88, 12, 0.38)", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
+      { min: 5000, max: 25000, name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver", color: "#e2e8f0", aura: "rgba(148, 163, 184, 0.42)", miniBg: "radial-gradient(circle at 30% 25%, #f8fafc, #475569)" },
+      { min: 25000, max: 100000, name: "🥇 Золотая лига", next: "Алмаза", theme: "theme-gold", color: "#fde047", aura: "rgba(250, 204, 21, 0.45)", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)" },
+      { min: 100000, max: 500000, name: "💎 Алмазная лига", next: "Легенды", theme: "theme-diamond", color: "#22d3ee", aura: "rgba(34, 211, 238, 0.5)", miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)" },
+      { min: 500000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", color: "#e879f9", aura: "rgba(217, 70, 239, 0.55)", miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)" }
     ];
 
     function getCurrentLeague(score) {
@@ -1244,14 +1254,14 @@
       }
     }
 
-    // --- ЗАДАНИЯ (ОБНОВЛЯЮТСЯ КАЖДЫЕ 30 МИНУТ) ---
+    // --- ЗАДАНИЯ (ОБНОВЛЯЮТСЯ КАЖДЫЕ 30 МИНУТ, ЩЕДРЫЕ НАГРАДЫ) ---
     const QUESTS = [
-      { id: "q_taps_100", icon: "🐾", title: "Разминка лапок", desc: "Сделать 100 кликов за полчаса", target: 100, reward: 600, getVal: () => state.cycleTaps || 0 },
-      { id: "q_earn_3000", icon: "💰", title: "Сбор урожая", desc: "Заработать 3 000 монет за полчаса", target: 3000, reward: 1500, getVal: () => state.cycleEarned || 0 },
-      { id: "q_upg_1", icon: "🚀", title: "Прокачка", desc: "Купить 1 любое улучшение", target: 1, reward: 1200, getVal: () => state.cycleUpgrades || 0 },
-      { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой в Telegram", target: 1, reward: 2500, getVal: () => state.cycleShared ? 1 : 0, isShare: true },
-      { id: "q_time_3m", icon: "⏱️", title: "Активный игрок", desc: "Провести в игре 3 минуты", target: 180, reward: 2000, getVal: () => state.cyclePlayTime || 0 },
-      { id: "q_taps_500", icon: "⚡", title: "Турбо-лапка", desc: "Сделать 500 кликов за полчаса", target: 500, reward: 3500, getVal: () => state.cycleTaps || 0 }
+      { id: "q_taps_50", icon: "🐾", title: "Разминка лапок", desc: "Сделать 50 кликов за полчаса", target: 50, reward: 1500, getVal: () => state.cycleTaps || 0 },
+      { id: "q_earn_1500", icon: "💰", title: "Сбор урожая", desc: "Заработать 1 500 монет за полчаса", target: 1500, reward: 3500, getVal: () => state.cycleEarned || 0 },
+      { id: "q_upg_1", icon: "🚀", title: "Прокачка", desc: "Купить 1 любое улучшение", target: 1, reward: 3000, getVal: () => state.cycleUpgrades || 0 },
+      { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой в Telegram", target: 1, reward: 6000, getVal: () => state.cycleShared ? 1 : 0, isShare: true },
+      { id: "q_time_2m", icon: "⏱️", title: "Активный игрок", desc: "Провести в игре 2 минуты", target: 120, reward: 5000, getVal: () => state.cyclePlayTime || 0 },
+      { id: "q_taps_250", icon: "⚡", title: "Турбо-лапка", desc: "Сделать 250 кликов за полчаса", target: 250, reward: 8500, getVal: () => state.cycleTaps || 0 }
     ];
 
     function renderQuests() {
@@ -1394,13 +1404,13 @@
       const pct = Math.min(100, (state.energy / state.maxEnergy) * 100);
       document.getElementById("energy-bar").style.width = `${pct}%`;
 
-      // Кнопка зарядов + таймер 7 минут
+      // Кнопка зарядов + таймер 4 минуты
       const refillBtn = document.getElementById("refill-btn");
-      if (state.refillsLeft < 3 && state.refillResetAt > Date.now()) {
+      if (state.refillsLeft < MAX_REFILLS && state.refillResetAt > Date.now()) {
         const rem = formatMMSS(state.refillResetAt - Date.now());
-        refillBtn.textContent = `⚡ Заряд (${state.refillsLeft}/3) • ${rem}`;
+        refillBtn.textContent = `⚡ Заряд (${state.refillsLeft}/${MAX_REFILLS}) • ${rem}`;
       } else {
-        refillBtn.textContent = `⚡ Заряд (${state.refillsLeft}/3)`;
+        refillBtn.textContent = `⚡ Заряд (${state.refillsLeft}/${MAX_REFILLS})`;
       }
       refillBtn.disabled = state.refillsLeft <= 0 || state.energy >= state.maxEnergy;
 
@@ -1427,10 +1437,10 @@
       renderQuests();
     }
 
-    // Клик по монете с лапкой
+    // Клик по монете с лапкой (1 клик = 1 энергия)
     const coinBtn = document.getElementById("coin");
     coinBtn.addEventListener("pointerdown", (e) => {
-      if (state.energy < state.tapPower) {
+      if (state.energy < 1) {
         tg?.HapticFeedback?.notificationOccurred("error");
         return;
       }
@@ -1445,7 +1455,7 @@
       setTimeout(() => { coinBtn.style.transform = "scale(1) rotateX(0) rotateY(0)"; }, 100);
 
       state.balance += state.tapPower;
-      state.energy -= state.tapPower;
+      state.energy -= 1;
       state.cycleTaps = (state.cycleTaps || 0) + 1;
       state.cycleEarned = (state.cycleEarned || 0) + state.tapPower;
 
@@ -1467,7 +1477,7 @@
 
     function useFreeRefill() {
       if (state.refillsLeft <= 0 || state.energy >= state.maxEnergy) return;
-      if (state.refillsLeft === 3) {
+      if (state.refillsLeft === MAX_REFILLS) {
         state.refillResetAt = Date.now() + REFILL_CYCLE_MS;
       }
       state.refillsLeft -= 1;
@@ -1486,18 +1496,18 @@
       state.cycleUpgrades = (state.cycleUpgrades || 0) + 1;
 
       if (type === "tap") {
-        state.tapPower += 3;
-        state.costs.tap = Math.round(state.costs.tap * 1.65);
+        state.tapPower += 5;
+        state.costs.tap = Math.round(state.costs.tap * 1.38);
       } else if (type === "energy") {
-        state.maxEnergy += 300;
+        state.maxEnergy += 500;
         state.energy = state.maxEnergy;
-        state.costs.energy = Math.round(state.costs.energy * 1.7);
+        state.costs.energy = Math.round(state.costs.energy * 1.42);
       } else if (type === "regen") {
-        state.energyRegen += 1;
-        state.costs.regen = Math.round(state.costs.regen * 1.75);
+        state.energyRegen += 3;
+        state.costs.regen = Math.round(state.costs.regen * 1.45);
       } else if (type === "bot") {
-        state.passiveIncome += 3;
-        state.costs.bot = Math.round(state.costs.bot * 1.8);
+        state.passiveIncome += 6;
+        state.costs.bot = Math.round(state.costs.bot * 1.45);
       }
 
       tg?.HapticFeedback?.notificationOccurred("success");
