@@ -267,6 +267,74 @@
       cursor: default;
     }
 
+    /* НОВАЯ ФИШКА: КОПИЛКА-ХРАНИТЕЛЬ */
+    .piggy-bank-widget {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 20, 32, 0.9));
+      border: 1px solid rgba(52, 211, 153, 0.35);
+      border-radius: 18px;
+      padding: 10px 14px;
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+    }
+
+    .piggy-info {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      text-align: left;
+    }
+
+    .piggy-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #a7f3d0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .piggy-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .piggy-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #34d399, #6ee7b7);
+      border-radius: 99px;
+      transition: width 0.3s ease;
+    }
+
+    .piggy-btn {
+      background: linear-gradient(135deg, #34d399, #059669);
+      color: #022c22;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .piggy-btn:disabled {
+      opacity: 0.45;
+      cursor: default;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      box-shadow: none;
+    }
+
     .x2-active-banner {
       display: none;
       align-items: center;
@@ -294,7 +362,7 @@
       justify-content: center;
       perspective: 900px;
       position: relative;
-      min-height: 250px;
+      min-height: 220px;
     }
 
     .coin-aura {
@@ -475,93 +543,12 @@
     .lb-score.time-mode { color: #7dd3fc; }
     .lb-score.taps-mode { color: #34d399; }
 
-    /* --- СТИЛИ КАЗИНО --- */
-    .casino-panel {
-      background: linear-gradient(145deg, rgba(217, 119, 6, 0.14), rgba(16, 20, 32, 0.92));
-      border: 1px solid rgba(var(--accent-rgb), 0.4);
-      border-radius: 20px;
-      padding: 16px;
-      margin-bottom: 14px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    }
-
-    .bet-control-box {
-      background: rgba(8, 11, 18, 0.75);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 10px 12px;
-      margin-bottom: 14px;
-    }
-
-    .bet-input-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 6px;
-    }
-
-    .bet-input {
-      flex: 1;
-      background: rgba(20, 25, 38, 0.9);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 12px;
-      color: var(--text);
-      font-size: 15px;
-      font-weight: 800;
-      outline: none;
-      user-select: text;
-      -webkit-user-select: text;
-    }
-
-    .bet-input:focus { border-color: var(--accent); }
-
-    .bet-chips { display: flex; gap: 5px; }
-    .bet-chip {
-      background: rgba(var(--accent-rgb), 0.16);
-      border: 1px solid rgba(var(--accent-rgb), 0.35);
-      color: var(--accent-light);
-      border-radius: 8px;
-      padding: 6px 9px;
-      font-size: 11px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .casino-game-box { text-align: center; padding-top: 6px; border-top: 1px solid rgba(255,255,255,0.06); }
-    .casino-title { font-size: 15px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; justify-content: center; gap: 6px; color: var(--accent-light); }
-    .casino-desc { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
-
-    .wheel-box {
-      width: 80px; height: 80px; margin: 8px auto; border-radius: 50%;
-      background: radial-gradient(circle, var(--accent-light), var(--accent-dark));
-      border: 3px solid var(--accent); display: flex; align-items: center; justify-content: center;
-      font-size: 28px; box-shadow: 0 0 18px rgba(var(--accent-rgb), 0.6);
-      transition: transform 1s cubic-bezier(0.15, 1, 0.3, 1);
-    }
-    .wheel-box.spin-anim { transform: rotate(1080deg) scale(1.1); }
-
-    .cards-row { display: flex; gap: 8px; justify-content: center; margin: 10px 0; }
-    .guess-card-item {
-      flex: 1; max-width: 85px; height: 100px; background: var(--surface-strong);
-      border: 2px solid var(--border); border-radius: 14px; display: flex;
-      flex-direction: column; align-items: center; justify-content: center; cursor: pointer; font-size: 24px;
-    }
-    .guess-card-item:hover { border-color: var(--accent); transform: translateY(-3px); }
-    .guess-card-item.revealed { background: rgba(var(--accent-rgb), 0.2); border-color: var(--accent); }
-
-    .dice-row { display: flex; justify-content: center; gap: 16px; margin: 10px 0; }
-    .dice-box {
-      width: 55px; height: 55px; background: var(--surface-strong); border: 2px solid var(--border);
-      border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 800; color: var(--accent-light);
-    }
-
-    /* Навигация */
+    /* Навигация (4 вкладки вместо 5) */
     .navbar {
       position: fixed; bottom: 12px; left: 14px; right: 14px; height: 64px;
       background: rgba(14, 18, 29, 0.92); backdrop-filter: blur(20px);
       border: 1px solid rgba(var(--accent-rgb), 0.24); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      border-radius: 22px; display: grid; grid-template-columns: repeat(5, 1fr); padding: 5px; z-index: 50;
+      border-radius: 22px; display: grid; grid-template-columns: repeat(4, 1fr); padding: 5px; z-index: 50;
     }
     .nav-item {
       position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -644,6 +631,16 @@
       </div>
       <div class="balance-row"><span class="mini-paw-coin" id="mini-coin">🐾</span><span id="balance">0</span></div>
       <div class="league-progress-bg"><div class="league-progress-fill" id="league-bar"></div></div>
+
+      <!-- НОВАЯ ФИШКА: КОПИЛКА-ХРАНИТЕЛЬ -->
+      <div class="piggy-bank-widget">
+        <div class="piggy-info">
+          <div class="piggy-title">🐷 Копилка-Хранитель</div>
+          <div class="item-sub" id="piggy-status">Накапливает бонус: 0%</div>
+          <div class="piggy-bar-bg"><div class="piggy-bar-fill" id="piggy-bar"></div></div>
+        </div>
+        <button class="piggy-btn" id="piggy-claim-btn" onclick="claimPiggyReward()" disabled>Забрать</button>
+      </div>
     </div>
 
     <div class="x2-active-banner" id="x2-active-banner">🔥 x2 КЛИКИ АКТИВНЫ • <span id="x2-banner-timer">15:00</span></div>
@@ -685,67 +682,13 @@
     </div>
   </div>
 
-  <!-- ЭКРАН 3: КАЗИНО -->
-  <div class="screen" id="screen-casino">
-    <div class="section-top-bar"><div class="section-heading">🎲 Лапа Удачи</div><div class="timer-badge">Казино</div></div>
-
-    <div class="bet-control-box">
-      <label class="admin-label" style="margin-bottom:4px;">💰 Размер вашей ставки</label>
-      <div class="bet-input-row">
-        <input type="number" class="bet-input" id="casino-bet-input" value="100" min="1" oninput="validateBetInput()" />
-        <div class="bet-chips">
-          <button class="bet-chip" onclick="setBetFraction(0.5)">1/2</button>
-          <button class="bet-chip" onclick="setBetMultiplier(2)">2x</button>
-          <button class="bet-chip" onclick="setMaxBet()">Макс</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Колесо Фортуны -->
-    <div class="casino-panel">
-      <div class="casino-game-box" style="border:none;padding-top:0;">
-        <div class="casino-title">🎰 Колесо Фортуны</div>
-        <div class="casino-desc">Множители: x0, x1.5, x3, x10, Джекпот x25</div>
-        <div class="wheel-box" id="wheel-box">🐾</div>
-        <button class="action-btn" onclick="spinWheel()" style="width:100%;padding:10px;font-size:13px;">Крутить колесо</button>
-      </div>
-    </div>
-
-    <!-- Угадай лапку -->
-    <div class="casino-panel">
-      <div class="casino-game-box" style="border:none;padding-top:0;">
-        <div class="casino-title">🃏 Угадай призовую лапку</div>
-        <div class="casino-desc">Найди спрятанную корону из 3 карт! Выигрыш: x3</div>
-        <div class="cards-row" id="guess-cards-container">
-          <div class="guess-card-item" onclick="chooseGuessCard(0)">❓</div>
-          <div class="guess-card-item" onclick="chooseGuessCard(1)">❓</div>
-          <div class="guess-card-item" onclick="chooseGuessCard(2)">❓</div>
-        </div>
-        <button class="action-btn" id="guess-reset-btn" onclick="resetGuessGame()" style="display:none;width:100%;padding:9px;font-size:12px;background:var(--surface-strong);color:var(--text);">Играть снова</button>
-      </div>
-    </div>
-
-    <!-- Кости Удачи -->
-    <div class="casino-panel">
-      <div class="casino-game-box" style="border:none;padding-top:0;">
-        <div class="casino-title">🎲 Кости Удачи</div>
-        <div class="casino-desc">Брось кости против дилера. Твой бросок выше — x2! Ничья — возврат!</div>
-        <div class="dice-row">
-          <div class="dice-box" id="player-dice">🎲</div>
-          <div class="dice-box" id="dealer-dice">🎲</div>
-        </div>
-        <button class="action-btn" onclick="playDiceGame()" style="width:100%;padding:10px;font-size:13px;">Бросить кости</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ЭКРАН 4: ЗАДАНИЯ -->
+  <!-- ЭКРАН 3: ЗАДАНИЯ -->
   <div class="screen" id="screen-quests">
     <div class="section-top-bar"><div class="section-heading">🎯 Задания (по уровню)</div><div class="timer-badge" id="quests-timer">⏳ 30:00</div></div>
     <div class="card-list" id="quests-list"></div>
   </div>
 
-  <!-- ЭКРАН 5: ЛИДЕРЫ -->
+  <!-- ЭКРАН 4: ЛИДЕРЫ -->
   <div class="screen" id="screen-leaders">
     <div class="section-top-bar"><div class="section-heading">🏆 Топ игроков</div><button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button></div>
     <div class="lb-tabs">
@@ -756,11 +699,10 @@
     <div class="card-list" id="leaderboard-list"></div>
   </div>
 
-  <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+  <!-- НИЖНЯЯ НАВИГАЦИЯ (4 ВКЛАДКИ) -->
   <div class="navbar">
     <div class="nav-item active" onclick="switchTab('game', this)"><div class="nav-icon">🐾</div><div>Майнинг</div></div>
     <div class="nav-item" onclick="switchTab('boosts', this)"><div class="nav-icon">🚀</div><div>Бусты</div></div>
-    <div class="nav-item" onclick="switchTab('casino', this)"><div class="nav-icon">🎲</div><div>Казино</div></div>
     <div class="nav-item" onclick="switchTab('quests', this)"><span class="nav-badge" id="quests-badge"></span><div class="nav-icon">🎯</div><div>Задания</div></div>
     <div class="nav-item" onclick="switchTab('leaders', this)"><div class="nav-icon">🏆</div><div>Лидеры</div></div>
   </div>
@@ -812,9 +754,9 @@
     const X2_BOOST_DURATION_MS = 15 * 60 * 1000;
 
     const BASE_TAP_COST = 5;
-    const TAP_COST_MULT = 1.22; // Плавный рост цен лапки
+    const TAP_COST_MULT = 1.22;
     const BASE_BOT_COST = 20;
-    const BOT_COST_MULT = 1.26; // Плавный рост цен питомника
+    const BOT_COST_MULT = 1.26;
 
     function calcTapCost(level) {
       let cost = BASE_TAP_COST;
@@ -871,7 +813,8 @@
       cycleShared: false,
       claimedQuests: {},
       dailyStreak: 0,
-      lastDailyClaimDate: ""
+      lastDailyClaimDate: "",
+      piggyProgress: 0 // Накопления копилки (0 до 100)
     };
 
     const rawSave =
@@ -888,6 +831,7 @@
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.totalTaps = state.totalTaps || parsedSave.cycleTaps || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
+    state.piggyProgress = state.piggyProgress || 0;
 
     function normalizeBoostPricing() {
       state.levels.tap = Math.max(1, Math.floor(state.levels.tap || 1));
@@ -1065,129 +1009,45 @@
       }
     }
 
-    // --- КАЗИНО ---
-    function getSelectedBet() {
-      const input = document.getElementById("casino-bet-input");
-      return Math.max(1, parseInt(input.value) || 0);
-    }
+    // --- ЛОГИКА НОВОЙ ФИШКИ (КОПИЛКА-ХРАНИТЕЛЬ) ---
+    function updatePiggyBank() {
+      // Копилка заполняется со временем (например, за 5 минут до 100%)
+      state.piggyProgress = Math.min(100, (state.piggyProgress || 0) + 0.55);
+      const pct = Math.floor(state.piggyProgress);
+      
+      const bar = document.getElementById("piggy-bar");
+      const status = document.getElementById("piggy-status");
+      const btn = document.getElementById("piggy-claim-btn");
 
-    function setBetFraction(fraction) {
-      let b = Math.floor(state.balance * fraction);
-      document.getElementById("casino-bet-input").value = Math.max(1, b);
-    }
-
-    function setBetMultiplier(mult) {
-      let b = getSelectedBet() * mult;
-      document.getElementById("casino-bet-input").value = Math.min(state.balance || 1, b);
-    }
-
-    function setMaxBet() {
-      document.getElementById("casino-bet-input").value = Math.max(1, Math.floor(state.balance));
-    }
-
-    function validateBetInput() {
-      const input = document.getElementById("casino-bet-input");
-      if (parseInt(input.value) < 1) input.value = 1;
-    }
-
-    let wheelSpinning = false;
-    function spinWheel() {
-      if (wheelSpinning) return;
-      const bet = getSelectedBet();
-      if (state.balance < bet) { showToast("❌ Недостаточно монеток!"); return; }
-
-      state.balance -= bet;
-      wheelSpinning = true;
-      const wheelBox = document.getElementById("wheel-box");
-      wheelBox.classList.add("spin-anim");
-      tg?.HapticFeedback?.impactOccurred("medium");
-
-      setTimeout(() => {
-        wheelBox.classList.remove("spin-anim");
-        wheelSpinning = false;
-
-        const roll = Math.random();
-        let prize = 0, msg = "";
-        if (roll < 0.42) { prize = 0; msg = "😢 Не повезло, ставка сгорела!"; }
-        else if (roll < 0.72) { prize = Math.floor(bet * 1.5); msg = `🎉 Выигрыш (x1.5): +${formatNum(prize)} 🐾`; }
-        else if (roll < 0.88) { prize = bet * 3; msg = `🔥 Куш (x3): +${formatNum(prize)} 🐾`; }
-        else if (roll < 0.97) { prize = bet * 10; msg = `💎 СУПЕР КУШ (x10): +${formatNum(prize)} 🐾`; tg?.HapticFeedback?.notificationOccurred("success"); }
-        else { prize = bet * 25; msg = `👑 МЕГА ДЖЕКПОТ (x25): +${formatNum(prize)} 🐾`; tg?.HapticFeedback?.notificationOccurred("success"); }
-
-        if (prize > 0) { state.balance += prize; state.cycleEarned = (state.cycleEarned || 0) + prize; }
-        showToast(msg); updateUI(); saveState();
-      }, 1000);
-    }
-
-    let guessActiveCard = Math.floor(Math.random() * 3);
-    let guessRevealed = false;
-
-    function resetGuessGame() {
-      guessActiveCard = Math.floor(Math.random() * 3);
-      guessRevealed = false;
-      document.getElementById("guess-reset-btn").style.display = "none";
-      document.querySelectorAll(".guess-card-item").forEach(c => { c.textContent = "❓"; c.classList.remove("revealed"); });
-    }
-
-    function chooseGuessCard(idx) {
-      if (guessRevealed) return;
-      const bet = getSelectedBet();
-      if (state.balance < bet) { showToast("❌ Недостаточно монеток!"); return; }
-
-      state.balance -= bet;
-      guessRevealed = true;
-      document.querySelectorAll(".guess-card-item").forEach((c, i) => {
-        c.classList.add("revealed");
-        c.textContent = (i === guessActiveCard) ? "👑" : "❌";
-      });
-
-      if (idx === guessActiveCard) {
-        const prize = bet * 3;
-        state.balance += prize;
-        state.cycleEarned = (state.cycleEarned || 0) + prize;
-        showToast(`🎉 Угадал! Выигрыш (x3): +${formatNum(prize)} 🐾`);
-        tg?.HapticFeedback?.notificationOccurred("success");
+      bar.style.width = `${pct}%`;
+      if (pct >= 100) {
+        status.textContent = "Копилка заполнена!";
+        btn.disabled = false;
       } else {
-        showToast("😢 Мимо! Ставка сгорела.");
+        status.textContent = `Накапливает бонус: ${pct}%`;
+        btn.disabled = true;
       }
-      document.getElementById("guess-reset-btn").style.display = "block";
-      updateUI(); saveState();
     }
 
-    function playDiceGame() {
-      const bet = getSelectedBet();
-      if (state.balance < bet) { showToast("❌ Недостаточно монеток!"); return; }
+    function claimPiggyReward() {
+      if ((state.piggyProgress || 0) < 100) return;
+      // Награда зависит от текущего уровня силы тапа и пассивного дохода
+      const reward = Math.max(500, (state.tapPower * 50) + (state.passiveIncome * 30));
+      state.balance += reward;
+      state.cycleEarned = (state.cycleEarned || 0) + reward;
+      state.piggyProgress = 0;
 
-      state.balance -= bet;
-      tg?.HapticFeedback?.impactOccurred("medium");
-
-      const pVal = Math.floor(Math.random() * 6) + 1;
-      const dVal = Math.floor(Math.random() * 6) + 1;
-
-      document.getElementById("player-dice").textContent = ['⚀','⚁','⚂','⚃','⚄','⚅'][pVal - 1];
-      document.getElementById("dealer-dice").textContent = ['⚀','⚁','⚂','⚃','⚄','⚅'][dVal - 1];
-
-      if (pVal > dVal) {
-        const prize = bet * 2;
-        state.balance += prize;
-        state.cycleEarned = (state.cycleEarned || 0) + prize;
-        showToast(`🎲 Победа костей! Выигрыш: +${formatNum(prize)} 🐾`);
-        tg?.HapticFeedback?.notificationOccurred("success");
-      } else if (pVal === dVal) {
-        state.balance += bet;
-        showToast(`🤝 Ничья! Ставка возвращена.`);
-      } else {
-        showToast(`😢 Дилер победил (${dVal} против ${pVal}).`);
-      }
-      updateUI(); saveState();
+      tg?.HapticFeedback?.notificationOccurred("success");
+      showToast(`🐷 Копилка открыта! Получено: +${formatNum(reward)} 🐾`);
+      updateUI();
+      saveState();
     }
 
     // --- ДИНАМИЧЕСКИЕ ЗАДАНИЯ ПО УРОВНЮ ---
     function getQuestMultipliers() {
       const power = state.tapPower || 1;
       const passive = state.passiveIncome || 0;
-      const baseMult = Math.max(1, power + passive * 2);
-      return baseMult;
+      return Math.max(1, power + passive * 2);
     }
 
     function getDynamicQuests() {
@@ -1290,6 +1150,7 @@
       document.getElementById("playtime-display").textContent = formatPlayTime(state.playTimeSeconds);
 
       updateCoinAppearance();
+      updatePiggyBank();
       document.getElementById("daily-dot").classList.toggle("show", canClaimDaily());
 
       const tapCost = calcTapCost(state.levels.tap), botCost = calcBotCost(state.levels.bot);
