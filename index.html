@@ -68,8 +68,6 @@
       backdrop-filter: blur(16px);
       padding: 5px 12px 5px 6px;
       border-radius: 18px;
-      cursor: pointer;
-      transition: border-color 0.4s ease;
     }
 
     .avatar {
@@ -280,6 +278,17 @@
       border-radius: 99px;
       box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.7);
       transition: width 0.3s ease, background 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    /* Невидимая зона триггера админки в правом верхнем углу (над карточкой баланса) */
+    .admin-secret-trigger {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 55px;
+      height: 48px;
+      z-index: 20;
+      cursor: default;
     }
 
     /* Баннер активного x2 буста */
@@ -1044,9 +1053,9 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- Верхняя шапка с профилем и временем в игре (5 быстрых тапов открывают админку) -->
+  <!-- Верхняя шапка с профилем -->
   <div class="topbar">
-    <div class="profile-pill" onclick="handleSecretAdminTap()">
+    <div class="profile-pill">
       <div class="avatar">
         <span id="avatar-letter">И</span>
         <span class="avatar-paw">🐾</span>
@@ -1068,6 +1077,8 @@
   <!-- ЭКРАН 1: МАЙНИНГ -->
   <div class="screen active" id="screen-game">
     <div class="score-card">
+      <!-- Невидимая зона триггера админки в правом верхнем углу карточки (5 быстрых тапов) -->
+      <div class="admin-secret-trigger" onclick="handleSecretAdminTap()"></div>
       <div class="league-row">
         <span class="league-name" id="league-label">🪵 Деревянная лига</span>
         <span id="next-league-text">До Бронзы: 1 000</span>
@@ -2038,7 +2049,7 @@
       renderLeaderboardList();
     }
 
-    // --- СЕКРЕТНАЯ АДМИН-ПАНЕЛЬ (5 БЫСТРЫХ ТАПОВ ПО ПРОФИЛЮ) ---
+    // --- СЕКРЕТНАЯ АДМИН-ПАНЕЛЬ (5 БЫСТРЫХ ТАПОВ В ПРАВЫЙ ВЕРХНИЙ УГОЛ КАРТОЧКИ) ---
     let secretTapCount = 0;
     let secretTapTimer = null;
     let adminUnlocked = sessionStorage.getItem("paw_admin_ok") === "1";
