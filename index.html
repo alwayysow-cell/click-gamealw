@@ -8,11 +8,16 @@
   <style>
     :root {
       --bg: #06080d;
+      --bg-glow: #2a1d12;
       --surface: rgba(20, 25, 38, 0.78);
       --surface-strong: rgba(26, 33, 50, 0.92);
       --border: rgba(255, 255, 255, 0.1);
       --highlight: rgba(255, 255, 255, 0.08);
-      --accent: #fbbf24;
+      --accent: #d97706;
+      --accent-light: #f3c697;
+      --accent-dark: #92400e;
+      --accent-rgb: 217, 119, 6;
+      --accent-contrast: #ffffff;
       --blue: #38bdf8;
       --green: #10b981;
       --red: #ef4444;
@@ -32,14 +37,15 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
       background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='%23fbbf24' fill-opacity='0.095'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
-        radial-gradient(circle at 50% -15%, #232a47 0%, #0b0f19 48%, var(--bg) 82%);
+        var(--paw-bg-svg, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='%23d97706' fill-opacity='0.095'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")),
+        radial-gradient(circle at 50% -15%, var(--bg-glow) 0%, #0b0f19 52%, var(--bg) 85%);
       color: var(--text);
       height: 100vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
       touch-action: manipulation;
+      transition: background-image 0.5s ease;
     }
 
     /* Верхняя панель */
@@ -57,12 +63,13 @@
       align-items: center;
       gap: 9px;
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(var(--accent-rgb), 0.24);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 var(--highlight);
       backdrop-filter: blur(16px);
       padding: 5px 12px 5px 6px;
       border-radius: 18px;
       cursor: pointer;
+      transition: border-color 0.4s ease;
     }
 
     .avatar {
@@ -70,15 +77,16 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #fde047, #f59e0b, #ea580c);
-      color: #090b10;
+      background: linear-gradient(135deg, var(--accent-light), var(--accent), var(--accent-dark));
+      color: var(--accent-contrast);
       font-weight: 800;
       font-size: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 2px 10px rgba(var(--accent-rgb), 0.45);
+      transition: background 0.4s ease, box-shadow 0.4s ease, color 0.4s ease;
     }
 
     .avatar-paw {
@@ -121,10 +129,10 @@
     }
 
     .profit-pill {
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.16), rgba(217, 119, 6, 0.1));
-      border: 1px solid rgba(251, 191, 36, 0.32);
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.2), rgba(var(--accent-rgb), 0.1));
+      border: 1px solid rgba(var(--accent-rgb), 0.38);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      color: var(--accent);
+      color: var(--accent-light);
       padding: 6px 10px;
       border-radius: 99px;
       font-size: 12px;
@@ -133,6 +141,7 @@
       align-items: center;
       gap: 4px;
       white-space: nowrap;
+      transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
     }
 
     .daily-trigger {
@@ -180,9 +189,9 @@
 
     /* --- ЭКРАН 1: МАЙНИНГ --- */
     .score-card {
-      background: linear-gradient(160deg, rgba(30, 37, 56, 0.72) 0%, rgba(16, 20, 32, 0.85) 100%);
-      border: 1px solid var(--border);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 var(--highlight);
+      background: linear-gradient(160deg, rgba(var(--accent-rgb), 0.14) 0%, rgba(16, 20, 32, 0.88) 100%);
+      border: 1px solid rgba(var(--accent-rgb), 0.28);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 24px rgba(var(--accent-rgb), 0.12), inset 0 1px 0 var(--highlight);
       backdrop-filter: blur(16px);
       border-radius: 22px;
       padding: 13px 16px;
@@ -190,6 +199,7 @@
       margin-top: 6px;
       position: relative;
       overflow: hidden;
+      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
     }
 
     .score-card::after {
@@ -199,7 +209,7 @@
       left: -100%;
       width: 60%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
       animation: cardShine 6s infinite ease-in-out;
       pointer-events: none;
     }
@@ -220,10 +230,11 @@
     }
 
     .league-name {
-      color: var(--text);
+      color: var(--accent-light);
       display: flex;
       align-items: center;
       gap: 5px;
+      transition: color 0.4s ease;
     }
 
     .balance-row {
@@ -242,14 +253,15 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 25%, #fef08a, #d97706);
-      border: 2px solid #fde047;
-      box-shadow: 0 0 14px rgba(251, 191, 36, 0.5);
+      background: radial-gradient(circle at 30% 25%, var(--accent-light), var(--accent-dark));
+      border: 2px solid var(--accent);
+      box-shadow: 0 0 14px rgba(var(--accent-rgb), 0.55);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       font-size: 16px;
       flex-shrink: 0;
+      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
     }
 
     .league-progress-bg {
@@ -264,10 +276,10 @@
     .league-progress-fill {
       height: 100%;
       width: 0%;
-      background: var(--accent);
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
       border-radius: 99px;
-      box-shadow: 0 0 10px currentColor;
-      transition: width 0.3s ease, background 0.3s ease;
+      box-shadow: 0 0 12px rgba(var(--accent-rgb), 0.7);
+      transition: width 0.3s ease, background 0.4s ease, box-shadow 0.4s ease;
     }
 
     /* Баннер активного x2 буста */
@@ -314,7 +326,7 @@
       width: 280px;
       height: 280px;
       border-radius: 50%;
-      background: radial-gradient(circle, var(--aura-color, rgba(217, 119, 6, 0.38)) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(var(--accent-rgb), 0.42) 0%, transparent 70%);
       pointer-events: none;
       animation: pulseAura 3s infinite ease-in-out;
       transition: background 0.5s ease;
@@ -330,7 +342,7 @@
       width: 234px;
       height: 234px;
       border-radius: 50%;
-      border: 2px solid rgba(251, 191, 36, 0.55);
+      border: 2px solid rgba(var(--accent-rgb), 0.65);
       pointer-events: none;
       animation: rippleOut 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
@@ -472,14 +484,15 @@
     }
 
     .timer-badge {
-      background: rgba(16, 185, 129, 0.14);
-      border: 1px solid rgba(16, 185, 129, 0.35);
-      color: #6ee7b7;
+      background: rgba(var(--accent-rgb), 0.16);
+      border: 1px solid rgba(var(--accent-rgb), 0.38);
+      color: var(--accent-light);
       font-size: 12px;
       font-weight: 700;
       padding: 5px 10px;
       border-radius: 10px;
       white-space: nowrap;
+      transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
     }
 
     .card-list {
@@ -499,7 +512,7 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      transition: transform 0.1s, border-color 0.2s, background 0.2s;
+      transition: transform 0.1s, border-color 0.3s, background 0.3s;
     }
 
     .item-card.clickable {
@@ -518,8 +531,8 @@
 
     .item-card.boost-active-card {
       opacity: 1;
-      border-color: rgba(251, 191, 36, 0.55);
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(20, 25, 38, 0.88));
+      border-color: rgba(var(--accent-rgb), 0.55);
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.16), rgba(20, 25, 38, 0.88));
     }
 
     .item-left {
@@ -533,13 +546,14 @@
       width: 46px;
       height: 46px;
       border-radius: 14px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: linear-gradient(145deg, rgba(var(--accent-rgb), 0.14), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(var(--accent-rgb), 0.22);
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 22px;
       flex-shrink: 0;
+      transition: background 0.4s ease, border-color 0.4s ease;
     }
 
     .item-title {
@@ -553,10 +567,11 @@
 
     .lvl-tag {
       font-size: 11px;
-      background: rgba(251, 191, 36, 0.16);
-      color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.18);
+      color: var(--accent-light);
       padding: 2px 7px;
       border-radius: 6px;
+      transition: background 0.4s ease, color 0.4s ease;
     }
 
     .lvl-tag.temp {
@@ -571,9 +586,9 @@
     }
 
     .action-btn {
-      background: linear-gradient(135deg, #fde047, #f59e0b);
-      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-      color: #090b10;
+      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.35);
+      color: var(--accent-contrast);
       font-weight: 800;
       font-size: 12px;
       padding: 9px 13px;
@@ -582,13 +597,14 @@
       white-space: nowrap;
       cursor: pointer;
       flex-shrink: 0;
+      transition: background 0.4s ease, box-shadow 0.4s ease, color 0.4s ease;
     }
 
     .action-btn.active-timer {
-      background: rgba(251, 191, 36, 0.18);
-      border: 1px solid rgba(251, 191, 36, 0.45);
+      background: rgba(var(--accent-rgb), 0.18);
+      border: 1px solid rgba(var(--accent-rgb), 0.48);
       box-shadow: none;
-      color: #fde047;
+      color: var(--accent-light);
     }
 
     .action-btn.claim {
@@ -622,15 +638,15 @@
 
     .quest-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, #10b981, #34d399);
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
       border-radius: 99px;
-      transition: width 0.25s ease;
+      transition: width 0.25s ease, background 0.4s ease;
     }
 
     /* Лидеры */
     .refresh-btn {
       background: var(--surface);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(var(--accent-rgb), 0.25);
       color: var(--text);
       padding: 6px 12px;
       border-radius: 10px;
@@ -663,14 +679,14 @@
     }
 
     .lb-tab-btn.active {
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.22), rgba(251, 191, 36, 0.1));
-      color: var(--accent);
-      border: 1px solid rgba(251, 191, 36, 0.28);
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.24), rgba(var(--accent-rgb), 0.1));
+      color: var(--accent-light);
+      border: 1px solid rgba(var(--accent-rgb), 0.35);
     }
 
     .lb-item.me {
-      border-color: rgba(251, 191, 36, 0.55);
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(20, 25, 38, 0.85));
+      border-color: rgba(var(--accent-rgb), 0.55);
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.16), rgba(20, 25, 38, 0.85));
     }
 
     .lb-rank {
@@ -685,7 +701,7 @@
     .lb-score {
       font-weight: 800;
       font-size: 13px;
-      color: var(--accent);
+      color: var(--accent-light);
       white-space: nowrap;
     }
 
@@ -702,13 +718,14 @@
       height: 64px;
       background: rgba(14, 18, 29, 0.92);
       backdrop-filter: blur(20px);
-      border: 1px solid var(--border);
+      border: 1px solid rgba(var(--accent-rgb), 0.24);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 var(--highlight);
       border-radius: 22px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       padding: 5px;
       z-index: 50;
+      transition: border-color 0.4s ease;
     }
 
     .nav-item {
@@ -723,13 +740,13 @@
       font-size: 11px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
 
     .nav-item.active {
-      background: linear-gradient(180deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.08));
-      border: 1px solid rgba(251, 191, 36, 0.25);
-      color: var(--accent);
+      background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.24), rgba(var(--accent-rgb), 0.08));
+      border: 1px solid rgba(var(--accent-rgb), 0.35);
+      color: var(--accent-light);
     }
 
     .nav-icon {
@@ -774,7 +791,7 @@
       max-height: 88vh;
       overflow-y: auto;
       background: #121622;
-      border-top: 1px solid var(--border);
+      border-top: 1px solid rgba(var(--accent-rgb), 0.3);
       border-radius: 24px 24px 0 0;
       padding: 20px 16px 28px;
       animation: slideUp 0.25s ease-out;
@@ -834,8 +851,8 @@
 
     .day-box.today {
       border-color: var(--accent);
-      background: rgba(251, 191, 36, 0.14);
-      box-shadow: 0 0 15px rgba(251, 191, 36, 0.2);
+      background: rgba(var(--accent-rgb), 0.16);
+      box-shadow: 0 0 15px rgba(var(--accent-rgb), 0.25);
     }
 
     .day-num {
@@ -848,7 +865,7 @@
     .day-reward {
       font-size: 13px;
       font-weight: 800;
-      color: var(--accent);
+      color: var(--accent-light);
       margin-top: 4px;
     }
 
@@ -859,8 +876,8 @@
       border: none;
       font-size: 15px;
       font-weight: 800;
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
-      color: #090b10;
+      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      color: var(--accent-contrast);
       cursor: pointer;
     }
 
@@ -912,8 +929,8 @@
     }
 
     .admin-btn {
-      background: linear-gradient(135deg, #fde047, #f59e0b);
-      color: #090b10;
+      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      color: var(--accent-contrast);
       border: none;
       border-radius: 11px;
       padding: 10px 14px;
@@ -967,9 +984,9 @@
     }
 
     .admin-chip {
-      background: rgba(251, 191, 36, 0.14);
-      border: 1px solid rgba(251, 191, 36, 0.32);
-      color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.16);
+      border: 1px solid rgba(var(--accent-rgb), 0.35);
+      color: var(--accent-light);
       border-radius: 8px;
       padding: 5px 9px;
       font-size: 11px;
@@ -984,7 +1001,7 @@
       font-weight: 900;
       color: #fff;
       pointer-events: none;
-      text-shadow: 0 2px 12px rgba(251, 191, 36, 0.85);
+      text-shadow: 0 2px 14px rgba(var(--accent-rgb), 0.9);
       animation: flyUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       z-index: 100;
       white-space: nowrap;
@@ -1013,7 +1030,7 @@
       border-radius: 12px;
       font-size: 13px;
       font-weight: 700;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.65);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.65), 0 0 16px rgba(var(--accent-rgb), 0.3);
       z-index: 250;
       display: none;
       white-space: nowrap;
@@ -1520,18 +1537,78 @@
       setTimeout(() => { t.style.display = "none"; }, 4500);
     }
 
-    // 10 лиг и стили монеты с лапкой
+    // 10 лиг, стилей монеты и цветовых схем интерфейса
     const LEAGUES = [
-      { min: 0, max: 1000, name: "🪵 Деревянная лига", next: "Бронзы", theme: "theme-wood", color: "#d97706", aura: "rgba(180, 83, 9, 0.35)", miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)" },
-      { min: 1000, max: 5000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", aura: "rgba(234, 88, 12, 0.38)", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
-      { min: 5000, max: 25000, name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver", color: "#e2e8f0", aura: "rgba(148, 163, 184, 0.42)", miniBg: "radial-gradient(circle at 30% 25%, #f8fafc, #475569)" },
-      { min: 25000, max: 100000, name: "🥇 Золотая лига", next: "Платины", theme: "theme-gold", color: "#fde047", aura: "rgba(250, 204, 21, 0.45)", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)" },
-      { min: 100000, max: 300000, name: "💠 Платиновая лига", next: "Изумруда", theme: "theme-platinum", color: "#7dd3fc", aura: "rgba(56, 189, 248, 0.48)", miniBg: "radial-gradient(circle at 30% 25%, #e0f2fe, #0369a1)" },
-      { min: 300000, max: 1000000, name: "💚 Изумрудная лига", next: "Рубина", theme: "theme-emerald", color: "#34d399", aura: "rgba(16, 185, 129, 0.5)", miniBg: "radial-gradient(circle at 30% 25%, #a7f3d0, #047857)" },
-      { min: 1000000, max: 3000000, name: "❤️ Рубиновая лига", next: "Алмаза", theme: "theme-ruby", color: "#fb7185", aura: "rgba(244, 63, 94, 0.52)", miniBg: "radial-gradient(circle at 30% 25%, #fecdd3, #be123c)" },
-      { min: 3000000, max: 10000000, name: "💎 Алмазная лига", next: "Мастера", theme: "theme-diamond", color: "#22d3ee", aura: "rgba(34, 211, 238, 0.55)", miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)" },
-      { min: 10000000, max: 50000000, name: "🔥 Мастерская лига", next: "Легенды", theme: "theme-master", color: "#fb923c", aura: "rgba(249, 115, 22, 0.6)", miniBg: "radial-gradient(circle at 30% 25%, #fed7aa, #9a3412)" },
-      { min: 50000000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", color: "#e879f9", aura: "rgba(217, 70, 239, 0.65)", miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)" }
+      {
+        min: 0, max: 1000,
+        name: "🪵 Деревянная лига", next: "Бронзы", theme: "theme-wood",
+        color: "#d97706", light: "#f3c697", dark: "#92400e", rgb: "217, 119, 6",
+        glow: "#2a1a0e", contrast: "#ffffff",
+        miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)"
+      },
+      {
+        min: 1000, max: 5000,
+        name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze",
+        color: "#fb923c", light: "#fed7aa", dark: "#9a3412", rgb: "251, 146, 60",
+        glow: "#2e190e", contrast: "#090b10",
+        miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)"
+      },
+      {
+        min: 5000, max: 25000,
+        name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver",
+        color: "#cbd5e1", light: "#f8fafc", dark: "#475569", rgb: "203, 213, 225",
+        glow: "#1e2736", contrast: "#090b10",
+        miniBg: "radial-gradient(circle at 30% 25%, #f8fafc, #475569)"
+      },
+      {
+        min: 25000, max: 100000,
+        name: "🥇 Золотая лига", next: "Платины", theme: "theme-gold",
+        color: "#fbbf24", light: "#fef08a", dark: "#b45309", rgb: "251, 191, 36",
+        glow: "#2b220d", contrast: "#090b10",
+        miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)"
+      },
+      {
+        min: 100000, max: 300000,
+        name: "💠 Платиновая лига", next: "Изумруда", theme: "theme-platinum",
+        color: "#38bdf8", light: "#bae6fd", dark: "#0369a1", rgb: "56, 189, 248",
+        glow: "#0d2538", contrast: "#090b10",
+        miniBg: "radial-gradient(circle at 30% 25%, #e0f2fe, #0369a1)"
+      },
+      {
+        min: 300000, max: 1000000,
+        name: "💚 Изумрудная лига", next: "Рубина", theme: "theme-emerald",
+        color: "#10b981", light: "#a7f3d0", dark: "#047857", rgb: "16, 185, 129",
+        glow: "#0b2920", contrast: "#052e16",
+        miniBg: "radial-gradient(circle at 30% 25%, #a7f3d0, #047857)"
+      },
+      {
+        min: 1000000, max: 3000000,
+        name: "❤️ Рубиновая лига", next: "Алмаза", theme: "theme-ruby",
+        color: "#f43f5e", light: "#fecdd3", dark: "#9f1239", rgb: "244, 63, 94",
+        glow: "#30101b", contrast: "#ffffff",
+        miniBg: "radial-gradient(circle at 30% 25%, #fecdd3, #be123c)"
+      },
+      {
+        min: 3000000, max: 10000000,
+        name: "💎 Алмазная лига", next: "Мастера", theme: "theme-diamond",
+        color: "#22d3ee", light: "#cffafe", dark: "#0e7490", rgb: "34, 211, 238",
+        glow: "#0c2836", contrast: "#090b10",
+        miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)"
+      },
+      {
+        min: 10000000, max: 50000000,
+        name: "🔥 Мастерская лига", next: "Легенды", theme: "theme-master",
+        color: "#f97316", light: "#fed7aa", dark: "#9a3412", rgb: "249, 115, 22",
+        glow: "#30170c", contrast: "#ffffff",
+        miniBg: "radial-gradient(circle at 30% 25%, #fed7aa, #9a3412)"
+      },
+      {
+        min: 50000000, max: Infinity,
+        name: "👑 Легендарная лига", next: null, theme: "theme-legend",
+        color: "#d946ef", light: "#f5d0fe", dark: "#86198f", rgb: "217, 70, 239",
+        glow: "#291036", contrast: "#ffffff",
+        miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)"
+      }
     ];
 
     function getCurrentLeague(score) {
@@ -1539,6 +1616,11 @@
         if (score >= LEAGUES[i].min) return LEAGUES[i];
       }
       return LEAGUES[0];
+    }
+
+    function buildPawPatternUrl(hexColor) {
+      const encoded = encodeURIComponent(hexColor);
+      return `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='${encoded}' fill-opacity='0.095'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`;
     }
 
     let lastTheme = "";
@@ -1557,8 +1639,6 @@
       document.getElementById("league-label").textContent = lg.name;
 
       const bar = document.getElementById("league-bar");
-      bar.style.background = lg.color;
-
       if (lg.next) {
         const pct = Math.min(100, Math.max(0, ((state.balance - lg.min) / (lg.max - lg.min)) * 100));
         bar.style.width = `${pct}%`;
@@ -1570,12 +1650,20 @@
 
       if (lastTheme !== lg.theme) {
         lastTheme = lg.theme;
+        const root = document.documentElement;
+        root.style.setProperty("--accent", lg.color);
+        root.style.setProperty("--accent-light", lg.light);
+        root.style.setProperty("--accent-dark", lg.dark);
+        root.style.setProperty("--accent-rgb", lg.rgb);
+        root.style.setProperty("--accent-contrast", lg.contrast);
+        root.style.setProperty("--bg-glow", lg.glow);
+        root.style.setProperty("--paw-bg-svg", buildPawPatternUrl(lg.color));
+
         const coin = document.getElementById("coin");
         coin.className = `coin-btn ${lg.theme}`;
-        document.getElementById("coin-aura").style.setProperty("--aura-color", lg.aura);
+
         const mini = document.getElementById("mini-coin");
         mini.style.background = lg.miniBg;
-        mini.style.borderColor = lg.color;
       }
     }
 
@@ -2068,7 +2156,7 @@
                 <div class="admin-player-name">${escapeHtml(p.name)} ${String(p.id) === String(userId) ? "(Вы)" : ""}</div>
                 <div class="admin-player-id">ID: ${safeId} • ${formatPlayTime(p.playTime || 0)}</div>
               </div>
-              <div style="font-weight:800;font-size:13px;color:var(--accent);">🐾 ${formatNum(currentScore)}</div>
+              <div style="font-weight:800;font-size:13px;color:var(--accent-light);">🐾 ${formatNum(currentScore)}</div>
             </div>
             <div class="admin-row">
               <input type="number" class="admin-input" id="adm-score-${safeId}" value="${currentScore}" style="padding:7px 10px;font-size:13px;" />
