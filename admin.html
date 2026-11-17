@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Paw Tap — Admin Panel</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg: #090b10;
+      --card: #141824;
+      --border: rgba(255, 255, 255, 0.1);
+      --accent: #fbbf24;
+      --danger: #ef4444;
+      --green: #10b981;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { margin: 0; padding: 16px; background: var(--bg); color: var(--text); }
+    h1 { font-size: 20px; margin: 0 0 14px; display: flex; justify-content: space-between; align-items: center; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 14px; margin-bottom: 12px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 12px; }
+    .stat-box { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px; text-align: center; }
+    .stat-val { font-size: 22px; font-weight: 800; color: var(--accent); }
+    .stat-lbl { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    input {
+      width: 100%; padding: 11px 12px; border-radius: 10px; border: 1px solid var(--border);
+      background: #0d1018; color: #fff; font-size: 14px; margin-bottom: 10px; outline: none;
+    }
+    button {
+      padding: 10px 14px; border-radius: 10px; border: none; font-weight: 700; font-size: 13px; cursor: pointer;
+    }
+    .btn-gold { background: var(--accent); color: #000; width: 100%; }
+    .btn-green { background: var(--green); color: #042f1e; }
+    .btn-red { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .btn-sm { padding: 6px 10px; font-size: 12px; }
+    .player-row {
+      display: flex; justify-content: space-between; align-items: center; gap: 8px;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .player-row:last-child { border-bottom: none; }
+    .p-name { font-weight: 700; font-size: 14px; }
+    .p-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .p-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    #panel { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- Экран входа -->
+  <div id="login-box" class="card" style="max-width: 380px; margin: 60px auto;">
+    <h2 style="margin-top:0; font-size:18px;">🔐 Вход в админ-панель</h2>
+    <input type="password" id="pass-input" placeholder="Введите пароль администратора" />
+    <button class="btn-gold" onclick="checkLogin()">Войти</button>
+  </div>
+
+  <!-- Основная панель -->
+  <div id="panel">
+    <h1>
+      <span>🐾 Админ-панель</span>
+      <button class="btn-sm" style="background:#1e293b;color:#fff;" onclick="loadPlayers()">↻ Обновить</button>
+    </h1>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-val" id="stat-users">0</div>
+        <div class="stat-lbl">Всего игроков</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" id="stat-coins">0</div>
+        <div class="stat-lbl">Всего лапок в игре</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700; font-size:14px; margin-bottom:8px;">📢 Объявление для всех игроков</div>
+      <input type="text" id="broadcast-text" placeholder="Например: Вышло обновление! Всем +1000 🐾" />
+      <div style="display:flex; gap:8px;">
+        <button class="btn-green" style="flex:1;" onclick="setBroadcast()">Опубликовать</button>
+        <button class="btn-red" onclick="clearBroadcast()">Убрать</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700; font-size:14px; margin-bottom:8px;">👥 Управление игроками</div>
+      <input type="text" id="search-input" placeholder="Поиск по имени или ID..." oninput="renderList()" />
+      <div id="players-list">Загрузка...</div>
+    </div>
+  </div>
+
+  <script>
+    const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
+    const ADMIN_PASS = "admin1234"; // <-- Замени на свой пароль
+
+    window.Telegram?.WebApp?.ready();
+    window.Telegram?.WebApp?.expand();
+
+    let allPlayers = [];
+
+    if (localStorage.getItem("paw_admin_auth") === ADMIN_PASS) {
+      showPanel();
+    }
+
+    function checkLogin() {
+      const val = document.getElementById("pass-input").value;
+      if (val === ADMIN_PASS) {
+        localStorage.setItem("paw_admin_auth", ADMIN_PASS);
+        showPanel();
+      } else {
+        alert("Неверный пароль");
+      }
+    }
+
+    function showPanel() {
+      document.getElementById("login-box").style.display = "none";
+      document.getElementById("panel").style.display = "block";
+      loadPlayers();
+    }
+
+    async function loadPlayers() {
+      const res = await fetch(`${FIREBASE_URL}/players.json`);
+      const data = await res.json();
+      allPlayers = data ? Object.values(data).filter(p => p && p.id) : [];
+      allPlayers.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+      document.getElementById("stat-users").textContent = allPlayers.length;
+      const totalCoins = allPlayers.reduce((sum, p) => sum + (p.score || 0), 0);
+      document.getElementById("stat-coins").textContent = Math.floor(totalCoins).toLocaleString("ru-RU");
+
+      renderList();
+    }
+
+    function renderList() {
+      const q = document.getElementById("search-input").value.toLowerCase();
+      const filtered = allPlayers.filter(p =>
+        String(p.name).toLowerCase().includes(q) || String(p.id).includes(q)
+      );
+
+      document.getElementById("players-list").innerHTML = filtered.map(p => `
+        <div class="player-row">
+          <div>
+            <div class="p-name">${p.name}</div>
+            <div class="p-sub">ID: ${p.id} • Баланс: <b style="color:#fbbf24">${Math.floor(p.score || 0).toLocaleString("ru-RU")} 🐾</b></div>
+          </div>
+          <div class="p-actions">
+            <button class="btn-green btn-sm" onclick="editBalance('${p.id}', ${p.score || 0})">± 🐾</button>
+            <button class="btn-red btn-sm" onclick="deletePlayer('${p.id}', '${p.name}')">✕</button>
+          </div>
+        </div>
+      `).join("") || "<div style='color:#94a3b8;font-size:13px;'>Игроки не найдены</div>";
+    }
+
+    async function editBalance(id, currentScore) {
+      const input = prompt(`Текущий баланс: ${currentScore}.\nВведи новое число монет (или +5000 / -5000):`, currentScore);
+      if (input === null || input.trim() === "") return;
+
+      let newScore = currentScore;
+      if (input.startsWith("+") || input.startsWith("-")) {
+        newScore = Math.max(0, currentScore + Number(input));
+      } else {
+        newScore = Math.max(0, Number(input));
+      }
+      if (isNaN(newScore)) return alert("Введи корректное число");
+
+      await fetch(`${FIREBASE_URL}/players/${id}.json`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ score: newScore, adminOverride: true })
+      });
+      loadPlayers();
+    }
+
+    async function deletePlayer(id, name) {
+      if (!confirm(`Удалить игрока ${name} из базы и рейтинга?`)) return;
+      await fetch(`${FIREBASE_URL}/players/${id}.json`, { method: "DELETE" });
+      loadPlayers();
+    }
+
+    async function setBroadcast() {
+      const text = document.getElementById("broadcast-text").value.trim();
+      if (!text) return;
+      await fetch(`${FIREBASE_URL}/broadcast.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text, id: Date.now() })
+      });
+      alert("Объявление отправлено!");
+    }
+
+    async function clearBroadcast() {
+      await fetch(`${FIREBASE_URL}/broadcast.json`, { method: "DELETE" });
+      document.getElementById("broadcast-text").value = "";
+      alert("Объявление удалено");
+    }
+  </script>
+</body>
+</html>
