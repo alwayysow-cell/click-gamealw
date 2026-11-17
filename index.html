@@ -52,7 +52,6 @@
       100% { background-position: -90px -90px, 0 0; }
     }
 
-    /* Тонкая верхняя подсветка */
     body::before {
       content: "";
       position: fixed;
@@ -102,6 +101,15 @@
       justify-content: center;
       flex-shrink: 0;
       box-shadow: 0 3px 12px rgba(var(--accent-rgb), 0.55);
+      border: 1.5px solid rgba(var(--accent-rgb), 0.55);
+    }
+
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: none;
     }
 
     .avatar-paw {
@@ -113,6 +121,7 @@
       border-radius: 50%;
       padding: 2px;
       line-height: 1;
+      z-index: 2;
     }
 
     .profile-meta {
@@ -144,19 +153,22 @@
     }
 
     .claws-pill {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.25), rgba(217, 119, 6, 0.12));
-      border: 1px solid rgba(251, 191, 36, 0.45);
-      color: #fde68a;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.28), rgba(56, 189, 248, 0.16));
+      border: 1px solid rgba(192, 132, 252, 0.55);
+      box-shadow: 0 4px 14px rgba(168, 85, 247, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      color: #f3e8ff;
       padding: 6px 9px;
       border-radius: 99px;
       font-size: 11px;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
       white-space: nowrap;
       cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.2s ease;
     }
+    .claws-pill:active { transform: scale(0.94); }
 
     .profit-pill {
       background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.22), rgba(var(--accent-rgb), 0.08));
@@ -542,7 +554,6 @@
       overflow: hidden;
     }
 
-    /* Переливающийся блик на монете */
     .coin-btn::after {
       content: "";
       position: absolute;
@@ -627,7 +638,6 @@
     .coin-btn.theme-void .paw-svg { fill: #f8fafc; }
     .coin-btn.theme-creator { background: radial-gradient(circle at 30% 25%, #ffffff 0%, #fde68a 28%, #ec4899 64%, #3b0764 100%); border: 7px solid #f472b6; box-shadow: 0 20px 68px rgba(0,0,0,0.95), 0 0 90px rgba(244, 114, 182, 0.92), inset 0 4px 18px rgba(255,255,255,0.95); }
     .coin-btn.theme-creator .paw-svg { fill: #ffffff; }
-    /* Новые премиум-материалы для магазина */
     .coin-btn.theme-cyberpunk { background: radial-gradient(circle at 30% 25%, #fef08a 0%, #ec4899 42%, #06b6d4 78%, #090d16 100%); border: 7px solid #22d3ee; box-shadow: 0 20px 65px rgba(0,0,0,0.9), 0 0 85px rgba(236, 72, 153, 0.88), inset 0 4px 16px rgba(255,255,255,0.85); }
     .coin-btn.theme-cyberpunk .paw-svg { fill: #fef9c3; }
     .coin-btn.theme-eclipse { background: radial-gradient(circle at 30% 25%, #fed7aa 0%, #1e1b4b 45%, #000000 78%, #f97316 100%); border: 7px solid #fb923c; box-shadow: 0 20px 65px rgba(0,0,0,0.95), 0 0 85px rgba(249, 115, 22, 0.85), inset 0 4px 16px rgba(255,255,255,0.75); }
@@ -731,47 +741,99 @@
     .item-card.disabled { opacity: 0.48; pointer-events: none; }
     .item-card.boost-active-card { opacity: 1; border-color: rgba(var(--accent-rgb), 0.6); background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.18), rgba(18, 22, 34, 0.9)); }
 
-    /* БЛОК ПРЕСТИЖА */
+    /* ОБНОВЛЁННЫЙ БЛОК ПРЕСТИЖА */
     .prestige-card {
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(180, 83, 9, 0.12), rgba(14, 18, 28, 0.94));
-      border: 1px solid rgba(251, 191, 36, 0.45);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45), 0 0 24px rgba(245, 158, 11, 0.15);
-      border-radius: 20px;
-      padding: 14px 16px;
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 92% 14%, rgba(192, 132, 252, 0.28) 0%, transparent 48%),
+        radial-gradient(circle at 8% 88%, rgba(56, 189, 248, 0.18) 0%, transparent 48%),
+        linear-gradient(145deg, rgba(34, 21, 56, 0.92), rgba(14, 19, 34, 0.96));
+      border: 1px solid rgba(192, 132, 252, 0.48);
+      box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.52),
+        0 0 28px rgba(168, 85, 247, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      border-radius: 22px;
+      padding: 16px;
       margin-bottom: 14px;
+    }
+
+    .prestige-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 12%;
+      right: 12%;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent, #e879f9, #38bdf8, transparent);
+      opacity: 0.85;
+      pointer-events: none;
     }
 
     .prestige-head {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 6px;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .prestige-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .prestige-orb {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      background: linear-gradient(135deg, rgba(192, 132, 252, 0.35), rgba(56, 189, 248, 0.25));
+      border: 1px solid rgba(232, 121, 249, 0.55);
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      flex-shrink: 0;
     }
 
     .prestige-title {
       font-size: 15px;
       font-weight: 800;
-      color: #fde68a;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      color: #f5d0fe;
+      line-height: 1.2;
+    }
+
+    .prestige-sub-count {
+      font-size: 11px;
+      font-weight: 700;
+      color: #c4b5fd;
+      margin-top: 2px;
     }
 
     .prestige-bonus-badge {
-      background: rgba(251, 191, 36, 0.2);
-      border: 1px solid rgba(251, 191, 36, 0.45);
-      color: #fef08a;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.32), rgba(56, 189, 248, 0.22));
+      border: 1px solid rgba(192, 132, 252, 0.55);
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.25);
+      color: #f3e8ff;
       font-size: 11px;
       font-weight: 800;
-      padding: 3px 9px;
+      padding: 5px 10px;
       border-radius: 99px;
+      white-space: nowrap;
     }
 
     .prestige-desc {
       font-size: 12px;
-      color: var(--muted);
-      line-height: 1.4;
-      margin-bottom: 11px;
+      color: #cbd5e1;
+      line-height: 1.45;
+      margin-bottom: 12px;
+      background: rgba(7, 10, 19, 0.52);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 13px;
+      padding: 9px 11px;
     }
 
     .prestige-footer {
@@ -779,31 +841,36 @@
       justify-content: space-between;
       align-items: center;
       gap: 10px;
+      background: rgba(7, 10, 19, 0.65);
+      border: 1px solid rgba(192, 132, 252, 0.22);
+      border-radius: 14px;
+      padding: 8px 10px 8px 12px;
     }
 
     .prestige-gain-info {
       font-size: 12px;
-      font-weight: 700;
-      color: #fcd34d;
+      font-weight: 800;
+      color: #e9d5ff;
     }
 
     .prestige-btn {
-      background: linear-gradient(135deg, #fde047, #f59e0b);
-      color: #1c1917;
-      border: none;
-      padding: 9px 14px;
-      border-radius: 12px;
+      background: linear-gradient(135deg, #e879f9, #9333ea, #4f46e5);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      padding: 9px 15px;
+      border-radius: 11px;
       font-size: 12px;
       font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.45);
       transition: transform 0.1s ease;
     }
     .prestige-btn:active { transform: scale(0.95); }
     .prestige-btn:disabled {
       opacity: 0.45;
       background: rgba(255, 255, 255, 0.08);
+      border-color: transparent;
       color: var(--muted);
       box-shadow: none;
       cursor: default;
@@ -1059,6 +1126,26 @@
 
     .lb-item.me { border-color: rgba(var(--accent-rgb), 0.6); background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.18), rgba(18, 22, 34, 0.88)); }
     .lb-rank { width: 28px; font-weight: 800; font-size: 15px; text-align: center; color: var(--muted); flex-shrink: 0; }
+    .lb-mini-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-light), var(--accent));
+      color: var(--accent-contrast);
+      font-weight: 800;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .lb-mini-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .lb-score { font-weight: 800; font-size: 13px; color: var(--accent-light); white-space: nowrap; }
     .lb-score.time-mode { color: #7dd3fc; }
     .lb-score.taps-mode { color: #34d399; }
@@ -1079,72 +1166,161 @@
     .nav-badge { position: absolute; top: 7px; right: 14px; width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: none; box-shadow: 0 0 8px var(--green); }
     .nav-badge.show { display: block; }
 
-    /* КОЛЕСО ФОРТУНЫ */
-    .wheel-container {
+    /* --- ПРЕМИУМ КОЛЕСО ФОРТУНЫ --- */
+    .wheel-stage {
       position: relative;
-      width: 274px;
-      height: 274px;
-      margin: 8px auto 16px;
+      width: 306px;
+      height: 306px;
+      margin: 12px auto 18px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .wheel-pointer {
+    .wheel-glow-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(251, 191, 36, 0.32) 0%, rgba(168, 85, 247, 0.18) 55%, transparent 74%);
+      filter: blur(8px);
+      pointer-events: none;
+      animation: wheelAuraPulse 2.8s infinite alternate ease-in-out;
+    }
+
+    @keyframes wheelAuraPulse {
+      0% { transform: scale(0.96); opacity: 0.75; }
+      100% { transform: scale(1.05); opacity: 1; }
+    }
+
+    .wheel-outer-bezel {
+      position: relative;
+      width: 294px;
+      height: 294px;
+      border-radius: 50%;
+      padding: 13px;
+      background: conic-gradient(from 0deg, #fde047, #d97706, #fef08a, #b45309, #fde047, #d97706, #fde047);
+      box-shadow:
+        0 16px 42px rgba(0, 0, 0, 0.85),
+        0 0 36px rgba(245, 158, 11, 0.35),
+        inset 0 2px 5px rgba(255, 255, 255, 0.85),
+        inset 0 -4px 8px rgba(120, 53, 15, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wheel-inner-rim {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #0b0f19;
+      padding: 3px;
+      box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.95);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wheel-bulbs-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .wheel-bulb {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 7px;
+      height: 7px;
+      margin: -3.5px 0 0 -3.5px;
+      border-radius: 50%;
+      background: #fffbeb;
+      box-shadow: 0 0 8px #fde047, 0 0 14px #f59e0b;
+      animation: bulbBlink 1.2s infinite alternate ease-in-out;
+    }
+
+    .wheel-bulb:nth-child(even) {
+      animation-delay: 0.6s;
+      background: #fef08a;
+    }
+
+    .wheel-stage.spinning .wheel-bulb {
+      animation-duration: 0.22s;
+    }
+
+    @keyframes bulbBlink {
+      0% { opacity: 0.45; transform: var(--bulb-pos) scale(0.85); }
+      100% { opacity: 1; transform: var(--bulb-pos) scale(1.15); }
+    }
+
+    .wheel-disc {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      position: relative;
+      overflow: hidden;
+      transition: transform 4.3s cubic-bezier(0.12, 0.86, 0.18, 1);
+      box-shadow: inset 0 0 22px rgba(0, 0, 0, 0.65);
+    }
+
+    .wheel-disc svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .wheel-glass-sheen {
+      position: absolute;
+      inset: 16px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.03) 42%, transparent 60%);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .wheel-center-hub {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 32% 28%, #ffffff 0%, #fef08a 26%, #f59e0b 68%, #78350f 100%);
+      border: 3px solid #fffbeb;
+      box-shadow:
+        0 6px 20px rgba(0, 0, 0, 0.85),
+        0 0 18px rgba(251, 191, 36, 0.65),
+        inset 0 2px 5px rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      z-index: 12;
+      cursor: pointer;
+    }
+
+    .wheel-pointer-wrap {
       position: absolute;
       top: -12px;
       left: 50%;
       transform: translateX(-50%);
-      width: 0;
-      height: 0;
-      border-left: 14px solid transparent;
-      border-right: 14px solid transparent;
-      border-top: 24px solid #fde047;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.8));
-      z-index: 15;
-    }
-
-    .wheel-disc {
-      width: 266px;
-      height: 266px;
-      border-radius: 50%;
-      border: 6px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.75), 0 0 35px rgba(var(--accent-rgb), 0.35);
-      position: relative;
-      overflow: hidden;
-      transition: transform 4.2s cubic-bezier(0.12, 0.85, 0.2, 1);
-    }
-
-    .wheel-center-cap {
-      position: absolute;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #fef08a, #d97706);
-      border: 3px solid #ffffff;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.65);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      z-index: 10;
-    }
-
-    .wheel-seg-label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 112px;
-      transform-origin: 0 0;
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      padding-right: 14px;
-      font-size: 11px;
-      font-weight: 800;
-      color: #ffffff;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+      width: 40px;
+      height: 44px;
+      z-index: 20;
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.85));
       pointer-events: none;
+    }
+
+    .wheel-stage.spinning .wheel-pointer-wrap {
+      animation: pointerTick 0.16s infinite alternate ease-in-out;
+      transform-origin: 50% 8px;
+    }
+
+    @keyframes pointerTick {
+      0% { transform: translateX(-50%) rotate(-8deg); }
+      100% { transform: translateX(-50%) rotate(4deg); }
     }
 
     /* Модалки */
@@ -1153,7 +1329,15 @@
     .modal-backdrop.open { display: flex; }
     .modal-sheet { width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; background: #0d121d; border-top: 1px solid rgba(var(--accent-rgb), 0.4); border-radius: 28px 28px 0 0; padding: 22px 18px 30px; box-shadow: 0 -10px 45px rgba(0,0,0,0.75); }
 
-    .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .modal-sheet.prestige-sheet {
+      background:
+        radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.24) 0%, transparent 55%),
+        #0c0f1b;
+      border-top: 1.5px solid rgba(216, 180, 254, 0.55);
+      box-shadow: 0 -12px 50px rgba(147, 51, 234, 0.35);
+    }
+
+    .modal-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
     .modal-title { font-size: 19px; font-weight: 800; }
     .close-modal { background: rgba(255, 255, 255, 0.08); border: none; color: var(--text); width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; }
 
@@ -1168,21 +1352,38 @@
     .claim-daily-btn { width: 100%; padding: 15px; border-radius: 16px; border: none; font-size: 15px; font-weight: 800; background: linear-gradient(135deg, var(--accent-light), var(--accent)); color: var(--accent-contrast); cursor: pointer; box-shadow: 0 6px 20px rgba(var(--accent-rgb), 0.4); }
     .claim-daily-btn:disabled { background: rgba(255, 255, 255, 0.08); color: var(--muted); cursor: default; box-shadow: none; }
 
+    .claim-daily-btn.prestige-confirm-btn {
+      background: linear-gradient(135deg, #f0abfc, #a855f7, #4f46e5);
+      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
+    }
+    .claim-daily-btn.prestige-confirm-btn:disabled {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      box-shadow: none;
+    }
+
     .prestige-modal-stats {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(251, 191, 36, 0.35);
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 16px;
+      background: linear-gradient(160deg, rgba(168, 85, 247, 0.14), rgba(15, 20, 35, 0.9));
+      border: 1px solid rgba(192, 132, 252, 0.38);
+      border-radius: 18px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
       font-size: 13px;
     }
     .prestige-stat-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .prestige-stat-row:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
     }
 
     .admin-box { background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); border-radius: 18px; padding: 14px; margin-bottom: 12px; }
@@ -1233,14 +1434,18 @@
   <!-- Верхняя шапка -->
   <div class="topbar">
     <div class="profile-pill">
-      <div class="avatar"><span id="avatar-letter">И</span><span class="avatar-paw">🐾</span></div>
+      <div class="avatar">
+        <img id="avatar-img" class="avatar-img" alt="Avatar" />
+        <span id="avatar-letter">И</span>
+        <span class="avatar-paw">🐾</span>
+      </div>
       <div class="profile-meta">
         <div class="username" id="username">Игрок</div>
         <div class="playtime-text" id="playtime-display">⏱ 0м 00с</div>
       </div>
     </div>
     <div class="top-actions">
-      <div class="claws-pill" onclick="openPrestigeModal()" title="Золотые когти">🦅 <span id="claws-count">0</span></div>
+      <div class="claws-pill" onclick="openPrestigeModal()" title="Очки престижа">🔄 <span id="claws-count">0</span></div>
       <div class="profit-pill">+<span id="passive-rate">0</span>/с</div>
       <button class="icon-pill-btn wheel-btn" onclick="openWheelModal()" title="Колесо Фортуны">
         <span>🎡</span>
@@ -1315,14 +1520,20 @@
 
   <!-- ЭКРАН 2: БУСТЫ И ПРЕСТИЖ -->
   <div class="screen" id="screen-boosts">
-    <div class="section-top-bar"><div class="section-heading">♻️ Перерождение (Престиж)</div></div>
+    <div class="section-top-bar"><div class="section-heading">🔄 Перерождение (Престиж)</div></div>
     <div class="prestige-card">
       <div class="prestige-head">
-        <div class="prestige-title">🦅 Золотые когти: <span id="prestige-claws-total">0</span></div>
+        <div class="prestige-title-wrap">
+          <div class="prestige-orb">🔄</div>
+          <div>
+            <div class="prestige-title">Уровень престижа</div>
+            <div class="prestige-sub-count">Накоплено: <span id="prestige-claws-total">0</span> 🔄</div>
+          </div>
+        </div>
         <div class="prestige-bonus-badge" id="prestige-mult-badge">Доход x1.00</div>
       </div>
       <div class="prestige-desc">
-        Сбросьте текущий баланс и уровни бустов, чтобы получить <b>Золотые когти</b>. Каждый коготь навсегда даёт <b>+25%</b> ко всем монетам!
+        Сбросьте текущий баланс и уровни бустов, чтобы получить <b>очки престижа 🔄</b>. Каждое очко навсегда даёт <b>+25%</b> ко всем монетам!
       </div>
       <div class="prestige-footer">
         <div class="prestige-gain-info" id="prestige-next-info">Нужно от 50 000 🐾</div>
@@ -1382,7 +1593,7 @@
     <div class="card-list" id="leaderboard-list"></div>
   </div>
 
-  <!-- ЭКРАН 6: ДРУЗЬЯ И РЕФЕРАЛЫ (ОТКРЫВАЕТСЯ ИЗ ВЕРХНЕЙ ПАНЕЛИ) -->
+  <!-- ЭКРАН 6: ДРУЗЬЯ И РЕФЕРАЛЫ -->
   <div class="screen" id="screen-friends">
     <div class="section-top-bar">
       <div class="section-heading">👥 Друзья и бонусы</div>
@@ -1442,14 +1653,41 @@
         <div class="modal-title">🎡 Колесо Фортуны</div>
         <button class="close-modal" onclick="closeWheelModal()">✕</button>
       </div>
-      <div style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:6px;" id="wheel-subtitle">
+      <div style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:4px;" id="wheel-subtitle">
         Бесплатное вращение раз в 6 часов или за монеты!
       </div>
 
-      <div class="wheel-container">
-        <div class="wheel-pointer"></div>
-        <div class="wheel-disc" id="wheel-disc"></div>
-        <div class="wheel-center-cap">🐾</div>
+      <div class="wheel-stage" id="wheel-stage">
+        <div class="wheel-glow-ring"></div>
+
+        <!-- 3D Золотой указатель -->
+        <div class="wheel-pointer-wrap">
+          <svg viewBox="0 0 40 46" width="40" height="46" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ptrGold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#fef9c3"/>
+                <stop offset="45%" stop-color="#facc15"/>
+                <stop offset="100%" stop-color="#92400e"/>
+              </linearGradient>
+              <radialGradient id="ptrGem" cx="35%" cy="35%" r="65%">
+                <stop offset="0%" stop-color="#fda4af"/>
+                <stop offset="50%" stop-color="#e11d48"/>
+                <stop offset="100%" stop-color="#881337"/>
+              </radialGradient>
+            </defs>
+            <path d="M20 44 L5 15 A16 16 0 1 1 35 15 Z" fill="url(#ptrGold)" stroke="#fffbeb" stroke-width="2"/>
+            <circle cx="20" cy="15" r="6.5" fill="url(#ptrGem)" stroke="#fef08a" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <div class="wheel-outer-bezel">
+          <div class="wheel-bulbs-ring" id="wheel-bulbs-ring"></div>
+          <div class="wheel-inner-rim">
+            <div class="wheel-disc" id="wheel-disc"></div>
+            <div class="wheel-glass-sheen"></div>
+            <div class="wheel-center-hub" onclick="spinFortuneWheel()">🐾</div>
+          </div>
+        </div>
       </div>
 
       <button class="claim-daily-btn" id="wheel-spin-btn" onclick="spinFortuneWheel()">Крутить бесплатно!</button>
@@ -1458,26 +1696,26 @@
 
   <!-- МОДАЛКА ПОДТВЕРЖДЕНИЯ ПРЕСТИЖА -->
   <div class="modal-backdrop" id="prestige-modal" onclick="closePrestigeModal(event)">
-    <div class="modal-sheet" onclick="event.stopPropagation()">
-      <div class="modal-top"><div class="modal-title">🦅 Перерождение</div><button class="close-modal" onclick="closePrestigeModal()">✕</button></div>
+    <div class="modal-sheet prestige-sheet" onclick="event.stopPropagation()">
+      <div class="modal-top"><div class="modal-title">🔄 Перерождение</div><button class="close-modal" onclick="closePrestigeModal()">✕</button></div>
       <div class="prestige-modal-stats">
         <div class="prestige-stat-row">
-          <span style="color:var(--muted);">Текущие Золотые когти:</span>
-          <b id="pm-current-claws">0 🦅</b>
+          <span style="color:var(--muted);">Текущие очки престижа:</span>
+          <b style="color:#f3e8ff;" id="pm-current-claws">0 🔄</b>
         </div>
         <div class="prestige-stat-row">
           <span style="color:var(--muted);">Получите сейчас:</span>
-          <b style="color:#fde047;" id="pm-gain-claws">+0 🦅</b>
+          <b style="color:#e879f9;" id="pm-gain-claws">+0 🔄</b>
         </div>
         <div class="prestige-stat-row">
           <span style="color:var(--muted);">Новый постоянный бонус:</span>
           <b style="color:#34d399;" id="pm-new-mult">x1.00 к доходу</b>
         </div>
       </div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:14px;line-height:1.45;">
-        ⚠️ Ваш баланс монет и уровни бустов (Сила лапки, Питомник, Удачливая лапка) обнулятся, но <b>Золотые когти, купленные скины, друзья и время в игре</b> сохранятся навсегда!
+      <div style="font-size:12px;color:#cbd5e1;margin-bottom:16px;line-height:1.45;background:rgba(255,255,255,0.03);padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,0.06);">
+        ⚠️ Ваш баланс монет и уровни бустов (Сила лапки, Питомник, Удачливая лапка) обнулятся, но <b>очки престижа 🔄, купленные скины, друзья и время в игре</b> сохранятся навсегда!
       </div>
-      <button class="claim-daily-btn" id="confirm-prestige-btn" onclick="executePrestige()">Совершить перерождение</button>
+      <button class="claim-daily-btn prestige-confirm-btn" id="confirm-prestige-btn" onclick="executePrestige()">Совершить перерождение</button>
     </div>
   </div>
 
@@ -1566,6 +1804,7 @@
     let userId = "local_" + (localStorage.getItem("tg_uid") || Math.floor(Math.random() * 1000000));
     localStorage.setItem("tg_uid", userId.replace("local_", ""));
     let userName = "Игрок";
+    let userPhotoUrl = localStorage.getItem("tg_photo_url") || "";
 
     if (tg) {
       tg.ready();
@@ -1576,11 +1815,36 @@
       if (user) {
         userId = String(user.id);
         userName = user.first_name + (user.last_name ? " " + user.last_name : "");
+        if (user.photo_url) {
+          userPhotoUrl = user.photo_url;
+          localStorage.setItem("tg_photo_url", userPhotoUrl);
+        }
       }
     }
 
-    document.getElementById("username").textContent = userName;
-    document.getElementById("avatar-letter").textContent = userName.charAt(0).toUpperCase();
+    function applyProfileAvatar() {
+      document.getElementById("username").textContent = userName;
+      const letterEl = document.getElementById("avatar-letter");
+      const imgEl = document.getElementById("avatar-img");
+      letterEl.textContent = userName.charAt(0).toUpperCase();
+
+      if (userPhotoUrl) {
+        imgEl.onload = () => {
+          imgEl.style.display = "block";
+          letterEl.style.display = "none";
+        };
+        imgEl.onerror = () => {
+          imgEl.style.display = "none";
+          letterEl.style.display = "flex";
+        };
+        imgEl.src = userPhotoUrl;
+      } else {
+        imgEl.style.display = "none";
+        letterEl.style.display = "flex";
+      }
+    }
+
+    applyProfileAvatar();
 
     const todayStr = new Date().toDateString();
     const DAILY_REWARDS = [1500, 3500, 7500, 15000, 30000, 50000, 100000];
@@ -1605,6 +1869,11 @@
       cycleUpgrades: 0,
       cyclePlayTime: 0,
       cycleShared: false,
+      cycleWheelSpins: 0,
+      cyclePiggyClaims: 0,
+      cycleGoldenPaws: 0,
+      cycleCrits: 0,
+      cycleMaxCombo: 1.0,
       claimedQuests: {},
       dailyStreak: 0,
       lastDailyClaimDate: "",
@@ -1636,6 +1905,11 @@
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.totalTaps = state.totalTaps || parsedSave.cycleTaps || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
+    state.cycleWheelSpins = state.cycleWheelSpins || 0;
+    state.cyclePiggyClaims = state.cyclePiggyClaims || 0;
+    state.cycleGoldenPaws = state.cycleGoldenPaws || 0;
+    state.cycleCrits = state.cycleCrits || 0;
+    state.cycleMaxCombo = state.cycleMaxCombo || 1.0;
     state.piggyProgress = state.piggyProgress || 0;
     state.goldenClaws = state.goldenClaws || 0;
     state.prestigeCount = state.prestigeCount || 0;
@@ -1710,6 +1984,7 @@
         body: JSON.stringify({
           id: userId,
           name: userName,
+          photoUrl: userPhotoUrl || "",
           score: Math.floor(state.balance),
           totalTaps: Math.floor(state.totalTaps || 0),
           tapPower: state.tapPower,
@@ -1733,16 +2008,16 @@
       return String(n);
     }
 
-    /* --- КОЛЕСО ФОРТУНЫ --- */
+    /* --- ПРЕМИУМ КОЛЕСО ФОРТУНЫ --- */
     const WHEEL_SEGMENTS = [
-      { id: "coins_small", label: "💰 Куш x100", color: "#0284c7" },
-      { id: "claws_2", label: "🦅 +2 Когтя", color: "#d97706" },
-      { id: "x5_boost", label: "⚡ x5 на 5м", color: "#9333ea" },
-      { id: "piggy_full", label: "🐷 Копилка", color: "#059669" },
-      { id: "coins_mega", label: "💎 Куш x500", color: "#e11d48" },
-      { id: "claws_5", label: "🦅 +5 Когтей", color: "#b45309" },
-      { id: "phoenix_skin", label: "🔥 Скин Феникс", color: "#c026d3" },
-      { id: "coins_mid", label: "🐾 Куш x250", color: "#2563eb" }
+      { id: "coins_small", emoji: "💰", label: "Куш x100", c1: "#38bdf8", c2: "#0369a1" },
+      { id: "claws_2",     emoji: "🔄", label: "+2 Престиж", c1: "#c084fc", c2: "#6b21a8" },
+      { id: "x5_boost",    emoji: "⚡", label: "x5 на 5м", c1: "#f59e0b", c2: "#b45309" },
+      { id: "piggy_full",  emoji: "🐷", label: "Копилка",  c1: "#34d399", c2: "#047857" },
+      { id: "coins_mega",  emoji: "💎", label: "Куш x500", c1: "#fb7185", c2: "#9f1239" },
+      { id: "claws_5",     emoji: "🔄", label: "+5 Престиж", c1: "#a855f7", c2: "#4c1d95" },
+      { id: "phoenix_skin",emoji: "🔥", label: "Феникс",   c1: "#f472b6", c2: "#86198f" },
+      { id: "coins_mid",   emoji: "🐾", label: "Куш x250", c1: "#60a5fa", c2: "#1e40af" }
     ];
 
     let wheelRotationDeg = 0;
@@ -1759,22 +2034,65 @@
 
     function buildWheelVisual() {
       const disc = document.getElementById("wheel-disc");
+      const bulbsRing = document.getElementById("wheel-bulbs-ring");
       if (!disc || disc.dataset.built === "1") return;
       disc.dataset.built = "1";
 
-      const segCount = WHEEL_SEGMENTS.length;
-      const degPerSeg = 360 / segCount;
-      const gradParts = WHEEL_SEGMENTS.map((s, i) => {
-        const start = i * degPerSeg;
-        const end = (i + 1) * degPerSeg;
-        return `${s.color} ${start}deg ${end}deg`;
-      });
-      disc.style.background = `conic-gradient(${gradParts.join(", ")})`;
-
-      disc.innerHTML = WHEEL_SEGMENTS.map((s, i) => {
-        const angle = i * degPerSeg + degPerSeg / 2 - 90;
-        return `<div class="wheel-seg-label" style="transform: rotate(${angle}deg);">${s.label}</div>`;
+      const bulbCount = 16;
+      bulbsRing.innerHTML = Array.from({ length: bulbCount }, (_, i) => {
+        const angle = (360 / bulbCount) * i;
+        return `<div class="wheel-bulb" style="--bulb-pos: rotate(${angle}deg) translateY(-140.5px);"></div>`;
       }).join("");
+
+      const segCount = WHEEL_SEGMENTS.length;
+      const segDeg = 360 / segCount;
+      const R = 132;
+
+      const defsHtml = WHEEL_SEGMENTS.map((s, i) => `
+        <radialGradient id="wgrad-${i}" cx="50%" cy="50%" r="55%">
+          <stop offset="18%" stop-color="${s.c2}"/>
+          <stop offset="100%" stop-color="${s.c1}"/>
+        </radialGradient>
+      `).join("");
+
+      const wedgesHtml = WHEEL_SEGMENTS.map((s, i) => {
+        const startDeg = i * segDeg - 90;
+        const endDeg = (i + 1) * segDeg - 90;
+        const midDeg = startDeg + segDeg / 2;
+
+        const rad1 = (startDeg * Math.PI) / 180;
+        const rad2 = (endDeg * Math.PI) / 180;
+        const x1 = (R * Math.cos(rad1)).toFixed(2);
+        const y1 = (R * Math.sin(rad1)).toFixed(2);
+        const x2 = (R * Math.cos(rad2)).toFixed(2);
+        const y2 = (R * Math.sin(rad2)).toFixed(2);
+
+        return `
+          <g>
+            <path d="M 0 0 L ${x1} ${y1} A ${R} ${R} 0 0 1 ${x2} ${y2} Z"
+                  fill="url(#wgrad-${i})"
+                  stroke="rgba(254, 240, 138, 0.55)"
+                  stroke-width="1.4" />
+            <g transform="rotate(${midDeg})">
+              <text x="103" y="0" font-size="19" text-anchor="middle" dominant-baseline="central"
+                    style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.65));">${s.emoji}</text>
+              <text x="67" y="0" fill="#ffffff" font-size="10.2" font-weight="800"
+                    font-family="-apple-system, BlinkMacSystemFont, sans-serif"
+                    text-anchor="middle" dominant-baseline="central"
+                    style="text-shadow: 0 1px 3px rgba(0,0,0,0.9);">${s.label}</text>
+            </g>
+          </g>
+        `;
+      }).join("");
+
+      disc.innerHTML = `
+        <svg viewBox="-132 -132 264 264" xmlns="http://www.w3.org/2000/svg">
+          <defs>${defsHtml}</defs>
+          ${wedgesHtml}
+          <circle cx="0" cy="0" r="129" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2" />
+          <circle cx="0" cy="0" r="36" fill="none" stroke="rgba(254,240,138,0.4)" stroke-width="1.5" />
+        </svg>
+      `;
     }
 
     function updateWheelUI() {
@@ -1826,7 +2144,11 @@
         state.lastFreeWheelAt = Date.now();
       }
 
+      state.cycleWheelSpins = (state.cycleWheelSpins || 0) + 1;
       isWheelSpinning = true;
+      const stage = document.getElementById("wheel-stage");
+      stage.classList.add("spinning");
+
       const btn = document.getElementById("wheel-spin-btn");
       btn.disabled = true;
       btn.textContent = "🎲 Колесо крутится...";
@@ -1846,13 +2168,14 @@
 
       setTimeout(() => {
         isWheelSpinning = false;
+        stage.classList.remove("spinning");
         const prize = WHEEL_SEGMENTS[winIdx];
         applyWheelPrize(prize);
         updateWheelUI();
         updateUI();
         saveState();
         syncCloudState(false);
-      }, 4300);
+      }, 4400);
     }
 
     function applyWheelPrize(prize) {
@@ -1876,10 +2199,10 @@
         showToast(`💎 ДЖЕКПОТ! +${formatNum(amt)} 🐾!`);
       } else if (prize.id === "claws_2") {
         state.goldenClaws = (state.goldenClaws || 0) + 2;
-        showToast("🦅 Выигрыш: +2 Золотых когтя!");
+        showToast("🔄 Выигрыш: +2 очка престижа!");
       } else if (prize.id === "claws_5") {
         state.goldenClaws = (state.goldenClaws || 0) + 5;
-        showToast("🦅 СУПЕРПРИЗ: +5 Золотых когтей!");
+        showToast("🔄 СУПЕРПРИЗ: +5 очков престижа!");
       } else if (prize.id === "x5_boost") {
         state.x5EndsAt = Math.max(Date.now(), state.x5EndsAt || 0) + X5_BOOST_DURATION_MS;
         showToast("⚡ Активирован мега-буст x5 к кликам на 5 мин!");
@@ -1944,6 +2267,7 @@
             body: JSON.stringify({
               id: userId,
               name: userName,
+              photoUrl: userPhotoUrl || "",
               joinedAt: Date.now(),
               claimed: false
             })
@@ -2019,6 +2343,7 @@
           return {
             id: r.id,
             name: pInfo?.name || r.name || "Игрок",
+            photoUrl: pInfo?.photoUrl || r.photoUrl || "",
             score: pInfo?.score || 0,
             joinedAt: r.joinedAt || Date.now(),
             claimed: !!r.claimed
@@ -2058,6 +2383,14 @@
       syncCloudState(false);
     }
 
+    function renderMiniAvatarHtml(name, photoUrl) {
+      const letter = escapeHtml((name || "И").charAt(0).toUpperCase());
+      if (photoUrl) {
+        return `<div class="lb-mini-avatar"><img src="${escapeHtml(photoUrl)}" alt="" onerror="this.remove()" /></div>`;
+      }
+      return `<div class="lb-mini-avatar">${letter}</div>`;
+    }
+
     function renderReferralsUI() {
       const count = referralsCache.length || state.referralsCount || 0;
       const bonusPct = Math.min(100, count * 5);
@@ -2089,7 +2422,7 @@
         return `
           <div class="item-card">
             <div class="item-left">
-              <div class="item-icon">🤝</div>
+              ${renderMiniAvatarHtml(r.name, r.photoUrl)}
               <div>
                 <div class="item-title">${escapeHtml(r.name)}</div>
                 <div class="item-sub">${lgName} • ${formatNum(r.score || 0)} 🐾</div>
@@ -2104,7 +2437,16 @@
     function checkQuestCycle(silent = false) {
       if (Date.now() - state.questCycleStart >= QUEST_CYCLE_MS) {
         state.questCycleStart = Date.now();
-        state.cycleTaps = 0; state.cycleEarned = 0; state.cycleUpgrades = 0; state.cyclePlayTime = 0; state.cycleShared = false;
+        state.cycleTaps = 0;
+        state.cycleEarned = 0;
+        state.cycleUpgrades = 0;
+        state.cyclePlayTime = 0;
+        state.cycleShared = false;
+        state.cycleWheelSpins = 0;
+        state.cyclePiggyClaims = 0;
+        state.cycleGoldenPaws = 0;
+        state.cycleCrits = 0;
+        state.cycleMaxCombo = 1.0;
         state.claimedQuests = {};
         if (!silent) showToast("🎯 Задания обновились!");
         saveState();
@@ -2134,6 +2476,11 @@
         .then(cloudData => {
           if (!cloudData || typeof cloudData !== "object") return;
           let changed = false;
+          if (!userPhotoUrl && cloudData.photoUrl) {
+            userPhotoUrl = cloudData.photoUrl;
+            localStorage.setItem("tg_photo_url", userPhotoUrl);
+            applyProfileAvatar();
+          }
           if (cloudData.levels) {
             if ((cloudData.levels.tap || 1) > state.levels.tap) { state.levels.tap = cloudData.levels.tap; changed = true; }
             if ((cloudData.levels.bot || 0) > state.levels.bot) { state.levels.bot = cloudData.levels.bot; changed = true; }
@@ -2175,7 +2522,7 @@
       setTimeout(() => { t.style.display = "none"; }, 4200);
     }
 
-    /* --- РАСШИРЕННЫЙ ГАРДЕРОБ: 10 ЛАПОК (ВКЛЮЧАЯ ПЛАТНЫЕ ОТ 10 МЛН ДО 10 МЛРД) --- */
+    /* --- ГАРДЕРОБ: 10 ЛАПОК --- */
     const PAW_SKINS = [
       {
         id: "classic",
@@ -2209,7 +2556,7 @@
         id: "dragon",
         name: "Лапа Дракона",
         price: 0,
-        reqText: "1 Перерождение 🦅",
+        reqText: "1 Перерождение 🔄",
         cond: () => (state.goldenClaws || 0) >= 1,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <path d="M16 42 Q12 22 25 14 Q24 28 31 38 Z" />
@@ -2236,7 +2583,7 @@
       {
         id: "cyber",
         name: "Кибер-лапа",
-        price: 10000000, // 10 млн
+        price: 10000000,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <polygon points="15,32 25,22 32,34 22,44" />
           <polygon points="34,20 44,12 48,26 38,32" />
@@ -2249,7 +2596,7 @@
       {
         id: "crystal",
         name: "Кристальная лапа",
-        price: 50000000, // 50 млн
+        price: 50000000,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <polygon points="22,22 29,34 22,46 15,34" />
           <polygon points="40,10 47,23 40,36 33,23" />
@@ -2261,7 +2608,7 @@
       {
         id: "lightning",
         name: "Грозовая лапа",
-        price: 250000000, // 250 млн
+        price: 250000000,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <polygon points="24,18 16,34 23,34 19,46 31,30 24,30" />
           <polygon points="42,8 34,24 41,24 37,36 49,20 42,20" />
@@ -2274,7 +2621,7 @@
       {
         id: "starlight",
         name: "Звёздная лапа",
-        price: 1000000000, // 1 млрд
+        price: 1000000000,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <polygon points="22,22 25,30 33,30 26,35 29,43 22,38 15,43 18,35 11,30 19,30" />
           <polygon points="40,10 43,18 51,18 44,23 47,31 40,26 33,31 36,23 29,18 37,18" />
@@ -2286,7 +2633,7 @@
       {
         id: "royal",
         name: "Императорская лапа",
-        price: 4000000000, // 4 млрд
+        price: 4000000000,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <path d="M30 16 L37 5 L50 14 L63 5 L70 16 Z" />
           <ellipse cx="22" cy="39" rx="8" ry="11" transform="rotate(-18 22 39)" />
@@ -2299,7 +2646,7 @@
       {
         id: "omega",
         name: "Лапа Создателя Ω",
-        price: 10000000000, // 10 млрд
+        price: 10000000000,
         svg: `<svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
           <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="3" />
           <ellipse cx="23" cy="37" rx="7.5" ry="11" transform="rotate(-18 23 37)" />
@@ -2338,7 +2685,7 @@
       { id: "creator", short: "Создатель", min: 15000000000000, max: Infinity, name: "👁️‍🗨️ Лига Создателя", next: null, theme: "theme-creator", color: "#f472b6", light: "#fce7f3", dark: "#831843", rgb: "244, 114, 182", glow: "#3b0724", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #fde68a, #db2777)" }
     ];
 
-    /* --- 15 МАТЕРИАЛОВ МОНЕТЫ (ВКЛЮЧАЯ ПЛАТНЫЕ ОТ 10 МЛН ДО 10 МЛРД) --- */
+    /* --- 15 МАТЕРИАЛОВ МОНЕТЫ --- */
     const SELECTABLE_THEMES = [
       { id: "auto", name: "Авто (Лига)", swatch: "conic-gradient(from 0deg, #d97706, #fbbf24, #10b981, #38bdf8, #c026d3, #d97706)", price: 0, free: true },
       { id: "wood", name: "Дерево", swatch: "radial-gradient(circle, #f6d198, #854d27)", price: 0, free: true, style: { theme: "theme-wood", color: "#d97706", light: "#f3c697", dark: "#92400e", rgb: "217, 119, 6", glow: "#2a1a0e", contrast: "#ffffff", miniBg: "radial-gradient(circle at 30% 25%, #d6a574, #78350f)" } },
@@ -2557,13 +2904,13 @@
       const newClaws = curClaws + gain;
       const newMult = (1 + newClaws * 0.25) * getReferralMultiplier();
 
-      document.getElementById("pm-current-claws").textContent = `${formatNum(curClaws)} 🦅`;
-      document.getElementById("pm-gain-claws").textContent = `+${formatNum(gain)} 🦅`;
+      document.getElementById("pm-current-claws").textContent = `${formatNum(curClaws)} 🔄`;
+      document.getElementById("pm-gain-claws").textContent = `+${formatNum(gain)} 🔄`;
       document.getElementById("pm-new-mult").textContent = `x${newMult.toFixed(2)} ко всем монетам`;
 
       const btn = document.getElementById("confirm-prestige-btn");
       btn.disabled = gain <= 0;
-      btn.textContent = gain > 0 ? `Переродиться (+${formatNum(gain)} 🦅)` : `Накопите ${formatNum(PRESTIGE_MIN_BALANCE)} 🐾`;
+      btn.textContent = gain > 0 ? `Переродиться (+${formatNum(gain)} 🔄)` : `Накопите ${formatNum(PRESTIGE_MIN_BALANCE)} 🐾`;
 
       document.getElementById("prestige-modal").classList.add("open");
     }
@@ -2588,7 +2935,7 @@
 
       closePrestigeModal();
       tg?.HapticFeedback?.notificationOccurred("success");
-      showToast(`🦅 Перерождение! Получено +${formatNum(gain)} Золотых когтей!`);
+      showToast(`🔄 Перерождение! Получено +${formatNum(gain)} очков престижа!`);
       updateUI();
       renderWardrobe();
       syncCloudState(false);
@@ -2619,6 +2966,7 @@
       const reward = Math.round(baseReward * getTotalIncomeMultiplier());
       state.balance += reward;
       state.cycleEarned = (state.cycleEarned || 0) + reward;
+      state.cyclePiggyClaims = (state.cyclePiggyClaims || 0) + 1;
       state.piggyProgress = 0;
 
       tg?.HapticFeedback?.notificationOccurred("success");
@@ -2714,6 +3062,7 @@
         const bonus = Math.round(baseBonus * getTotalIncomeMultiplier());
         state.balance += bonus;
         state.cycleEarned = (state.cycleEarned || 0) + bonus;
+        state.cycleGoldenPaws = (state.cycleGoldenPaws || 0) + 1;
 
         tg?.HapticFeedback?.notificationOccurred("success");
         spawnSparks(e.clientX, e.clientY, 12);
@@ -2736,15 +3085,22 @@
       return Math.max(1, power + passive * 2);
     }
 
+    /* --- 12 ЗАДАНИЙ (ОБНОВЛЯЮТСЯ КАЖДЫЕ 30 МИНУТ) --- */
     function getDynamicQuests() {
       const m = getQuestMultipliers();
       return [
-        { id: "q_taps_50", icon: "🐾", title: "Разминка лапок", desc: "Сделать 60 кликов", target: 60, reward: Math.round(800 * m), getVal: () => state.cycleTaps || 0 },
-        { id: "q_earn_1500", icon: "💰", title: "Сбор урожая", desc: "Заработать монеты по уровню", target: Math.round(1000 * m), reward: Math.round(2500 * m), getVal: () => state.cycleEarned || 0 },
-        { id: "q_upg_1", icon: "🚀", title: "Прокачка", desc: "Купить 1 любое улучшение", target: 1, reward: Math.round(1500 * m), getVal: () => state.cycleUpgrades || 0 },
-        { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться реферальной ссылкой", target: 1, reward: Math.round(4000 * m), getVal: () => state.cycleShared ? 1 : 0, isShare: true },
+        { id: "q_taps_60", icon: "🐾", title: "Разминка лапок", desc: "Сделать 60 кликов по монете", target: 60, reward: Math.round(800 * m), getVal: () => state.cycleTaps || 0 },
+        { id: "q_combo_2", icon: "🔥", title: "Быстрый ритм", desc: "Достичь комбо-множителя x2.0", target: 1, reward: Math.round(1200 * m), getVal: () => (state.cycleMaxCombo || 1) >= 2.0 ? 1 : 0 },
+        { id: "q_upg_1", icon: "🚀", title: "Первая прокачка", desc: "Купить 1 любое улучшение", target: 1, reward: Math.round(1500 * m), getVal: () => state.cycleUpgrades || 0 },
+        { id: "q_wheel_1", icon: "🎡", title: "Испытание удачи", desc: "Прокрутить Колесо Фортуны 1 раз", target: 1, reward: Math.round(2200 * m), getVal: () => state.cycleWheelSpins || 0 },
+        { id: "q_earn_1000", icon: "💰", title: "Сбор урожая", desc: "Заработать монеты по уровню", target: Math.round(1000 * m), reward: Math.round(2500 * m), getVal: () => state.cycleEarned || 0 },
         { id: "q_time_2m", icon: "⏱️", title: "Активный игрок", desc: "Провести 2 минуты в игре", target: 120, reward: Math.round(2000 * m), getVal: () => state.cyclePlayTime || 0 },
-        { id: "q_taps_250", icon: "⚡", title: "Турбо-лапка", desc: "Сделать 300 кликов", target: 300, reward: Math.round(6000 * m), getVal: () => state.cycleTaps || 0 }
+        { id: "q_piggy_1", icon: "🐷", title: "Бережливый хозяин", desc: "Забрать награду из Копилки", target: 1, reward: Math.round(3000 * m), getVal: () => state.cyclePiggyClaims || 0 },
+        { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться реферальной ссылкой", target: 1, reward: Math.round(4000 * m), getVal: () => state.cycleShared ? 1 : 0, isShare: true },
+        { id: "q_combo_3", icon: "⚡", title: "Максимальный драйв", desc: "Разогнать лихорадку до x3.0", target: 1, reward: Math.round(4500 * m), getVal: () => (state.cycleMaxCombo || 1) >= 3.0 ? 1 : 0 },
+        { id: "q_taps_300", icon: "👆", title: "Турбо-лапка", desc: "Сделать 300 кликов", target: 300, reward: Math.round(6000 * m), getVal: () => state.cycleTaps || 0 },
+        { id: "q_upg_5", icon: "🛠️", title: "Мастер апгрейдов", desc: "Купить 5 улучшений за цикл", target: 5, reward: Math.round(7500 * m), getVal: () => state.cycleUpgrades || 0 },
+        { id: "q_earn_5000", icon: "💎", title: "Золотой запас", desc: "Накопить крупный куш за цикл", target: Math.round(5000 * m), reward: Math.round(12000 * m), getVal: () => state.cycleEarned || 0 }
       ];
     }
 
@@ -2842,13 +3198,12 @@
       document.getElementById("playtime-display").textContent = formatPlayTime(state.playTimeSeconds);
       document.getElementById("claws-count").textContent = formatNum(state.goldenClaws || 0);
 
-      // Престиж-карточка
       document.getElementById("prestige-claws-total").textContent = formatNum(state.goldenClaws || 0);
       document.getElementById("prestige-mult-badge").textContent = `Доход x${totalMult.toFixed(2)}`;
       const pGain = calcPrestigeGain(state.balance);
       const pBtn = document.getElementById("prestige-open-btn");
       if (pGain > 0) {
-        document.getElementById("prestige-next-info").textContent = `Доступно: +${formatNum(pGain)} 🦅`;
+        document.getElementById("prestige-next-info").textContent = `Доступно: +${formatNum(pGain)} 🔄`;
         pBtn.disabled = false;
       } else {
         document.getElementById("prestige-next-info").textContent = `Нужно от ${formatNum(PRESTIGE_MIN_BALANCE)} 🐾`;
@@ -2929,6 +3284,10 @@
       renderComboBar();
 
       const comboMult = getComboMultiplier();
+      if (comboMult > (state.cycleMaxCombo || 1.0)) {
+        state.cycleMaxCombo = comboMult;
+      }
+
       const x2 = isX2Active();
       const x5 = isX5Active();
       const tempBoostMult = (x2 ? 2 : 1) * (x5 ? 5 : 1);
@@ -2942,6 +3301,7 @@
       state.cycleEarned += gain;
 
       if (isCrit) {
+        state.cycleCrits = (state.cycleCrits || 0) + 1;
         tg?.HapticFeedback?.impactOccurred("heavy");
         spawnSparks(e.clientX, e.clientY, 9);
         spawnPlus(e.clientX, e.clientY, `+${formatNum(gain)} КРИТ! 💥`, "crit");
@@ -3026,7 +3386,7 @@
 
     function renderLeaderboardList() {
       const listEl = document.getElementById("leaderboard-list");
-      const list = cachedPlayers.map(p => String(p.id) === String(userId) ? Object.assign({}, p, { name: userName, score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds), goldenClaws: state.goldenClaws || 0 }) : p);
+      const list = cachedPlayers.map(p => String(p.id) === String(userId) ? Object.assign({}, p, { name: userName, photoUrl: userPhotoUrl || p.photoUrl || "", score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds), goldenClaws: state.goldenClaws || 0 }) : p);
 
       if (leaderboardMode === "time") list.sort((a, b) => (b.playTime || 0) - (a.playTime || 0));
       else if (leaderboardMode === "coins") list.sort((a, b) => (b.score || 0) - (a.score || 0));
@@ -3037,7 +3397,7 @@
         let medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}`;
         const lgName = getCurrentLeague(p.score || 0).name;
         const pTimeStr = formatPlayTime(p.playTime || 0), pCoinsStr = `${formatNum(p.score || 0)} 🐾`, pTapsStr = `${formatNum(p.totalTaps || 0)} 👆`;
-        const clawsTag = (p.goldenClaws || 0) > 0 ? ` • 🦅 ${p.goldenClaws}` : "";
+        const clawsTag = (p.goldenClaws || 0) > 0 ? ` • 🔄 ${p.goldenClaws}` : "";
 
         let mainBadge = leaderboardMode === "time" ? `<div class="lb-score time-mode">${pTimeStr}</div>` : leaderboardMode === "coins" ? `<div class="lb-score">🐾 ${formatNum(p.score || 0)}</div>` : `<div class="lb-score taps-mode">${pTapsStr}</div>`;
         let subText = leaderboardMode === "time" ? `${lgName} • ${pCoinsStr}${clawsTag}` : `${lgName} • ${pTimeStr}${clawsTag}`;
@@ -3046,6 +3406,7 @@
           <div class="item-card lb-item ${isMe ? "me" : ""}">
             <div class="item-left">
               <div class="lb-rank">${medal}</div>
+              ${renderMiniAvatarHtml(p.name, p.photoUrl)}
               <div>
                 <div class="item-title">${escapeHtml(p.name)} ${isMe ? "(Вы)" : ""}</div>
                 <div class="item-sub">${subText}</div>
@@ -3069,7 +3430,7 @@
           if (data && !data.error) players = Object.values(data).filter(p => p && typeof p.score === "number" && p.name);
         } catch (err) {}
       }
-      if (!players.length) players = [{ id: userId, name: userName, score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds), goldenClaws: state.goldenClaws || 0 }];
+      if (!players.length) players = [{ id: userId, name: userName, photoUrl: userPhotoUrl, score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds), goldenClaws: state.goldenClaws || 0 }];
       cachedPlayers = players; renderLeaderboardList();
     }
 
