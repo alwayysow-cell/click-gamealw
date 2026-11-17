@@ -7,9 +7,11 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
-      --bg: #07090e;
-      --surface: rgba(22, 27, 40, 0.84);
-      --border: rgba(255, 255, 255, 0.09);
+      --bg: #06080d;
+      --surface: rgba(20, 25, 38, 0.78);
+      --surface-strong: rgba(26, 33, 50, 0.92);
+      --border: rgba(255, 255, 255, 0.1);
+      --highlight: rgba(255, 255, 255, 0.08);
       --accent: #fbbf24;
       --blue: #38bdf8;
       --green: #10b981;
@@ -29,8 +31,8 @@
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
       background-color: var(--bg);
       background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='%23fbbf24' fill-opacity='0.09'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
-        radial-gradient(circle at 50% -10%, #1d2238 0%, var(--bg) 68%);
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='90' height='90' viewBox='0 0 90 90'%3E%3Cg fill='%23fbbf24' fill-opacity='0.095'%3E%3Cg transform='translate(10,10) rotate(-18 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3Cg transform='translate(52,50) rotate(22 20 20)'%3E%3Cellipse cx='12' cy='16' rx='3.2' ry='4.5' transform='rotate(-15 12 16)'/%3E%3Cellipse cx='20' cy='12' rx='3.2' ry='4.8'/%3E%3Cellipse cx='28' cy='16' rx='3.2' ry='4.5' transform='rotate(15 28 16)'/%3E%3Cpath d='M13 26c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"),
+        radial-gradient(circle at 50% -15%, #232a47 0%, #0b0f19 48%, var(--bg) 82%);
       color: var(--text);
       height: 100vh;
       display: flex;
@@ -55,7 +57,8 @@
       gap: 9px;
       background: var(--surface);
       border: 1px solid var(--border);
-      backdrop-filter: blur(14px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 var(--highlight);
+      backdrop-filter: blur(16px);
       padding: 5px 12px 5px 6px;
       border-radius: 18px;
     }
@@ -65,7 +68,7 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #fbbf24, #ea580c);
+      background: linear-gradient(135deg, #fde047, #f59e0b, #ea580c);
       color: #090b10;
       font-weight: 800;
       font-size: 15px;
@@ -73,6 +76,7 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
     }
 
     .avatar-paw {
@@ -95,7 +99,7 @@
     .username {
       font-weight: 700;
       font-size: 13px;
-      max-width: 115px;
+      max-width: 112px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -115,8 +119,9 @@
     }
 
     .profit-pill {
-      background: rgba(251, 191, 36, 0.12);
-      border: 1px solid rgba(251, 191, 36, 0.28);
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.16), rgba(217, 119, 6, 0.1));
+      border: 1px solid rgba(251, 191, 36, 0.32);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
       color: var(--accent);
       padding: 6px 10px;
       border-radius: 99px;
@@ -130,9 +135,10 @@
 
     .daily-trigger {
       position: relative;
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.35));
-      border: 1px solid rgba(16, 185, 129, 0.45);
-      color: #6ee7b7;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.24), rgba(5, 150, 105, 0.38));
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      color: #a7f3d0;
       padding: 6px 10px;
       border-radius: 99px;
       font-size: 12px;
@@ -162,7 +168,7 @@
       flex: 1;
       display: none;
       flex-direction: column;
-      padding: 6px 16px 90px;
+      padding: 6px 16px 92px;
       overflow-y: auto;
     }
 
@@ -172,14 +178,33 @@
 
     /* --- ЭКРАН 1: МАЙНИНГ --- */
     .score-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.015) 100%);
+      background: linear-gradient(160deg, rgba(30, 37, 56, 0.72) 0%, rgba(16, 20, 32, 0.85) 100%);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 12px 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 var(--highlight);
+      backdrop-filter: blur(16px);
+      border-radius: 22px;
+      padding: 13px 16px;
       text-align: center;
       margin-top: 6px;
       position: relative;
       overflow: hidden;
+    }
+
+    .score-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.04), transparent);
+      animation: cardShine 6s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes cardShine {
+      0%, 60% { left: -100%; }
+      100% { left: 160%; }
     }
 
     .league-row {
@@ -207,7 +232,8 @@
       font-size: 38px;
       font-weight: 900;
       letter-spacing: -1px;
-      margin: 2px 0 8px;
+      margin: 2px 0 9px;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
     }
 
     .mini-paw-coin {
@@ -216,7 +242,7 @@
       border-radius: 50%;
       background: radial-gradient(circle at 30% 25%, #fef08a, #d97706);
       border: 2px solid #fde047;
-      box-shadow: 0 0 12px rgba(251, 191, 36, 0.45);
+      box-shadow: 0 0 14px rgba(251, 191, 36, 0.5);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -226,10 +252,11 @@
 
     .league-progress-bg {
       width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.08);
+      height: 7px;
+      background: rgba(255, 255, 255, 0.07);
       border-radius: 99px;
       overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
     }
 
     .league-progress-fill {
@@ -237,6 +264,7 @@
       width: 0%;
       background: var(--accent);
       border-radius: 99px;
+      box-shadow: 0 0 10px currentColor;
       transition: width 0.3s ease, background 0.3s ease;
     }
 
@@ -248,13 +276,13 @@
       justify-content: center;
       perspective: 900px;
       position: relative;
-      min-height: 240px;
+      min-height: 235px;
     }
 
     .coin-aura {
       position: absolute;
-      width: 260px;
-      height: 260px;
+      width: 270px;
+      height: 270px;
       border-radius: 50%;
       background: radial-gradient(circle, var(--aura-color, rgba(217, 119, 6, 0.38)) 0%, transparent 70%);
       pointer-events: none;
@@ -263,8 +291,8 @@
     }
 
     @keyframes pulseAura {
-      0%, 100% { transform: scale(0.94); opacity: 0.75; }
-      50% { transform: scale(1.08); opacity: 1; }
+      0%, 100% { transform: scale(0.94); opacity: 0.78; }
+      50% { transform: scale(1.1); opacity: 1; }
     }
 
     .coin-btn {
@@ -283,7 +311,7 @@
       width: 188px;
       height: 188px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.28);
+      border: 2px solid rgba(255, 255, 255, 0.32);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -294,7 +322,7 @@
       width: 162px;
       height: 162px;
       border-radius: 50%;
-      border: 2px dashed rgba(255, 255, 255, 0.38);
+      border: 2px dashed rgba(255, 255, 255, 0.42);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -304,8 +332,8 @@
     .paw-svg {
       width: 96px;
       height: 96px;
-      fill: rgba(255, 255, 255, 0.92);
-      filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.45));
+      fill: rgba(255, 255, 255, 0.94);
+      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
       transition: transform 0.2s ease, fill 0.4s ease;
     }
 
@@ -313,35 +341,35 @@
     .coin-btn.theme-bronze {
       background: radial-gradient(circle at 30% 25%, #fdba74 0%, #c2410c 58%, #7c2d12 100%);
       border: 6px solid #fb923c;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 35px rgba(234, 88, 12, 0.4), inset 0 4px 14px rgba(255,255,255,0.65);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 35px rgba(234, 88, 12, 0.42), inset 0 4px 14px rgba(255,255,255,0.65);
     }
     .coin-btn.theme-bronze .paw-svg { fill: #ffedd5; }
 
     .coin-btn.theme-silver {
       background: radial-gradient(circle at 30% 25%, #f8fafc 0%, #94a3b8 55%, #334155 100%);
       border: 6px solid #e2e8f0;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 38px rgba(148, 163, 184, 0.45), inset 0 4px 16px rgba(255,255,255,0.9);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 38px rgba(148, 163, 184, 0.48), inset 0 4px 16px rgba(255,255,255,0.9);
     }
     .coin-btn.theme-silver .paw-svg { fill: #ffffff; }
 
     .coin-btn.theme-gold {
       background: radial-gradient(circle at 30% 25%, #fef08a 0%, #eab308 55%, #854d0e 100%);
       border: 6px solid #fde047;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 42px rgba(250, 204, 21, 0.5), inset 0 4px 16px rgba(255,255,255,0.85);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 44px rgba(250, 204, 21, 0.55), inset 0 4px 16px rgba(255,255,255,0.85);
     }
     .coin-btn.theme-gold .paw-svg { fill: #fef9c3; }
 
     .coin-btn.theme-diamond {
       background: radial-gradient(circle at 30% 25%, #cffafe 0%, #06b6d4 52%, #1e3a8a 100%);
       border: 6px solid #67e8f9;
-      box-shadow: 0 18px 45px rgba(0,0,0,0.75), 0 0 48px rgba(34, 211, 238, 0.6), inset 0 4px 18px rgba(255,255,255,0.9);
+      box-shadow: 0 18px 45px rgba(0,0,0,0.75), 0 0 50px rgba(34, 211, 238, 0.65), inset 0 4px 18px rgba(255,255,255,0.9);
     }
     .coin-btn.theme-diamond .paw-svg { fill: #ecfeff; }
 
     .coin-btn.theme-legend {
       background: radial-gradient(circle at 30% 25%, #f5d0fe 0%, #c026d3 48%, #4c1d95 100%);
       border: 6px solid #e879f9;
-      box-shadow: 0 18px 50px rgba(0,0,0,0.8), 0 0 55px rgba(217, 70, 239, 0.65), inset 0 4px 18px rgba(255,255,255,0.9);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.8), 0 0 58px rgba(217, 70, 239, 0.7), inset 0 4px 18px rgba(255,255,255,0.9);
     }
     .coin-btn.theme-legend .paw-svg { fill: #fdf4ff; }
 
@@ -349,8 +377,10 @@
     .energy-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 10px 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 var(--highlight);
+      backdrop-filter: blur(14px);
+      border-radius: 18px;
+      padding: 11px 14px;
     }
 
     .energy-row {
@@ -359,22 +389,30 @@
       align-items: center;
       font-size: 13px;
       font-weight: 700;
-      margin-bottom: 7px;
+      margin-bottom: 8px;
+      gap: 8px;
     }
 
     .free-refill-btn {
-      background: rgba(56, 189, 248, 0.16);
-      border: 1px solid rgba(56, 189, 248, 0.35);
-      color: var(--blue);
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(2, 132, 199, 0.32));
+      border: 1px solid rgba(56, 189, 248, 0.42);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      color: #7dd3fc;
       font-size: 12px;
       font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 8px;
+      padding: 5px 11px;
+      border-radius: 10px;
       cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.1s, opacity 0.2s;
+    }
+
+    .free-refill-btn:active:not(:disabled) {
+      transform: scale(0.95);
     }
 
     .free-refill-btn:disabled {
-      opacity: 0.4;
+      opacity: 0.55;
       cursor: default;
     }
 
@@ -384,24 +422,54 @@
       background: rgba(255, 255, 255, 0.07);
       border-radius: 99px;
       overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
     }
 
     .progress-fill {
       height: 100%;
       border-radius: 99px;
-      background: linear-gradient(90deg, #0284c7, #38bdf8, #7dd3fc);
-      box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+      background: linear-gradient(90deg, #0284c7, #38bdf8, #bae6fd);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.55);
       transition: width 0.2s ease;
     }
 
     /* --- ОБЩИЕ КАРТОЧКИ --- */
+    .section-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 8px 0 12px;
+      gap: 8px;
+    }
+
     .section-heading {
       font-size: 19px;
       font-weight: 800;
-      margin: 8px 0 12px;
+      margin: 0;
       display: flex;
       align-items: center;
       gap: 7px;
+    }
+
+    .timer-badge {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 10px;
+      white-space: nowrap;
+    }
+
+    .discount-badge {
+      background: rgba(251, 191, 36, 0.14);
+      border: 1px solid rgba(251, 191, 36, 0.35);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 9px;
     }
 
     .card-list {
@@ -413,13 +481,15 @@
     .item-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), inset 0 1px 0 var(--highlight);
+      backdrop-filter: blur(12px);
+      border-radius: 18px;
       padding: 13px 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 10px;
-      transition: transform 0.1s, border-color 0.2s;
+      transition: transform 0.1s, border-color 0.2s, background 0.2s;
     }
 
     .item-card.clickable {
@@ -428,6 +498,7 @@
 
     .item-card.clickable:active {
       transform: scale(0.98);
+      background: var(--surface-strong);
     }
 
     .item-card.disabled {
@@ -443,10 +514,11 @@
     }
 
     .item-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 13px;
-      background: rgba(255, 255, 255, 0.06);
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+      border: 1px solid rgba(255, 255, 255, 0.06);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -478,12 +550,13 @@
     }
 
     .action-btn {
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      background: linear-gradient(135deg, #fde047, #f59e0b);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
       color: #090b10;
       font-weight: 800;
       font-size: 12px;
-      padding: 8px 13px;
-      border-radius: 11px;
+      padding: 9px 13px;
+      border-radius: 12px;
       border: none;
       white-space: nowrap;
       cursor: pointer;
@@ -492,12 +565,14 @@
 
     .action-btn.claim {
       background: linear-gradient(135deg, #34d399, #10b981);
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
       color: #052e16;
       animation: pulseClaim 1.5s infinite;
     }
 
     .action-btn.done {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.07);
+      box-shadow: none;
       color: var(--muted);
       cursor: default;
       animation: none;
@@ -519,18 +594,12 @@
 
     .quest-bar-fill {
       height: 100%;
-      background: var(--green);
+      background: linear-gradient(90deg, #10b981, #34d399);
       border-radius: 99px;
+      transition: width 0.25s ease;
     }
 
     /* Лидеры */
-    .lb-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 8px 0 12px;
-    }
-
     .refresh-btn {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -543,8 +612,8 @@
     }
 
     .lb-item.me {
-      border-color: var(--accent);
-      background: rgba(251, 191, 36, 0.1);
+      border-color: rgba(251, 191, 36, 0.55);
+      background: linear-gradient(135deg, rgba(251, 191, 36, 0.14), rgba(20, 25, 38, 0.85));
     }
 
     .lb-rank {
@@ -570,10 +639,11 @@
       left: 14px;
       right: 14px;
       height: 64px;
-      background: rgba(16, 20, 32, 0.94);
-      backdrop-filter: blur(18px);
+      background: rgba(14, 18, 29, 0.92);
+      backdrop-filter: blur(20px);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 var(--highlight);
+      border-radius: 22px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       padding: 5px;
@@ -587,7 +657,7 @@
       align-items: center;
       justify-content: center;
       gap: 3px;
-      border-radius: 14px;
+      border-radius: 16px;
       color: var(--muted);
       font-size: 11px;
       font-weight: 700;
@@ -596,7 +666,8 @@
     }
 
     .nav-item.active {
-      background: rgba(251, 191, 36, 0.15);
+      background: linear-gradient(180deg, rgba(251, 191, 36, 0.2), rgba(251, 191, 36, 0.08));
+      border: 1px solid rgba(251, 191, 36, 0.25);
       color: var(--accent);
     }
 
@@ -612,6 +683,7 @@
       height: 8px;
       border-radius: 50%;
       background: var(--green);
+      box-shadow: 0 0 8px var(--green);
       display: none;
     }
 
@@ -821,7 +893,6 @@
       <div class="coin-btn theme-bronze" id="coin">
         <div class="coin-ring-outer">
           <div class="coin-ring-inner">
-            <!-- Векторная монета с собачьей лапкой -->
             <svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
               <ellipse cx="22" cy="36" rx="8.5" ry="12" transform="rotate(-18 22 36)" />
               <ellipse cx="40" cy="24" rx="8.5" ry="12.5" transform="rotate(-6 40 24)" />
@@ -838,7 +909,7 @@
       <div class="energy-row">
         <span>🦴 Энергия: <span id="energy">500</span> / <span id="max-energy">500</span></span>
         <button class="free-refill-btn" id="refill-btn" onclick="useFreeRefill()">
-          ⚡ Заряд (<span id="refills-left">3</span>/3)
+          ⚡ Заряд (3/3)
         </button>
       </div>
       <div class="progress-track">
@@ -849,7 +920,10 @@
 
   <!-- ЭКРАН 2: БУСТЫ -->
   <div class="screen" id="screen-boosts">
-    <div class="section-heading">🐾 Улучшения</div>
+    <div class="section-top-bar">
+      <div class="section-heading">🐾 Улучшения</div>
+      <span class="discount-badge">Скидка -15%</span>
+    </div>
     <div class="card-list">
       <div class="item-card clickable" id="upg-tap" onclick="buyUpgrade('tap')">
         <div class="item-left">
@@ -859,7 +933,7 @@
             <div class="item-sub">+3 монетки с лапкой за клик</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-tap">50</button>
+        <button class="action-btn" id="cost-tap">43</button>
       </div>
 
       <div class="item-card clickable" id="upg-energy" onclick="buyUpgrade('energy')">
@@ -870,7 +944,7 @@
             <div class="item-sub">+300 к максимуму энергии</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-energy">100</button>
+        <button class="action-btn" id="cost-energy">85</button>
       </div>
 
       <div class="item-card clickable" id="upg-regen" onclick="buyUpgrade('regen')">
@@ -881,7 +955,7 @@
             <div class="item-sub">+1 энергия в секунду</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-regen">150</button>
+        <button class="action-btn" id="cost-regen">128</button>
       </div>
 
       <div class="item-card clickable" id="upg-bot" onclick="buyUpgrade('bot')">
@@ -892,21 +966,24 @@
             <div class="item-sub">+3 монетки с лапкой каждую секунду</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-bot">250</button>
+        <button class="action-btn" id="cost-bot">213</button>
       </div>
     </div>
   </div>
 
   <!-- ЭКРАН 3: ЗАДАНИЯ -->
   <div class="screen" id="screen-quests">
-    <div class="section-heading">🎯 Задания и награды</div>
+    <div class="section-top-bar">
+      <div class="section-heading">🎯 Задания</div>
+      <div class="timer-badge" id="quests-timer">⏳ 30:00</div>
+    </div>
     <div class="card-list" id="quests-list"></div>
   </div>
 
   <!-- ЭКРАН 4: ЛИДЕРЫ -->
   <div class="screen" id="screen-leaders">
-    <div class="lb-header">
-      <div class="section-heading" style="margin:0;">🏆 Топ игроков</div>
+    <div class="section-top-bar">
+      <div class="section-heading">🏆 Топ игроков</div>
       <button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button>
     </div>
     <div class="card-list" id="leaderboard-list"></div>
@@ -947,6 +1024,8 @@
 
   <script>
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
+    const REFILL_CYCLE_MS = 7 * 60 * 1000;  // 7 минут
+    const QUEST_CYCLE_MS = 30 * 60 * 1000;  // 30 минут
 
     const tg = window.Telegram?.WebApp;
     let userId = "local_" + (localStorage.getItem("tg_uid") || Math.floor(Math.random() * 1000000));
@@ -956,8 +1035,8 @@
     if (tg) {
       tg.ready();
       tg.expand();
-      tg.setHeaderColor("#07090e");
-      tg.setBackgroundColor("#07090e");
+      tg.setHeaderColor("#06080d");
+      tg.setBackgroundColor("#06080d");
       const user = tg.initDataUnsafe?.user;
       if (user) {
         userId = String(user.id);
@@ -979,20 +1058,25 @@
       tapPower: 1,
       passiveIncome: 0,
       refillsLeft: 3,
-      refillDate: todayStr,
+      refillResetAt: 0,
       lastSeen: Date.now(),
       playTimeSeconds: 0,
       levels: { tap: 1, energy: 1, regen: 1, bot: 0 },
-      costs: { tap: 50, energy: 100, regen: 150, bot: 250 },
-      totalTaps: 0,
-      totalUpgrades: 0,
-      sharedGame: false,
+      // Базовые цены сразу на 15% ниже
+      costs: { tap: 43, energy: 85, regen: 128, bot: 213 },
+      discount15Applied: true,
+      // Цикл заданий (обновляется каждые 30 минут)
+      questCycleStart: Date.now(),
+      cycleTaps: 0,
+      cycleEarned: 0,
+      cycleUpgrades: 0,
+      cyclePlayTime: 0,
+      cycleShared: false,
       claimedQuests: {},
       dailyStreak: 0,
       lastDailyClaimDate: ""
     };
 
-    // Единое постоянное сохранение + подхват всех старых версий
     const rawSave =
       localStorage.getItem("aureum_save") ||
       localStorage.getItem("aureum_save_v3") ||
@@ -1002,13 +1086,55 @@
     let state = Object.assign({}, defaultState, JSON.parse(rawSave || "{}"));
     state.claimedQuests = state.claimedQuests || {};
     state.playTimeSeconds = state.playTimeSeconds || 0;
+    state.questCycleStart = state.questCycleStart || Date.now();
+
+    // Применяем скидку 15% к уже существующим сохранениям игрока
+    if (!state.discount15Applied && state.costs) {
+      state.costs.tap = Math.max(1, Math.round(state.costs.tap * 0.85));
+      state.costs.energy = Math.max(1, Math.round(state.costs.energy * 0.85));
+      state.costs.regen = Math.max(1, Math.round(state.costs.regen * 0.85));
+      state.costs.bot = Math.max(1, Math.round(state.costs.bot * 0.85));
+      state.discount15Applied = true;
+    }
 
     function saveState() {
       state.lastSeen = Date.now();
       localStorage.setItem("aureum_save", JSON.stringify(state));
     }
 
-    // Синхронизация с базой Firebase (восстановление прогресса, админ-команды, объявления)
+    // Проверка и сброс 7-минутного таймера зарядов
+    function checkRefillTimer(silent = false) {
+      if (state.refillsLeft < 3) {
+        if (!state.refillResetAt) {
+          state.refillResetAt = Date.now() + REFILL_CYCLE_MS;
+        } else if (Date.now() >= state.refillResetAt) {
+          state.refillsLeft = 3;
+          state.refillResetAt = 0;
+          if (!silent) showToast("⚡ Все 3 заряда восстановлены!");
+          saveState();
+        }
+      }
+    }
+
+    // Проверка и сброс 30-минутного цикла заданий
+    function checkQuestCycle(silent = false) {
+      if (Date.now() - state.questCycleStart >= QUEST_CYCLE_MS) {
+        state.questCycleStart = Date.now();
+        state.cycleTaps = 0;
+        state.cycleEarned = 0;
+        state.cycleUpgrades = 0;
+        state.cyclePlayTime = 0;
+        state.cycleShared = false;
+        state.claimedQuests = {};
+        if (!silent) showToast("🎯 Задания обновились!");
+        saveState();
+      }
+    }
+
+    checkRefillTimer(true);
+    checkQuestCycle(true);
+
+    // Синхронизация с базой Firebase
     if (FIREBASE_URL) {
       fetch(`${FIREBASE_URL}/players/${userId}.json`)
         .then(r => r.json())
@@ -1045,11 +1171,6 @@
         .catch(() => {});
     }
 
-    if (state.refillDate !== todayStr) {
-      state.refillsLeft = 3;
-      state.refillDate = todayStr;
-    }
-
     // Оффлайн-доход до 3 часов
     const now = Date.now();
     const secondsAway = Math.min(10800, Math.floor((now - (state.lastSeen || now)) / 1000));
@@ -1066,14 +1187,19 @@
       return Math.floor(n || 0).toLocaleString("ru-RU");
     }
 
+    function formatMMSS(ms) {
+      const totalSec = Math.max(0, Math.ceil(ms / 1000));
+      const m = Math.floor(totalSec / 60);
+      const s = totalSec % 60;
+      return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+    }
+
     function formatPlayTime(sec) {
       const total = Math.floor(sec || 0);
       const h = Math.floor(total / 3600);
       const m = Math.floor((total % 3600) / 60);
       const s = total % 60;
-      if (h > 0) {
-        return `⏱ ${h}ч ${String(m).padStart(2, "0")}м`;
-      }
+      if (h > 0) return `⏱ ${h}ч ${String(m).padStart(2, "0")}м`;
       return `⏱ ${m}м ${String(s).padStart(2, "0")}с`;
     }
 
@@ -1129,18 +1255,20 @@
       }
     }
 
-    // --- ЗАДАНИЯ ---
+    // --- ЗАДАНИЯ (ОБНОВЛЯЮТСЯ КАЖДЫЕ 30 МИНУТ) ---
     const QUESTS = [
-      { id: "taps_100", icon: "🐾", title: "Первые следы", desc: "Сделать 100 кликов по лапке", target: 100, reward: 500, getVal: () => state.totalTaps },
-      { id: "bal_5000", icon: "💰", title: "Копилка лапок", desc: "Накопить 5 000 монет", target: 5000, reward: 1500, getVal: () => state.balance },
-      { id: "upg_3", icon: "🚀", title: "Заботливый хозяин", desc: "Купить 3 любых улучшения", target: 3, reward: 2000, getVal: () => state.totalUpgrades },
-      { id: "share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой в Telegram", target: 1, reward: 3000, getVal: () => state.sharedGame ? 1 : 0, isShare: true },
-      { id: "time_5m", icon: "⏱️", title: "Верный друг", desc: "Провести в игре 5 минут", target: 300, reward: 2500, getVal: () => state.playTimeSeconds },
-      { id: "taps_1000", icon: "⚡", title: "Мастер тапов", desc: "Сделать 1 000 кликов", target: 1000, reward: 5000, getVal: () => state.totalTaps },
-      { id: "silver", icon: "🥈", title: "Серебряная лапка", desc: "Достичь Серебряной лиги (10 000)", target: 10000, reward: 7500, getVal: () => state.balance }
+      { id: "q_taps_100", icon: "🐾", title: "Разминка лапок", desc: "Сделать 100 кликов за полчаса", target: 100, reward: 600, getVal: () => state.cycleTaps || 0 },
+      { id: "q_earn_3000", icon: "💰", title: "Сбор урожая", desc: "Заработать 3 000 монет за полчаса", target: 3000, reward: 1500, getVal: () => state.cycleEarned || 0 },
+      { id: "q_upg_1", icon: "🚀", title: "Прокачка", desc: "Купить 1 любое улучшение", target: 1, reward: 1200, getVal: () => state.cycleUpgrades || 0 },
+      { id: "q_share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой в Telegram", target: 1, reward: 2500, getVal: () => state.cycleShared ? 1 : 0, isShare: true },
+      { id: "q_time_3m", icon: "⏱️", title: "Активный игрок", desc: "Провести в игре 3 минуты", target: 180, reward: 2000, getVal: () => state.cyclePlayTime || 0 },
+      { id: "q_taps_500", icon: "⚡", title: "Турбо-лапка", desc: "Сделать 500 кликов за полчаса", target: 500, reward: 3500, getVal: () => state.cycleTaps || 0 }
     ];
 
     function renderQuests() {
+      const remMs = Math.max(0, QUEST_CYCLE_MS - (Date.now() - state.questCycleStart));
+      document.getElementById("quests-timer").textContent = `⏳ ${formatMMSS(remMs)}`;
+
       const container = document.getElementById("quests-list");
       let hasReady = false;
 
@@ -1189,7 +1317,7 @@
       } else {
         window.open(shareUrl, "_blank");
       }
-      state.sharedGame = true;
+      state.cycleShared = true;
       saveState();
       renderQuests();
     }
@@ -1277,13 +1405,19 @@
       const pct = Math.min(100, (state.energy / state.maxEnergy) * 100);
       document.getElementById("energy-bar").style.width = `${pct}%`;
 
+      // Кнопка зарядов + таймер 7 минут
       const refillBtn = document.getElementById("refill-btn");
-      document.getElementById("refills-left").textContent = state.refillsLeft;
+      if (state.refillsLeft < 3 && state.refillResetAt > Date.now()) {
+        const rem = formatMMSS(state.refillResetAt - Date.now());
+        refillBtn.textContent = `⚡ Заряд (${state.refillsLeft}/3) • ${rem}`;
+      } else {
+        refillBtn.textContent = `⚡ Заряд (${state.refillsLeft}/3)`;
+      }
       refillBtn.disabled = state.refillsLeft <= 0 || state.energy >= state.maxEnergy;
 
       document.getElementById("daily-dot").classList.toggle("show", canClaimDaily());
 
-      // Бусты
+      // Бусты (цены на 15% ниже)
       document.getElementById("lvl-tap").textContent = `Ур. ${state.levels.tap}`;
       document.getElementById("cost-tap").textContent = `${formatNum(state.costs.tap)} 🐾`;
 
@@ -1323,7 +1457,8 @@
 
       state.balance += state.tapPower;
       state.energy -= state.tapPower;
-      state.totalTaps += 1;
+      state.cycleTaps = (state.cycleTaps || 0) + 1;
+      state.cycleEarned = (state.cycleEarned || 0) + state.tapPower;
 
       tg?.HapticFeedback?.impactOccurred("light");
       spawnPlus(e.clientX, e.clientY, `+${state.tapPower} 🐾`);
@@ -1343,6 +1478,9 @@
 
     function useFreeRefill() {
       if (state.refillsLeft <= 0 || state.energy >= state.maxEnergy) return;
+      if (state.refillsLeft === 3) {
+        state.refillResetAt = Date.now() + REFILL_CYCLE_MS;
+      }
       state.refillsLeft -= 1;
       state.energy = state.maxEnergy;
       tg?.HapticFeedback?.notificationOccurred("success");
@@ -1356,7 +1494,7 @@
 
       state.balance -= cost;
       state.levels[type] += 1;
-      state.totalUpgrades += 1;
+      state.cycleUpgrades = (state.cycleUpgrades || 0) + 1;
 
       if (type === "tap") {
         state.tapPower += 3;
@@ -1459,10 +1597,14 @@
       }[m]));
     }
 
-    // Игровой цикл: учет времени в игре, восстановление энергии и пассивный доход
+    // Игровой цикл (каждую секунду)
     setInterval(() => {
+      checkRefillTimer(false);
+      checkQuestCycle(false);
+
       if (!document.hidden) {
         state.playTimeSeconds += 1;
+        state.cyclePlayTime = (state.cyclePlayTime || 0) + 1;
       }
 
       if (state.energy < state.maxEnergy) {
@@ -1470,6 +1612,7 @@
       }
       if (state.passiveIncome > 0) {
         state.balance += state.passiveIncome;
+        state.cycleEarned = (state.cycleEarned || 0) + state.passiveIncome;
       }
 
       updateUI();
