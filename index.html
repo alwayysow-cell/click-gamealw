@@ -922,7 +922,7 @@
             <div class="item-sub">+3 монетки с лапкой за клик</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-tap">30</button>
+        <button class="action-btn" id="cost-tap">12</button>
       </div>
 
       <div class="item-card clickable" id="upg-energy" onclick="buyUpgrade('energy')">
@@ -933,7 +933,7 @@
             <div class="item-sub">+300 к максимуму энергии</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-energy">60</button>
+        <button class="action-btn" id="cost-energy">24</button>
       </div>
 
       <div class="item-card clickable" id="upg-regen" onclick="buyUpgrade('regen')">
@@ -944,7 +944,7 @@
             <div class="item-sub">+1 энергия в секунду</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-regen">90</button>
+        <button class="action-btn" id="cost-regen">36</button>
       </div>
 
       <div class="item-card clickable" id="upg-bot" onclick="buyUpgrade('bot')">
@@ -955,7 +955,7 @@
             <div class="item-sub">+3 монетки с лапкой каждую секунду</div>
           </div>
         </div>
-        <button class="action-btn" id="cost-bot">149</button>
+        <button class="action-btn" id="cost-bot">60</button>
       </div>
     </div>
   </div>
@@ -1051,9 +1051,10 @@
       lastSeen: Date.now(),
       playTimeSeconds: 0,
       levels: { tap: 1, energy: 1, regen: 1, bot: 0 },
-      costs: { tap: 30, energy: 60, regen: 90, bot: 149 },
+      costs: { tap: 12, energy: 24, regen: 36, bot: 60 },
       discount15Applied: true,
       discount30Applied: true,
+      discount60Applied: true,
       questCycleStart: Date.now(),
       cycleTaps: 0,
       cycleEarned: 0,
@@ -1076,13 +1077,13 @@
     state.playTimeSeconds = state.playTimeSeconds || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
 
-    // Разовое снижение текущих цен на 30% для существующего сохранения
-    if (!state.discount30Applied && state.costs) {
-      state.costs.tap = Math.max(1, Math.round(state.costs.tap * 0.7));
-      state.costs.energy = Math.max(1, Math.round(state.costs.energy * 0.7));
-      state.costs.regen = Math.max(1, Math.round(state.costs.regen * 0.7));
-      state.costs.bot = Math.max(1, Math.round(state.costs.bot * 0.7));
-      state.discount30Applied = true;
+    // Разовое снижение текущих цен на 60% для существующего сохранения
+    if (!state.discount60Applied && state.costs) {
+      state.costs.tap = Math.max(1, Math.round(state.costs.tap * 0.4));
+      state.costs.energy = Math.max(1, Math.round(state.costs.energy * 0.4));
+      state.costs.regen = Math.max(1, Math.round(state.costs.regen * 0.4));
+      state.costs.bot = Math.max(1, Math.round(state.costs.bot * 0.4));
+      state.discount60Applied = true;
     }
 
     function saveState() {
