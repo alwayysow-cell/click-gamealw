@@ -3,16 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Aureum Tap</title>
+  <title>Paw Tap</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
       --bg: #07090e;
-      --surface: rgba(22, 27, 40, 0.82);
-      --surface-hover: rgba(32, 39, 58, 0.9);
+      --surface: rgba(22, 27, 40, 0.84);
       --border: rgba(255, 255, 255, 0.09);
       --accent: #fbbf24;
-      --accent-glow: rgba(251, 191, 36, 0.35);
       --blue: #38bdf8;
       --green: #10b981;
       --text: #f8fafc;
@@ -29,7 +27,10 @@
       margin: 0;
       padding: 0;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
-      background: radial-gradient(circle at 50% -10%, #1d2238 0%, var(--bg) 62%);
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(circle at 50% -10%, #1d2238 0%, rgba(7, 9, 14, 0.92) 65%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='%23ffffff' fill-opacity='0.025'%3E%3Cellipse cx='22' cy='26' rx='3.2' ry='4.5' transform='rotate(-15 22 26)'/%3E%3Cellipse cx='30' cy='22' rx='3.2' ry='4.8'/%3E%3Cellipse cx='38' cy='26' rx='3.2' ry='4.5' transform='rotate(15 38 26)'/%3E%3Cpath d='M23 36c0-4 3.5-6.5 7-6.5s7 2.5 7 6.5c0 2.8-2.2 4.5-4.5 4.5-1.2 0-1.8-.5-2.5-.5s-1.3.5-2.5.5c-2.3 0-4.5-1.7-4.5-4.5z'/%3E%3C/g%3E%3C/svg%3E");
       color: var(--text);
       height: 100vh;
       display: flex;
@@ -55,21 +56,40 @@
       background: var(--surface);
       border: 1px solid var(--border);
       backdrop-filter: blur(14px);
-      padding: 5px 12px 5px 5px;
-      border-radius: 99px;
+      padding: 5px 12px 5px 6px;
+      border-radius: 18px;
     }
 
     .avatar {
-      width: 30px;
-      height: 30px;
+      position: relative;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       background: linear-gradient(135deg, #fbbf24, #ea580c);
       color: #090b10;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 15px;
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .avatar-paw {
+      position: absolute;
+      bottom: -3px;
+      right: -3px;
+      font-size: 12px;
+      background: #0f172a;
+      border-radius: 50%;
+      padding: 1px;
+      line-height: 1;
+    }
+
+    .profile-meta {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
     }
 
     .username {
@@ -81,23 +101,31 @@
       text-overflow: ellipsis;
     }
 
+    .playtime-text {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 1px;
+    }
+
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
     }
 
     .profit-pill {
       background: rgba(251, 191, 36, 0.12);
       border: 1px solid rgba(251, 191, 36, 0.28);
       color: var(--accent);
-      padding: 6px 11px;
+      padding: 6px 10px;
       border-radius: 99px;
       font-size: 12px;
       font-weight: 700;
       display: flex;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
     }
 
     .daily-trigger {
@@ -105,14 +133,15 @@
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.35));
       border: 1px solid rgba(16, 185, 129, 0.45);
       color: #6ee7b7;
-      padding: 6px 11px;
+      padding: 6px 10px;
       border-radius: 99px;
       font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
+      white-space: nowrap;
     }
 
     .daily-dot {
@@ -143,12 +172,14 @@
 
     /* --- ЭКРАН 1: МАЙНИНГ --- */
     .score-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.045) 0%, rgba(255,255,255,0.015) 100%);
       border: 1px solid var(--border);
       border-radius: 20px;
       padding: 12px 16px;
       text-align: center;
       margin-top: 6px;
+      position: relative;
+      overflow: hidden;
     }
 
     .league-row {
@@ -173,10 +204,24 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      font-size: 40px;
+      font-size: 38px;
       font-weight: 900;
       letter-spacing: -1px;
       margin: 2px 0 8px;
+    }
+
+    .mini-paw-coin {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 25%, #fef08a, #d97706);
+      border: 2px solid #fde047;
+      box-shadow: 0 0 12px rgba(251, 191, 36, 0.45);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
     }
 
     .league-progress-bg {
@@ -195,7 +240,7 @@
       transition: width 0.3s ease, background 0.3s ease;
     }
 
-    /* Сцена монеты с динамическими темами */
+    /* Сцена монеты с лапкой */
     .coin-stage {
       flex: 1;
       display: flex;
@@ -208,10 +253,10 @@
 
     .coin-aura {
       position: absolute;
-      width: 255px;
-      height: 255px;
+      width: 260px;
+      height: 260px;
       border-radius: 50%;
-      background: radial-gradient(circle, var(--aura-color, rgba(217, 119, 6, 0.35)) 0%, transparent 70%);
+      background: radial-gradient(circle, var(--aura-color, rgba(217, 119, 6, 0.38)) 0%, transparent 70%);
       pointer-events: none;
       animation: pulseAura 3s infinite ease-in-out;
       transition: background 0.5s ease;
@@ -223,8 +268,8 @@
     }
 
     .coin-btn {
-      width: 218px;
-      height: 218px;
+      width: 222px;
+      height: 222px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -235,57 +280,70 @@
     }
 
     .coin-ring-outer {
-      width: 184px;
-      height: 184px;
+      width: 188px;
+      height: 188px;
       border-radius: 50%;
-      border: 2px solid rgba(255, 255, 255, 0.25);
+      border: 2px solid rgba(255, 255, 255, 0.28);
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
 
     .coin-ring-inner {
-      width: 158px;
-      height: 158px;
+      width: 162px;
+      height: 162px;
       border-radius: 50%;
-      border: 2px dashed rgba(255, 255, 255, 0.35);
+      border: 2px dashed rgba(255, 255, 255, 0.38);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 74px;
-      filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.45));
+      position: relative;
     }
 
-    /* Темы монеты по уровням развития */
+    .paw-svg {
+      width: 96px;
+      height: 96px;
+      fill: rgba(255, 255, 255, 0.92);
+      filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.45));
+      transition: transform 0.2s ease, fill 0.4s ease;
+    }
+
+    /* Темы монеты по уровням развития (лиги) */
     .coin-btn.theme-bronze {
       background: radial-gradient(circle at 30% 25%, #fdba74 0%, #c2410c 58%, #7c2d12 100%);
       border: 6px solid #fb923c;
       box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 35px rgba(234, 88, 12, 0.4), inset 0 4px 14px rgba(255,255,255,0.65);
     }
+    .coin-btn.theme-bronze .paw-svg { fill: #ffedd5; }
 
     .coin-btn.theme-silver {
       background: radial-gradient(circle at 30% 25%, #f8fafc 0%, #94a3b8 55%, #334155 100%);
       border: 6px solid #e2e8f0;
       box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 38px rgba(148, 163, 184, 0.45), inset 0 4px 16px rgba(255,255,255,0.9);
     }
+    .coin-btn.theme-silver .paw-svg { fill: #ffffff; }
 
     .coin-btn.theme-gold {
       background: radial-gradient(circle at 30% 25%, #fef08a 0%, #eab308 55%, #854d0e 100%);
       border: 6px solid #fde047;
       box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 42px rgba(250, 204, 21, 0.5), inset 0 4px 16px rgba(255,255,255,0.85);
     }
+    .coin-btn.theme-gold .paw-svg { fill: #fef9c3; }
 
     .coin-btn.theme-diamond {
       background: radial-gradient(circle at 30% 25%, #cffafe 0%, #06b6d4 52%, #1e3a8a 100%);
       border: 6px solid #67e8f9;
       box-shadow: 0 18px 45px rgba(0,0,0,0.75), 0 0 48px rgba(34, 211, 238, 0.6), inset 0 4px 18px rgba(255,255,255,0.9);
     }
+    .coin-btn.theme-diamond .paw-svg { fill: #ecfeff; }
 
     .coin-btn.theme-legend {
       background: radial-gradient(circle at 30% 25%, #f5d0fe 0%, #c026d3 48%, #4c1d95 100%);
       border: 6px solid #e879f9;
       box-shadow: 0 18px 50px rgba(0,0,0,0.8), 0 0 55px rgba(217, 70, 239, 0.65), inset 0 4px 18px rgba(255,255,255,0.9);
     }
+    .coin-btn.theme-legend .paw-svg { fill: #fdf4ff; }
 
     /* Энергия */
     .energy-card {
@@ -336,11 +394,14 @@
       transition: width 0.2s ease;
     }
 
-    /* --- ОБЩИЕ КАРТОЧКИ (БУСТЫ, ЗАДАНИЯ, ЛИДЕРЫ) --- */
+    /* --- ОБЩИЕ КАРТОЧКИ --- */
     .section-heading {
       font-size: 19px;
       font-weight: 800;
       margin: 8px 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
     }
 
     .card-list {
@@ -447,7 +508,6 @@
       50% { transform: scale(1.05); }
     }
 
-    /* Прогресс внутри задания */
     .quest-bar {
       width: 100%;
       height: 5px;
@@ -503,7 +563,7 @@
       white-space: nowrap;
     }
 
-    /* Нижняя навигация (4 вкладки) */
+    /* Нижняя навигация */
     .navbar {
       position: fixed;
       bottom: 12px;
@@ -678,23 +738,24 @@
     /* Всплывающий текст клика */
     .float-plus {
       position: fixed;
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 900;
       color: #fff;
       pointer-events: none;
       text-shadow: 0 2px 12px rgba(251, 191, 36, 0.85);
       animation: flyUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       z-index: 100;
+      white-space: nowrap;
     }
 
     @keyframes flyUp {
       0% { opacity: 1; transform: translateY(0) scale(0.9); }
-      100% { opacity: 0; transform: translateY(-95px) scale(1.22); }
+      100% { opacity: 0; transform: translateY(-95px) scale(1.2); }
     }
 
     .toast {
       position: fixed;
-      top: 62px;
+      top: 64px;
       left: 50%;
       transform: translateX(-50%);
       background: #141927;
@@ -715,14 +776,20 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- Верхняя шапка -->
+  <!-- Верхняя шапка с профилем и временем в игре -->
   <div class="topbar">
     <div class="profile-pill">
-      <div class="avatar" id="avatar-letter">И</div>
-      <div class="username" id="username">Игрок</div>
+      <div class="avatar">
+        <span id="avatar-letter">И</span>
+        <span class="avatar-paw">🐾</span>
+      </div>
+      <div class="profile-meta">
+        <div class="username" id="username">Игрок</div>
+        <div class="playtime-text" id="playtime-display">⏱ 0м 00с</div>
+      </div>
     </div>
     <div class="top-actions">
-      <div class="profit-pill">⚡ +<span id="passive-rate">0</span>/с</div>
+      <div class="profit-pill">🐾 +<span id="passive-rate">0</span>/с</div>
       <button class="daily-trigger" onclick="openDailyModal()">
         <span>🎁 Бонус</span>
         <span class="daily-dot" id="daily-dot"></span>
@@ -738,6 +805,7 @@
         <span id="next-league-text">До Серебра: 10 000</span>
       </div>
       <div class="balance-row">
+        <span class="mini-paw-coin" id="mini-coin">🐾</span>
         <span id="balance">0</span>
       </div>
       <div class="league-progress-bg">
@@ -749,14 +817,23 @@
       <div class="coin-aura" id="coin-aura"></div>
       <div class="coin-btn theme-bronze" id="coin">
         <div class="coin-ring-outer">
-          <div class="coin-ring-inner" id="coin-symbol">⚡</div>
+          <div class="coin-ring-inner">
+            <!-- Векторная монета с собачьей лапкой -->
+            <svg class="paw-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="22" cy="36" rx="8.5" ry="12" transform="rotate(-18 22 36)" />
+              <ellipse cx="40" cy="24" rx="8.5" ry="12.5" transform="rotate(-6 40 24)" />
+              <ellipse cx="60" cy="24" rx="8.5" ry="12.5" transform="rotate(6 60 24)" />
+              <ellipse cx="78" cy="36" rx="8.5" ry="12" transform="rotate(18 78 36)" />
+              <path d="M26 65 C26 51, 38 43, 50 43 C62 43, 74 51, 74 65 C74 74, 66 80, 58 80 C54 80, 52 77.5, 50 77.5 C48 77.5, 46 80, 42 80 C34 80, 26 74, 26 65 Z" />
+            </svg>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="energy-card">
       <div class="energy-row">
-        <span>🔋 <span id="energy">500</span> / <span id="max-energy">500</span></span>
+        <span>🦴 Энергия: <span id="energy">500</span> / <span id="max-energy">500</span></span>
         <button class="free-refill-btn" id="refill-btn" onclick="useFreeRefill()">
           ⚡ Заряд (<span id="refills-left">3</span>/3)
         </button>
@@ -769,14 +846,14 @@
 
   <!-- ЭКРАН 2: БУСТЫ -->
   <div class="screen" id="screen-boosts">
-    <div class="section-heading">Улучшения</div>
+    <div class="section-heading">🐾 Улучшения</div>
     <div class="card-list">
       <div class="item-card clickable" id="upg-tap" onclick="buyUpgrade('tap')">
         <div class="item-left">
-          <div class="item-icon">👆</div>
+          <div class="item-icon">🐾</div>
           <div>
-            <div class="item-title">Мультитап <span class="lvl-tag" id="lvl-tap">Ур. 1</span></div>
-            <div class="item-sub">+1 монета за каждый клик</div>
+            <div class="item-title">Сила лапки <span class="lvl-tag" id="lvl-tap">Ур. 1</span></div>
+            <div class="item-sub">+1 монетка с лапкой за клик</div>
           </div>
         </div>
         <button class="action-btn" id="cost-tap">50</button>
@@ -784,10 +861,10 @@
 
       <div class="item-card clickable" id="upg-energy" onclick="buyUpgrade('energy')">
         <div class="item-left">
-          <div class="item-icon">🔋</div>
+          <div class="item-icon">🦴</div>
           <div>
-            <div class="item-title">Лимит энергии <span class="lvl-tag" id="lvl-energy">Ур. 1</span></div>
-            <div class="item-sub">+300 к запасу энергии</div>
+            <div class="item-title">Запас косточек <span class="lvl-tag" id="lvl-energy">Ур. 1</span></div>
+            <div class="item-sub">+300 к максимуму энергии</div>
           </div>
         </div>
         <button class="action-btn" id="cost-energy">100</button>
@@ -797,7 +874,7 @@
         <div class="item-left">
           <div class="item-icon">⚡</div>
           <div>
-            <div class="item-title">Скорость заряда <span class="lvl-tag" id="lvl-regen">Ур. 1</span></div>
+            <div class="item-title">Скорость отдыха <span class="lvl-tag" id="lvl-regen">Ур. 1</span></div>
             <div class="item-sub">+1 энергия в секунду</div>
           </div>
         </div>
@@ -806,10 +883,10 @@
 
       <div class="item-card clickable" id="upg-bot" onclick="buyUpgrade('bot')">
         <div class="item-left">
-          <div class="item-icon">🤖</div>
+          <div class="item-icon">🐕</div>
           <div>
-            <div class="item-title">Крипто-ферма <span class="lvl-tag" id="lvl-bot">Ур. 0</span></div>
-            <div class="item-sub">+3 монеты каждую секунду</div>
+            <div class="item-title">Питомник <span class="lvl-tag" id="lvl-bot">Ур. 0</span></div>
+            <div class="item-sub">+3 монетки с лапкой каждую секунду</div>
           </div>
         </div>
         <button class="action-btn" id="cost-bot">250</button>
@@ -819,14 +896,14 @@
 
   <!-- ЭКРАН 3: ЗАДАНИЯ -->
   <div class="screen" id="screen-quests">
-    <div class="section-heading">Задания и награды</div>
+    <div class="section-heading">🎯 Задания и награды</div>
     <div class="card-list" id="quests-list"></div>
   </div>
 
   <!-- ЭКРАН 4: ЛИДЕРЫ -->
   <div class="screen" id="screen-leaders">
     <div class="lb-header">
-      <div class="section-heading" style="margin:0;">Топ игроков</div>
+      <div class="section-heading" style="margin:0;">🏆 Топ игроков</div>
       <button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button>
     </div>
     <div class="card-list" id="leaderboard-list"></div>
@@ -835,7 +912,7 @@
   <!-- НИЖНЯЯ НАВИГАЦИЯ -->
   <div class="navbar">
     <div class="nav-item active" onclick="switchTab('game', this)">
-      <div class="nav-icon">🪙</div>
+      <div class="nav-icon">🐾</div>
       <div>Майнинг</div>
     </div>
     <div class="nav-item" onclick="switchTab('boosts', this)">
@@ -866,7 +943,6 @@
   </div>
 
   <script>
-    // Встроенная ссылка на твою базу данных Firebase
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
 
     const tg = window.Telegram?.WebApp;
@@ -902,9 +978,9 @@
       refillsLeft: 3,
       refillDate: todayStr,
       lastSeen: Date.now(),
+      playTimeSeconds: 0,
       levels: { tap: 1, energy: 1, regen: 1, bot: 0 },
       costs: { tap: 50, energy: 100, regen: 150, bot: 250 },
-      // Статистика для заданий и ежедневных наград
       totalTaps: 0,
       totalUpgrades: 0,
       sharedGame: false,
@@ -913,28 +989,45 @@
       lastDailyClaimDate: ""
     };
 
+    // Единое постоянное сохранение + подхват всех старых версий
     const rawSave =
-  localStorage.getItem("aureum_save") ||
-  localStorage.getItem("aureum_save_v3") ||
-  localStorage.getItem("aureum_save_v2") ||
-  localStorage.getItem("tg_clicker_save");
+      localStorage.getItem("aureum_save") ||
+      localStorage.getItem("aureum_save_v3") ||
+      localStorage.getItem("aureum_save_v2") ||
+      localStorage.getItem("tg_clicker_save");
 
-let state = Object.assign({}, defaultState, JSON.parse(rawSave || "{}"));
-state.claimedQuests = state.claimedQuests || {};
+    let state = Object.assign({}, defaultState, JSON.parse(rawSave || "{}"));
+    state.claimedQuests = state.claimedQuests || {};
+    state.playTimeSeconds = state.playTimeSeconds || 0;
 
-if (FIREBASE_URL) {
-  fetch(`${FIREBASE_URL}/players/${userId}.json`)
-    .then(r => r.json())
-    .then(cloudData => {
-      if (cloudData && typeof cloudData.score === "number" && cloudData.score > state.balance) {
-        state.balance = cloudData.score;
-        updateUI();
-        saveState();
-      }
-    })
-    .catch(() => {});
-}
+    function saveState() {
+      state.lastSeen = Date.now();
+      localStorage.setItem("aureum_save", JSON.stringify(state));
+    }
 
+    // Восстановление прогресса из Firebase, если кэш Telegram был очищен
+    if (FIREBASE_URL) {
+      fetch(`${FIREBASE_URL}/players/${userId}.json`)
+        .then(r => r.json())
+        .then(cloudData => {
+          if (cloudData && typeof cloudData.score === "number") {
+            let restored = false;
+            if (cloudData.score > state.balance) {
+              state.balance = cloudData.score;
+              restored = true;
+            }
+            if (typeof cloudData.playTime === "number" && cloudData.playTime > state.playTimeSeconds) {
+              state.playTimeSeconds = cloudData.playTime;
+              restored = true;
+            }
+            if (restored) {
+              updateUI();
+              saveState();
+            }
+          }
+        })
+        .catch(() => {});
+    }
 
     if (state.refillDate !== todayStr) {
       state.refillsLeft = 3;
@@ -949,17 +1042,23 @@ if (FIREBASE_URL) {
       if (state.passiveIncome > 0) {
         const earned = secondsAway * state.passiveIncome;
         state.balance += earned;
-        showToast(`Оффлайн-доход: +${formatNum(earned)} 🪙`);
+        showToast(`Оффлайн-доход: +${formatNum(earned)} 🐾`);
       }
-    }
-
-    function saveState() {
-      state.lastSeen = Date.now();
-      localStorage.setItem("aureum_save", JSON.stringify(state));
     }
 
     function formatNum(n) {
       return Math.floor(n || 0).toLocaleString("ru-RU");
+    }
+
+    function formatPlayTime(sec) {
+      const total = Math.floor(sec || 0);
+      const h = Math.floor(total / 3600);
+      const m = Math.floor((total % 3600) / 60);
+      const s = total % 60;
+      if (h > 0) {
+        return `⏱ ${h}ч ${String(m).padStart(2, "0")}м`;
+      }
+      return `⏱ ${m}м ${String(s).padStart(2, "0")}с`;
     }
 
     function showToast(text) {
@@ -969,13 +1068,13 @@ if (FIREBASE_URL) {
       setTimeout(() => { t.style.display = "none"; }, 3500);
     }
 
-    // Конфигурация лиг и внешнего вида монеты
+    // Лиги и стили монеты с лапкой
     const LEAGUES = [
-      { min: 0, max: 10000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", symbol: "⚡", color: "#fb923c", aura: "rgba(234, 88, 12, 0.38)" },
-      { min: 10000, max: 50000, name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver", symbol: "💠", color: "#e2e8f0", aura: "rgba(148, 163, 184, 0.42)" },
-      { min: 50000, max: 250000, name: "🥇 Золотая лига", next: "Алмаза", theme: "theme-gold", symbol: "👑", color: "#fde047", aura: "rgba(250, 204, 21, 0.45)" },
-      { min: 250000, max: 1000000, name: "💎 Алмазная лига", next: "Легенды", theme: "theme-diamond", symbol: "💎", color: "#22d3ee", aura: "rgba(34, 211, 238, 0.5)" },
-      { min: 1000000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", symbol: "🔥", color: "#e879f9", aura: "rgba(217, 70, 239, 0.55)" }
+      { min: 0, max: 10000, name: "🥉 Бронзовая лига", next: "Серебра", theme: "theme-bronze", color: "#fb923c", aura: "rgba(234, 88, 12, 0.38)", miniBg: "radial-gradient(circle at 30% 25%, #fdba74, #9a3412)" },
+      { min: 10000, max: 50000, name: "🥈 Серебряная лига", next: "Золота", theme: "theme-silver", color: "#e2e8f0", aura: "rgba(148, 163, 184, 0.42)", miniBg: "radial-gradient(circle at 30% 25%, #f8fafc, #475569)" },
+      { min: 50000, max: 250000, name: "🥇 Золотая лига", next: "Алмаза", theme: "theme-gold", color: "#fde047", aura: "rgba(250, 204, 21, 0.45)", miniBg: "radial-gradient(circle at 30% 25%, #fef08a, #a16207)" },
+      { min: 250000, max: 1000000, name: "💎 Алмазная лига", next: "Легенды", theme: "theme-diamond", color: "#22d3ee", aura: "rgba(34, 211, 238, 0.5)", miniBg: "radial-gradient(circle at 30% 25%, #cffafe, #0284c7)" },
+      { min: 1000000, max: Infinity, name: "👑 Легендарная лига", next: null, theme: "theme-legend", color: "#e879f9", aura: "rgba(217, 70, 239, 0.55)", miniBg: "radial-gradient(circle at 30% 25%, #f5d0fe, #86198f)" }
     ];
 
     function getCurrentLeague(score) {
@@ -1000,26 +1099,29 @@ if (FIREBASE_URL) {
         document.getElementById("next-league-text").textContent = `До ${lg.next}: ${formatNum(lg.max)}`;
       } else {
         bar.style.width = "100%";
-        document.getElementById("next-league-text").textContent = "Макс. уровень";
+        document.getElementById("next-league-text").textContent = "Макс. лига";
       }
 
       if (lastTheme !== lg.theme) {
         lastTheme = lg.theme;
         const coin = document.getElementById("coin");
         coin.className = `coin-btn ${lg.theme}`;
-        document.getElementById("coin-symbol").textContent = lg.symbol;
         document.getElementById("coin-aura").style.setProperty("--aura-color", lg.aura);
+        const mini = document.getElementById("mini-coin");
+        mini.style.background = lg.miniBg;
+        mini.style.borderColor = lg.color;
       }
     }
 
     // --- ЗАДАНИЯ ---
     const QUESTS = [
-      { id: "taps_100", icon: "👆", title: "Разминка пальцев", desc: "Сделать 100 кликов", target: 100, reward: 500, getVal: () => state.totalTaps },
-      { id: "bal_5000", icon: "💰", title: "Первые накопления", desc: "Накопить 5 000 монет", target: 5000, reward: 1500, getVal: () => state.balance },
-      { id: "upg_3", icon: "🚀", title: "Инженер", desc: "Купить 3 любых улучшения", target: 3, reward: 2000, getVal: () => state.totalUpgrades },
+      { id: "taps_100", icon: "🐾", title: "Первые следы", desc: "Сделать 100 кликов по лапке", target: 100, reward: 500, getVal: () => state.totalTaps },
+      { id: "bal_5000", icon: "💰", title: "Копилка лапок", desc: "Накопить 5 000 монет", target: 5000, reward: 1500, getVal: () => state.balance },
+      { id: "upg_3", icon: "🚀", title: "Заботливый хозяин", desc: "Купить 3 любых улучшения", target: 3, reward: 2000, getVal: () => state.totalUpgrades },
       { id: "share", icon: "📢", title: "Позвать друга", desc: "Поделиться игрой в Telegram", target: 1, reward: 3000, getVal: () => state.sharedGame ? 1 : 0, isShare: true },
+      { id: "time_5m", icon: "⏱️", title: "Верный друг", desc: "Провести в игре 5 минут", target: 300, reward: 2500, getVal: () => state.playTimeSeconds },
       { id: "taps_1000", icon: "⚡", title: "Мастер тапов", desc: "Сделать 1 000 кликов", target: 1000, reward: 5000, getVal: () => state.totalTaps },
-      { id: "silver", icon: "🥈", title: "Серебряный статус", desc: "Достичь Серебряной лиги (10 000)", target: 10000, reward: 7500, getVal: () => state.balance }
+      { id: "silver", icon: "🥈", title: "Серебряная лапка", desc: "Достичь Серебряной лиги (10 000)", target: 10000, reward: 7500, getVal: () => state.balance }
     ];
 
     function renderQuests() {
@@ -1038,11 +1140,11 @@ if (FIREBASE_URL) {
         if (claimed) {
           btnHtml = `<button class="action-btn done">Получено</button>`;
         } else if (completed) {
-          btnHtml = `<button class="action-btn claim" onclick="claimQuest('${q.id}')">+${formatNum(q.reward)}</button>`;
+          btnHtml = `<button class="action-btn claim" onclick="claimQuest('${q.id}')">+${formatNum(q.reward)} 🐾</button>`;
         } else if (q.isShare) {
           btnHtml = `<button class="action-btn" onclick="doShareQuest()">Поделиться</button>`;
         } else {
-          btnHtml = `<button class="action-btn done">${formatNum(q.reward)} 🪙</button>`;
+          btnHtml = `<button class="action-btn done">${formatNum(q.reward)} 🐾</button>`;
         }
 
         return `
@@ -1064,7 +1166,7 @@ if (FIREBASE_URL) {
     }
 
     function doShareQuest() {
-      const shareText = encodeURIComponent("Залетай в кликер-симулятор и попробуй обогнать меня в таблице лидеров!");
+      const shareText = encodeURIComponent("Залетай в кликер с лапками и попробуй обогнать меня в топе! 🐾");
       const shareUrl = `https://t.me/share/url?url=&text=${shareText}`;
       if (tg?.openTelegramLink) {
         tg.openTelegramLink(shareUrl);
@@ -1083,7 +1185,7 @@ if (FIREBASE_URL) {
       state.claimedQuests[id] = true;
       state.balance += q.reward;
       tg?.HapticFeedback?.notificationOccurred("success");
-      showToast(`Награда за задание: +${formatNum(q.reward)} 🪙`);
+      showToast(`Награда за задание: +${formatNum(q.reward)} 🐾`);
       updateUI();
       saveState();
     }
@@ -1107,7 +1209,7 @@ if (FIREBASE_URL) {
         return `
           <div class="${cls}">
             <div class="day-num">День ${idx + 1}</div>
-            <div>${idx < currentDayIdx ? "✅" : "🪙"}</div>
+            <div>${idx < currentDayIdx ? "✅" : "🐾"}</div>
             <div class="day-reward">+${formatNum(rew)}</div>
           </div>
         `;
@@ -1116,7 +1218,7 @@ if (FIREBASE_URL) {
       const btn = document.getElementById("claim-daily-btn");
       if (available) {
         btn.disabled = false;
-        btn.textContent = `Забрать +${formatNum(DAILY_REWARDS[currentDayIdx])} 🪙`;
+        btn.textContent = `Забрать +${formatNum(DAILY_REWARDS[currentDayIdx])} 🐾`;
       } else {
         btn.disabled = true;
         btn.textContent = "Сегодня уже получено";
@@ -1141,7 +1243,7 @@ if (FIREBASE_URL) {
       state.lastDailyClaimDate = todayStr;
 
       tg?.HapticFeedback?.notificationOccurred("success");
-      showToast(`Ежедневный бонус: +${formatNum(reward)} 🪙`);
+      showToast(`Ежедневный бонус: +${formatNum(reward)} 🐾`);
       saveState();
       updateUI();
       openDailyModal();
@@ -1152,6 +1254,7 @@ if (FIREBASE_URL) {
       document.getElementById("energy").textContent = Math.floor(state.energy);
       document.getElementById("max-energy").textContent = state.maxEnergy;
       document.getElementById("passive-rate").textContent = formatNum(state.passiveIncome);
+      document.getElementById("playtime-display").textContent = formatPlayTime(state.playTimeSeconds);
 
       updateCoinAppearance();
 
@@ -1166,16 +1269,16 @@ if (FIREBASE_URL) {
 
       // Бусты
       document.getElementById("lvl-tap").textContent = `Ур. ${state.levels.tap}`;
-      document.getElementById("cost-tap").textContent = formatNum(state.costs.tap);
+      document.getElementById("cost-tap").textContent = `${formatNum(state.costs.tap)} 🐾`;
 
       document.getElementById("lvl-energy").textContent = `Ур. ${state.levels.energy}`;
-      document.getElementById("cost-energy").textContent = formatNum(state.costs.energy);
+      document.getElementById("cost-energy").textContent = `${formatNum(state.costs.energy)} 🐾`;
 
       document.getElementById("lvl-regen").textContent = `Ур. ${state.levels.regen}`;
-      document.getElementById("cost-regen").textContent = formatNum(state.costs.regen);
+      document.getElementById("cost-regen").textContent = `${formatNum(state.costs.regen)} 🐾`;
 
       document.getElementById("lvl-bot").textContent = `Ур. ${state.levels.bot}`;
-      document.getElementById("cost-bot").textContent = formatNum(state.costs.bot);
+      document.getElementById("cost-bot").textContent = `${formatNum(state.costs.bot)} 🐾`;
 
       document.getElementById("upg-tap").classList.toggle("disabled", state.balance < state.costs.tap);
       document.getElementById("upg-energy").classList.toggle("disabled", state.balance < state.costs.energy);
@@ -1185,7 +1288,7 @@ if (FIREBASE_URL) {
       renderQuests();
     }
 
-    // Клик по монете
+    // Клик по монете с лапкой
     const coinBtn = document.getElementById("coin");
     coinBtn.addEventListener("pointerdown", (e) => {
       if (state.energy < state.tapPower) {
@@ -1207,7 +1310,7 @@ if (FIREBASE_URL) {
       state.totalTaps += 1;
 
       tg?.HapticFeedback?.impactOccurred("light");
-      spawnPlus(e.clientX, e.clientY, `+${state.tapPower}`);
+      spawnPlus(e.clientX, e.clientY, `+${state.tapPower} 🐾`);
       updateUI();
       saveState();
     });
@@ -1216,7 +1319,7 @@ if (FIREBASE_URL) {
       const el = document.createElement("div");
       el.className = "float-plus";
       el.textContent = text;
-      el.style.left = `${x - 16}px`;
+      el.style.left = `${x - 24}px`;
       el.style.top = `${y - 28}px`;
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 750);
@@ -1287,6 +1390,7 @@ if (FIREBASE_URL) {
               id: userId,
               name: userName,
               score: Math.floor(state.balance),
+              playTime: Math.floor(state.playTimeSeconds),
               updatedAt: Date.now()
             })
           });
@@ -1302,7 +1406,7 @@ if (FIREBASE_URL) {
       }
 
       if (!players.length) {
-        players = [{ id: userId, name: userName, score: Math.floor(state.balance) }];
+        players = [{ id: userId, name: userName, score: Math.floor(state.balance), playTime: state.playTimeSeconds }];
       }
 
       players.sort((a, b) => b.score - a.score);
@@ -1316,6 +1420,7 @@ if (FIREBASE_URL) {
         else if (index === 2) medal = "🥉";
 
         const lgName = getCurrentLeague(p.score).name;
+        const pTime = p.playTime ? ` • ${formatPlayTime(p.playTime)}` : "";
 
         return `
           <div class="item-card lb-item ${isMe ? "me" : ""}">
@@ -1323,10 +1428,10 @@ if (FIREBASE_URL) {
               <div class="lb-rank">${medal}</div>
               <div>
                 <div class="item-title">${escapeHtml(p.name)} ${isMe ? "(Вы)" : ""}</div>
-                <div class="item-sub">${lgName}</div>
+                <div class="item-sub">${lgName}${pTime}</div>
               </div>
             </div>
-            <div class="lb-score">🪙 ${formatNum(p.score)}</div>
+            <div class="lb-score">🐾 ${formatNum(p.score)}</div>
           </div>
         `;
       }).join("");
@@ -1338,21 +1443,21 @@ if (FIREBASE_URL) {
       }[m]));
     }
 
-    // Игровой цикл
+    // Игровой цикл: учет времени в игре, восстановление энергии и пассивный доход
     setInterval(() => {
-      let dirty = false;
+      if (!document.hidden) {
+        state.playTimeSeconds += 1;
+      }
+
       if (state.energy < state.maxEnergy) {
         state.energy = Math.min(state.maxEnergy, state.energy + state.energyRegen);
-        dirty = true;
       }
       if (state.passiveIncome > 0) {
         state.balance += state.passiveIncome;
-        dirty = true;
       }
-      if (dirty) {
-        updateUI();
-        saveState();
-      }
+
+      updateUI();
+      saveState();
     }, 1000);
 
     // Фоновая синхронизация с Firebase каждые 15 секунд
@@ -1365,6 +1470,7 @@ if (FIREBASE_URL) {
             id: userId,
             name: userName,
             score: Math.floor(state.balance),
+            playTime: Math.floor(state.playTimeSeconds),
             updatedAt: Date.now()
           })
         }).catch(() => {});
