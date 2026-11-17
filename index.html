@@ -280,7 +280,6 @@
       transition: width 0.3s ease, background 0.4s ease, box-shadow 0.4s ease;
     }
 
-    /* Невидимая зона триггера админки в правом верхнем углу (над карточкой баланса) */
     .admin-secret-trigger {
       position: absolute;
       top: 0;
@@ -291,7 +290,6 @@
       cursor: default;
     }
 
-    /* Баннер активного x2 буста */
     .x2-active-banner {
       display: none;
       align-items: center;
@@ -319,7 +317,6 @@
       50% { transform: scale(1.03); box-shadow: 0 0 24px rgba(251, 191, 36, 0.5); }
     }
 
-    /* Сцена монеты с лапкой */
     .coin-stage {
       flex: 1;
       display: flex;
@@ -403,7 +400,6 @@
       transition: transform 0.2s ease, fill 0.4s ease;
     }
 
-    /* Темы монеты для 10 лиг */
     .coin-btn.theme-wood {
       background: radial-gradient(circle at 30% 25%, #d6a574 0%, #854d27 58%, #451a03 100%);
       border: 6px solid #b45309;
@@ -474,7 +470,6 @@
     }
     .coin-btn.theme-legend .paw-svg { fill: #fdf4ff; }
 
-    /* --- ОБЩИЕ КАРТОЧКИ --- */
     .section-top-bar {
       display: flex;
       justify-content: space-between;
@@ -652,7 +647,6 @@
       transition: width 0.25s ease, background 0.4s ease;
     }
 
-    /* Лидеры */
     .refresh-btn {
       background: var(--surface);
       border: 1px solid rgba(var(--accent-rgb), 0.25);
@@ -666,8 +660,8 @@
 
     .lb-tabs {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
       background: rgba(14, 18, 29, 0.8);
       border: 1px solid var(--border);
       padding: 4px;
@@ -679,12 +673,14 @@
       background: transparent;
       border: none;
       color: var(--muted);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 8px 10px;
+      padding: 8px 4px;
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s;
+      text-align: center;
+      white-space: nowrap;
     }
 
     .lb-tab-btn.active {
@@ -716,6 +712,10 @@
 
     .lb-score.time-mode {
       color: #7dd3fc;
+    }
+
+    .lb-score.taps-mode {
+      color: #34d399;
     }
 
     /* Нижняя навигация */
@@ -896,7 +896,6 @@
       cursor: default;
     }
 
-    /* Секретная админ-панель */
     .admin-box {
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--border);
@@ -1003,7 +1002,6 @@
       cursor: pointer;
     }
 
-    /* Всплывающий текст клика */
     .float-plus {
       position: fixed;
       font-size: 24px;
@@ -1077,7 +1075,6 @@
   <!-- ЭКРАН 1: МАЙНИНГ -->
   <div class="screen active" id="screen-game">
     <div class="score-card">
-      <!-- Невидимая зона триггера админки в правом верхнем углу карточки (5 быстрых тапов) -->
       <div class="admin-secret-trigger" onclick="handleSecretAdminTap()"></div>
       <div class="league-row">
         <span class="league-name" id="league-label">🪵 Деревянная лига</span>
@@ -1173,6 +1170,7 @@
     <div class="lb-tabs">
       <button class="lb-tab-btn active" id="lb-tab-time" onclick="setLeaderboardMode('time')">⏱ По времени</button>
       <button class="lb-tab-btn" id="lb-tab-coins" onclick="setLeaderboardMode('coins')">🐾 По монетам</button>
+      <button class="lb-tab-btn" id="lb-tab-taps" onclick="setLeaderboardMode('taps')">👆 По тапам</button>
     </div>
     <div class="card-list" id="leaderboard-list"></div>
   </div>
@@ -1231,7 +1229,6 @@
 
       <!-- Основной интерфейс админки -->
       <div id="admin-panel-view" style="display:none;">
-        <!-- Рассылка -->
         <div class="admin-box">
           <label class="admin-label">📢 Рассылка объявления всем игрокам</label>
           <input type="text" class="admin-input" id="admin-broadcast-input" placeholder="Текст сообщения для всех..." />
@@ -1240,7 +1237,6 @@
           </div>
         </div>
 
-        <!-- Управление балансом игроков -->
         <div class="admin-box">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
             <span class="admin-label" style="margin:0;">👥 Баланс игроков</span>
@@ -1256,12 +1252,11 @@
   <script>
     const FIREBASE_URL = "https://click-game-10078-default-rtdb.firebaseio.com";
     const ADMIN_PASSWORD = "qiqh91863hsh7651s";
-    const MAX_OFFLINE_SEC = 8 * 3600; // До 8 часов офлайн-майнинга
-    const QUEST_CYCLE_MS = 30 * 60 * 1000; // 30 минут
+    const MAX_OFFLINE_SEC = 8 * 3600;
+    const QUEST_CYCLE_MS = 30 * 60 * 1000;
     const X2_BOOST_COST = 80000;
-    const X2_BOOST_DURATION_MS = 15 * 60 * 1000; // 15 минут
+    const X2_BOOST_DURATION_MS = 15 * 60 * 1000;
 
-    // Базовые цены после понижения в 2.5 раза (12 / 2.5 = 5, 60 / 2.5 = 24)
     const BASE_TAP_COST = 5;
     const TAP_COST_MULT = 1.38;
     const BASE_BOT_COST = 24;
@@ -1310,6 +1305,7 @@
 
     const defaultState = {
       balance: 0,
+      totalTaps: 0,
       tapPower: 1,
       passiveIncome: 0,
       lastSeen: 0,
@@ -1340,6 +1336,7 @@
     state.x2EndsAt = state.x2EndsAt || 0;
     state.claimedQuests = state.claimedQuests || {};
     state.playTimeSeconds = state.playTimeSeconds || 0;
+    state.totalTaps = state.totalTaps || parsedSave.cycleTaps || 0;
     state.questCycleStart = state.questCycleStart || Date.now();
 
     function normalizeBoostPricing() {
@@ -1382,6 +1379,7 @@
           id: userId,
           name: userName,
           score: Math.floor(state.balance),
+          totalTaps: Math.floor(state.totalTaps || 0),
           tapPower: state.tapPower,
           passiveIncome: state.passiveIncome,
           levels: { tap: state.levels.tap, bot: state.levels.bot },
@@ -1394,7 +1392,6 @@
       }).catch(() => {});
     }
 
-    // Проверка и сброс 30-минутного цикла заданий
     function checkQuestCycle(silent = false) {
       if (Date.now() - state.questCycleStart >= QUEST_CYCLE_MS) {
         state.questCycleStart = Date.now();
@@ -1411,7 +1408,6 @@
 
     checkQuestCycle(true);
 
-    // Офлайн-доход при открытии игры из локального сохранения
     let offlineCredited = false;
     const bootNow = Date.now();
     if (state.lastSeen > 0 && state.passiveIncome > 0) {
@@ -1430,7 +1426,6 @@
     state.lastSeen = bootNow;
     saveState();
 
-    // Синхронизация и резервное восстановление из Firebase
     if (FIREBASE_URL) {
       fetch(`${FIREBASE_URL}/players/${userId}.json`)
         .then(r => r.json())
@@ -1466,6 +1461,11 @@
                 fetch(`${FIREBASE_URL}/players/${userId}/adminOverride.json`, { method: "DELETE" }).catch(() => {});
               }
             }
+          }
+
+          if (typeof cloudData.totalTaps === "number" && cloudData.totalTaps > (state.totalTaps || 0)) {
+            state.totalTaps = cloudData.totalTaps;
+            changed = true;
           }
 
           if (typeof cloudData.playTime === "number" && cloudData.playTime > state.playTimeSeconds) {
@@ -1509,7 +1509,6 @@
         .catch(() => {});
     }
 
-    // Сохранение при сворачивании или закрытии Telegram Mini App
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         syncCloudState(true);
@@ -1548,7 +1547,6 @@
       setTimeout(() => { t.style.display = "none"; }, 4500);
     }
 
-    // 10 лиг, стилей монеты и цветовых схем интерфейса
     const LEAGUES = [
       {
         min: 0, max: 1000,
@@ -1678,7 +1676,6 @@
       }
     }
 
-    // --- ЗАДАНИЯ (ОБНОВЛЯЮТСЯ КАЖДЫЕ 30 МИНУТ) ---
     const QUESTS = [
       { id: "q_taps_50", icon: "🐾", title: "Разминка лапок", desc: "Сделать 50 кликов за полчаса", target: 50, reward: 1500, getVal: () => state.cycleTaps || 0 },
       { id: "q_earn_1500", icon: "💰", title: "Сбор урожая", desc: "Заработать 1 500 монет за полчаса", target: 1500, reward: 3500, getVal: () => state.cycleEarned || 0 },
@@ -1757,7 +1754,6 @@
       syncCloudState(false);
     }
 
-    // --- ЕЖЕДНЕВНЫЕ НАГРАДЫ ---
     function canClaimDaily() {
       return state.lastDailyClaimDate !== todayStr;
     }
@@ -1825,7 +1821,6 @@
 
       document.getElementById("daily-dot").classList.toggle("show", canClaimDaily());
 
-      // Бусты (цены строго соответствуют текущим уровням)
       const tapCost = calcTapCost(state.levels.tap);
       const botCost = calcBotCost(state.levels.bot);
       state.costs.tap = tapCost;
@@ -1840,7 +1835,6 @@
       document.getElementById("upg-tap").classList.toggle("disabled", state.balance < tapCost);
       document.getElementById("upg-bot").classList.toggle("disabled", state.balance < botCost);
 
-      // Временный буст x2 на 15 минут
       const x2Active = isX2Active();
       const x2Card = document.getElementById("upg-x2");
       const x2Btn = document.getElementById("cost-x2");
@@ -1865,7 +1859,6 @@
       renderQuests();
     }
 
-    // Клик по монете с лапкой
     const coinBtn = document.getElementById("coin");
     const coinStage = document.getElementById("coin-stage");
 
@@ -1879,7 +1872,6 @@
       coinBtn.style.transform = `scale(0.93) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
       setTimeout(() => { coinBtn.style.transform = "scale(1) rotateX(0) rotateY(0)"; }, 100);
 
-      // Визуальная волна при клике
       const ripple = document.createElement("div");
       ripple.className = "tap-ripple";
       coinStage.appendChild(ripple);
@@ -1889,6 +1881,7 @@
       const gain = state.tapPower * (x2 ? 2 : 1);
 
       state.balance += gain;
+      state.totalTaps = (state.totalTaps || 0) + 1;
       state.cycleTaps = (state.cycleTaps || 0) + 1;
       state.cycleEarned = (state.cycleEarned || 0) + gain;
 
@@ -1951,14 +1944,15 @@
       }
     }
 
-    // --- ТАБЛИЦА ЛИДЕРОВ (ПО ВРЕМЕНИ И ПО МОНЕТАМ) ---
-    let leaderboardMode = "time"; // 'time' или 'coins'
+    // --- ТАБЛИЦА ЛИДЕРОВ (ПО ВРЕМЕНИ, МОНЕТАМ И ТАПАМ) ---
+    let leaderboardMode = "time"; // 'time', 'coins', 'taps'
     let cachedPlayers = [];
 
     function setLeaderboardMode(mode) {
       leaderboardMode = mode;
       document.getElementById("lb-tab-time").classList.toggle("active", mode === "time");
       document.getElementById("lb-tab-coins").classList.toggle("active", mode === "coins");
+      document.getElementById("lb-tab-taps").classList.toggle("active", mode === "taps");
       renderLeaderboardList();
     }
 
@@ -1969,6 +1963,7 @@
           return Object.assign({}, p, {
             name: userName,
             score: Math.floor(state.balance),
+            totalTaps: Math.floor(state.totalTaps || 0),
             playTime: Math.floor(state.playTimeSeconds)
           });
         }
@@ -1977,8 +1972,10 @@
 
       if (leaderboardMode === "time") {
         list.sort((a, b) => (b.playTime || 0) - (a.playTime || 0));
-      } else {
+      } else if (leaderboardMode === "coins") {
         list.sort((a, b) => (b.score || 0) - (a.score || 0));
+      } else {
+        list.sort((a, b) => (b.totalTaps || 0) - (a.totalTaps || 0));
       }
 
       const top25 = list.slice(0, 25);
@@ -1993,14 +1990,21 @@
         const lgName = getCurrentLeague(p.score || 0).name;
         const pTimeStr = formatPlayTime(p.playTime || 0);
         const pCoinsStr = `${formatNum(p.score || 0)} 🐾`;
+        const pTapsStr = `${formatNum(p.totalTaps || 0)} 👆`;
 
-        const mainBadge = leaderboardMode === "time"
-          ? `<div class="lb-score time-mode">${pTimeStr}</div>`
-          : `<div class="lb-score">🐾 ${formatNum(p.score || 0)}</div>`;
+        let mainBadge = "";
+        let subText = "";
 
-        const subText = leaderboardMode === "time"
-          ? `${lgName} • ${pCoinsStr}`
-          : `${lgName} • ${pTimeStr}`;
+        if (leaderboardMode === "time") {
+          mainBadge = `<div class="lb-score time-mode">${pTimeStr}</div>`;
+          subText = `${lgName} • ${pCoinsStr}`;
+        } else if (leaderboardMode === "coins") {
+          mainBadge = `<div class="lb-score">🐾 ${formatNum(p.score || 0)}</div>`;
+          subText = `${lgName} • ${pTimeStr}`;
+        } else {
+          mainBadge = `<div class="lb-score taps-mode">${pTapsStr}</div>`;
+          subText = `${lgName} • ${pCoinsStr}`;
+        }
 
         return `
           <div class="item-card lb-item ${isMe ? "me" : ""}">
@@ -2041,6 +2045,7 @@
           id: userId,
           name: userName,
           score: Math.floor(state.balance),
+          totalTaps: Math.floor(state.totalTaps || 0),
           playTime: Math.floor(state.playTimeSeconds)
         }];
       }
@@ -2049,7 +2054,6 @@
       renderLeaderboardList();
     }
 
-    // --- СЕКРЕТНАЯ АДМИН-ПАНЕЛЬ (5 БЫСТРЫХ ТАПОВ В ПРАВЫЙ ВЕРХНИЙ УГОЛ КАРТОЧКИ) ---
     let secretTapCount = 0;
     let secretTapTimer = null;
     let adminUnlocked = sessionStorage.getItem("paw_admin_ok") === "1";
@@ -2235,7 +2239,6 @@
       }[m]));
     }
 
-    // Игровой цикл (каждую секунду)
     setInterval(() => {
       checkQuestCycle(false);
 
@@ -2253,7 +2256,6 @@
       saveState();
     }, 1000);
 
-    // Фоновая синхронизация с Firebase и проверка рассылок каждые 10 секунд
     setInterval(() => {
       if (state.balance > 0 || state.passiveIncome > 0 || state.playTimeSeconds > 0) {
         syncCloudState(false);
