@@ -69,33 +69,33 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 14px 6px;
-      gap: 6px;
+      padding: 12px 10px 6px;
+      gap: 4px;
       z-index: 10;
     }
 
     .profile-pill {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 7px;
       background: var(--surface);
       border: 1px solid rgba(var(--accent-rgb), 0.32);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), inset 0 1px 0 var(--highlight);
       backdrop-filter: blur(20px);
-      padding: 4px 11px 4px 4px;
+      padding: 4px 9px 4px 4px;
       border-radius: 20px;
       min-width: 0;
     }
 
     .avatar {
       position: relative;
-      width: 34px;
-      height: 34px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent-light), var(--accent), var(--accent-dark));
       color: var(--accent-contrast);
       font-weight: 800;
-      font-size: 15px;
+      font-size: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -133,7 +133,7 @@
     .username {
       font-weight: 700;
       font-size: 12px;
-      max-width: 82px;
+      max-width: 72px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -149,7 +149,38 @@
     .top-actions {
       display: flex;
       align-items: center;
+      gap: 4px;
+    }
+
+    .online-pill {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.22), rgba(5, 150, 105, 0.14));
+      border: 1px solid rgba(52, 211, 153, 0.45);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      color: #a7f3d0;
+      padding: 5px 8px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
       gap: 5px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .online-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 8px #34d399;
+      flex-shrink: 0;
+      animation: onlinePulse 1.8s infinite ease-in-out;
+    }
+
+    @keyframes onlinePulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.65; }
     }
 
     .claws-pill {
@@ -157,13 +188,13 @@
       border: 1px solid rgba(192, 132, 252, 0.55);
       box-shadow: 0 4px 14px rgba(168, 85, 247, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.18);
       color: #f3e8ff;
-      padding: 6px 9px;
+      padding: 5px 8px;
       border-radius: 99px;
       font-size: 11px;
       font-weight: 800;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       white-space: nowrap;
       cursor: pointer;
       transition: transform 0.12s ease, border-color 0.2s ease;
@@ -175,13 +206,13 @@
       border: 1px solid rgba(var(--accent-rgb), 0.4);
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
       color: var(--accent-light);
-      padding: 6px 9px;
+      padding: 5px 8px;
       border-radius: 99px;
       font-size: 11px;
       font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
       white-space: nowrap;
     }
 
@@ -191,10 +222,10 @@
       border: 1px solid rgba(255, 255, 255, 0.14);
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15);
       color: var(--text);
-      width: 32px;
-      height: 32px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -1140,6 +1171,7 @@
     .lb-item.me { border-color: rgba(var(--accent-rgb), 0.6); background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.18), rgba(18, 22, 34, 0.88)); }
     .lb-rank { width: 28px; font-weight: 800; font-size: 15px; text-align: center; color: var(--muted); flex-shrink: 0; }
     .lb-mini-avatar {
+      position: relative;
       width: 34px;
       height: 34px;
       border-radius: 50%;
@@ -1158,6 +1190,15 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+    .lb-online-tag {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #34d399;
+      box-shadow: 0 0 6px #34d399;
+      flex-shrink: 0;
     }
     .lb-score { font-weight: 800; font-size: 13px; color: var(--accent-light); white-space: nowrap; }
     .lb-score.time-mode { color: #7dd3fc; }
@@ -1458,6 +1499,10 @@
       </div>
     </div>
     <div class="top-actions">
+      <div class="online-pill" onclick="switchTab('leaders', document.getElementById('nav-leaders'))" title="Игроков онлайн">
+        <span class="online-dot"></span>
+        <span id="online-count">1</span>
+      </div>
       <div class="claws-pill" onclick="openPrestigeModal()" title="Очки престижа">🔄 <span id="claws-count">0</span></div>
       <div class="profit-pill">+<span id="passive-rate">0</span>/с</div>
       <button class="icon-pill-btn wheel-btn" onclick="openWheelModal()" title="Колесо Фортуны">
@@ -1597,7 +1642,16 @@
 
   <!-- ЭКРАН 5: ЛИДЕРЫ -->
   <div class="screen" id="screen-leaders">
-    <div class="section-top-bar"><div class="section-heading">🏆 Топ игроков</div><button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻ Обновить</button></div>
+    <div class="section-top-bar">
+      <div class="section-heading">🏆 Топ игроков</div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <div class="online-pill" style="padding:6px 10px;" title="Сейчас в игре">
+          <span class="online-dot"></span>
+          <span>Онлайн: <span id="lb-online-count">1</span></span>
+        </div>
+        <button class="refresh-btn" onclick="syncAndRenderLeaderboard(true)">↻</button>
+      </div>
+    </div>
     <div class="lb-tabs">
       <button class="lb-tab-btn active" id="lb-tab-time" onclick="setLeaderboardMode('time')">⏱ Время</button>
       <button class="lb-tab-btn" id="lb-tab-coins" onclick="setLeaderboardMode('coins')">🐾 Монеты</button>
@@ -1783,6 +1837,7 @@
     const PRESTIGE_MIN_BALANCE = 50000;
     const REF_INVITEE_BONUS = 10000;
     const REF_INVITER_BONUS = 25000;
+    const ONLINE_WINDOW_MS = 60 * 1000;
 
     const BASE_TAP_COST = 5;
     const TAP_COST_MULT = 1.22;
@@ -1985,6 +2040,51 @@
       try { localStorage.setItem("aureum_save", JSON.stringify(state)); } catch (e) {}
     }
 
+    let onlineUsersCount = 1;
+
+    function setOnlineCountUI(count) {
+      onlineUsersCount = Math.max(1, Math.floor(count || 1));
+      const str = formatNum(onlineUsersCount);
+      const topEl = document.getElementById("online-count");
+      const lbEl = document.getElementById("lb-online-count");
+      if (topEl) topEl.textContent = str;
+      if (lbEl) lbEl.textContent = str;
+    }
+
+    function computeOnlineFromPlayers(playersMapOrArray) {
+      const now = Date.now();
+      const list = Array.isArray(playersMapOrArray)
+        ? playersMapOrArray
+        : Object.values(playersMapOrArray || {});
+      let count = 0;
+      let meIncluded = false;
+      for (const p of list) {
+        if (!p || typeof p !== "object") continue;
+        const seen = Number(p.lastSeen || p.updatedAt || 0);
+        if (now - seen <= ONLINE_WINDOW_MS) {
+          count++;
+          if (String(p.id) === String(userId)) meIncluded = true;
+        }
+      }
+      if (!meIncluded) count++;
+      setOnlineCountUI(count);
+    }
+
+    async function refreshOnlineCount() {
+      if (!FIREBASE_URL) return setOnlineCountUI(1);
+      try {
+        const res = await fetch(`${FIREBASE_URL}/players.json`);
+        const data = await res.json();
+        if (data && !data.error) {
+          computeOnlineFromPlayers(data);
+        } else {
+          setOnlineCountUI(1);
+        }
+      } catch (e) {
+        setOnlineCountUI(onlineUsersCount || 1);
+      }
+    }
+
     function syncCloudState(useKeepalive = false) {
       if (!FIREBASE_URL) return;
       const nowTs = Date.now();
@@ -2012,7 +2112,9 @@
           lastSeen: nowTs,
           updatedAt: nowTs
         })
-      }).catch(() => {});
+      })
+        .then(() => refreshOnlineCount())
+        .catch(() => {});
     }
 
     function formatCompactNum(n) {
@@ -3468,7 +3570,8 @@
 
     function renderLeaderboardList() {
       const listEl = document.getElementById("leaderboard-list");
-      const list = cachedPlayers.map(p => String(p.id) === String(userId) ? Object.assign({}, p, { name: userName, photoUrl: userPhotoUrl || p.photoUrl || "", score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds), goldenClaws: state.goldenClaws || 0 }) : p);
+      const now = Date.now();
+      const list = cachedPlayers.map(p => String(p.id) === String(userId) ? Object.assign({}, p, { name: userName, photoUrl: userPhotoUrl || p.photoUrl || "", score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds), goldenClaws: state.goldenClaws || 0, lastSeen: now }) : p);
 
       if (leaderboardMode === "time") list.sort((a, b) => (b.playTime || 0) - (a.playTime || 0));
       else if (leaderboardMode === "coins") list.sort((a, b) => (b.score || 0) - (a.score || 0));
@@ -3476,6 +3579,7 @@
 
       listEl.innerHTML = list.slice(0, 25).map((p, index) => {
         const isMe = String(p.id) === String(userId);
+        const isOnline = isMe || (now - Number(p.lastSeen || p.updatedAt || 0) <= ONLINE_WINDOW_MS);
         let medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}`;
         const lgName = getCurrentLeague(p.score || 0).name;
         const pTimeStr = formatPlayTime(p.playTime || 0), pCoinsStr = `${formatNum(p.score || 0)} 🐾`, pTapsStr = `${formatNum(p.totalTaps || 0)} 👆`;
@@ -3490,7 +3594,7 @@
               <div class="lb-rank">${medal}</div>
               ${renderMiniAvatarHtml(p.name, p.photoUrl)}
               <div>
-                <div class="item-title">${escapeHtml(p.name)} ${isMe ? "(Вы)" : ""}</div>
+                <div class="item-title">${isOnline ? `<span class="lb-online-tag" title="Онлайн"></span>` : ""}${escapeHtml(p.name)} ${isMe ? "(Вы)" : ""}</div>
                 <div class="item-sub">${subText}</div>
               </div>
             </div>
@@ -3509,10 +3613,13 @@
           syncCloudState(false);
           const res = await fetch(`${FIREBASE_URL}/players.json`);
           const data = await res.json();
-          if (data && !data.error) players = Object.values(data).filter(p => p && typeof p.score === "number" && p.name);
+          if (data && !data.error) {
+            players = Object.values(data).filter(p => p && typeof p.score === "number" && p.name);
+            computeOnlineFromPlayers(players);
+          }
         } catch (err) {}
       }
-      if (!players.length) players = [{ id: userId, name: userName, photoUrl: userPhotoUrl, score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds), goldenClaws: state.goldenClaws || 0 }];
+      if (!players.length) players = [{ id: userId, name: userName, photoUrl: userPhotoUrl, score: Math.floor(state.balance), totalTaps: Math.floor(state.totalTaps || 0), playTime: Math.floor(state.playTimeSeconds), goldenClaws: state.goldenClaws || 0, lastSeen: Date.now() }];
       cachedPlayers = players; renderLeaderboardList();
     }
 
@@ -3638,11 +3745,13 @@
     }, 1000);
 
     setInterval(() => {
-      if (state.balance > 0 || state.passiveIncome > 0 || state.playTimeSeconds > 0) syncCloudState(false);
+      if (!document.hidden) syncCloudState(false);
+      else refreshOnlineCount();
     }, 10000);
 
     checkIncomingReferral();
     syncReferrals(false);
+    syncCloudState(false);
     updateUI();
   </script>
 </body>
